@@ -3,6 +3,7 @@ import AccountLayout from "../../../../layouts/AccountLayout.tsx";
 import LanguageSelect from "../../../../widgets/selects/LanguageSelect.tsx";
 import {useFormik} from "formik";
 import {Button} from "@nextui-org/react";
+import CurrencySelect from "../../../../widgets/selects/CurrencySelect.tsx";
 
 export const Route = createFileRoute('/_authenticated/account/settings/')({
     component: Settings
@@ -28,6 +29,12 @@ return (
                         onChange={formik.handleChange}
                         hasError={Boolean(formik.errors.language)}
                         errorMessage={formik.errors.language}
+                    />
+                    <CurrencySelect
+                        value={formik.values.currency}
+                        onChange={formik.handleChange}
+                        hasError={Boolean(formik.errors.currency)}
+                        errorMessage={formik.errors.currency}
                     />
                     <Button type="submit">Submit</Button>
                 </form>

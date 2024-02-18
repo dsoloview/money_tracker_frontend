@@ -3,7 +3,7 @@ import {IAuthResponse} from "../models/response.model.ts";
 import {create} from "zustand";
 import {persist} from "zustand/middleware";
 
-interface AuthState {
+export interface AuthState {
     authData: IAuthResponse | null;
     setData: (data: IAuthResponse) => void;
     removeData: () => void;

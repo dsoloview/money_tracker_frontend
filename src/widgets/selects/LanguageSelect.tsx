@@ -1,6 +1,6 @@
 import {Select, SelectItem, Spinner} from "@nextui-org/react";
 import {ChangeEvent} from "react";
-import {useLanguages} from "../../api/languages.api.ts";
+import {useLanguages} from "../../api/endpoints/languages.api.ts";
 
 type Props = {
     value?: string
@@ -8,7 +8,7 @@ type Props = {
     hasError?: boolean
     errorMessage?: string
 }
-const CurrencySelect = ({value, onChange, hasError, errorMessage}: Props) => {
+const LanguageSelect = ({value, onChange, hasError, errorMessage}: Props) => {
     const {data, isLoading, isError} = useLanguages();
 
     if (isLoading) {
@@ -45,4 +45,4 @@ const CurrencySelect = ({value, onChange, hasError, errorMessage}: Props) => {
     )
 }
 
-export default CurrencySelect;
+export default LanguageSelect;

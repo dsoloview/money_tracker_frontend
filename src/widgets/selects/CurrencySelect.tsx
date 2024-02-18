@@ -1,31 +1,44 @@
 import {Select, SelectItem, Spinner} from "@nextui-org/react";
-import {useCurrencies} from "../../api/currencies.api.ts";
-import {useState} from "react";
+import {ChangeEvent} from "react";
+import {useCurrencies} from "../../api/endpoints/currencies.api.ts";
 
-const CurrencySelect = () => {
-    const [selectedCurrency, setSelectedCurrency] = useState("3");
-    const currencies = useCurrencies();
+type Props = {
+    value?: string
+    onChange?: (event: ChangeEvent<HTMLSelectElement>) => void
+    hasError?: boolean
+    errorMessage?: string
+}
+const CurrencySelect = ({value, onChange, hasError, errorMessage}: Props) => {
+    const {data, isLoading, isError} = useCurrencies();
 
-    if (currencies.isLoading) {
+    if (isLoading) {
         return <Spinner />
+    }
+
+    if (isError) {
+        return <div>Error</div>
     }
     return (
         <Select
-            items={currencies?.data?.data}
+            items={data?.data}
             label="Currencies"
             placeholder="Select currency"
             className="max-w-xs"
             id="currency"
             name="currency"
-            value={selectedCurrency}
-            selectedKeys={[selectedCurrency]}
-            onChange={(event) => setSelectedCurrency(event.target.value)}
+            defaultSelectedKeys={value}
+            onChange={onChange}
+            isRequired
+            errorMessage={errorMessage}
+            isInvalid={hasError}
         >
             {(currency) =>
                 <SelectItem
                     key={currency.id}
-                    value={currency.id}>
-                    {`${currency.name} - ${currency.symbol} - ${currency.code}`}
+                    value={currency.id}
+
+                >
+                    {`${currency.name} - ${currency.symbol}`}
                 </SelectItem>
             }
         </Select>

@@ -1,7 +1,7 @@
 import {Input} from "@nextui-org/react";
 import {useFormik} from "formik";
 import * as yup from "yup";
-import {useLogin} from "../../api/auth/auth.api.ts";
+import {useLogin} from "../../api/endpoints/auth/auth.api.ts";
 import {useNavigate} from "@tanstack/react-router";
 import {useEffect} from "react";
 import {isIValidationErrorResponse} from "../../tools/errors/errors.tools.ts";
