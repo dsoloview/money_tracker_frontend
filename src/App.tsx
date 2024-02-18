@@ -1,11 +1,9 @@
-import './App.css'
-
-import { routeTree } from './routeTree.gen'
+import {routeTree} from './routeTree.gen'
 import {createRouter, RouterProvider} from "@tanstack/react-router";
-import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
-import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
+import Providers from "./Providers.tsx";
+import {ToastContainer} from "react-toastify";
 
-const router = createRouter({ routeTree })
+const router = createRouter({routeTree})
 
 // Register the router instance for type safety
 declare module '@tanstack/react-router' {
@@ -14,14 +12,14 @@ declare module '@tanstack/react-router' {
     }
 }
 
-const queryClient = new QueryClient()
-
 function App() {
     return (
-        <QueryClientProvider client={queryClient}>
-            <RouterProvider router={router} />
-            <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
+        <Providers>
+            <RouterProvider router={router}/>
+            <ToastContainer
+                position="bottom-right"
+            />
+        </Providers>
     )
 }
 

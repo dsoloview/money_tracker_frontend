@@ -13,35 +13,42 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as AccountIndexImport } from './routes/account/index'
-import { Route as AccountSettingsIndexImport } from './routes/account/settings/index'
+import { Route as AuthenticatedImport } from './routes/_authenticated'
+import { Route as AuthenticatedTestImport } from './routes/_authenticated/test'
+import { Route as AuthenticatedAccountIndexImport } from './routes/_authenticated/account/index'
+import { Route as AuthenticatedAccountSettingsIndexImport } from './routes/_authenticated/account/settings/index'
 
 // Create Virtual Routes
 
-const AboutLazyImport = createFileRoute('/about')()
 const IndexLazyImport = createFileRoute('/')()
 
 // Create/Update Routes
 
-const AboutLazyRoute = AboutLazyImport.update({
-  path: '/about',
+const AuthenticatedRoute = AuthenticatedImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/about.lazy').then((d) => d.Route))
+} as any)
 
 const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
 
-const AccountIndexRoute = AccountIndexImport.update({
-  path: '/account/',
-  getParentRoute: () => rootRoute,
+const AuthenticatedTestRoute = AuthenticatedTestImport.update({
+  path: '/test',
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
 
-const AccountSettingsIndexRoute = AccountSettingsIndexImport.update({
-  path: '/account/settings/',
-  getParentRoute: () => rootRoute,
+const AuthenticatedAccountIndexRoute = AuthenticatedAccountIndexImport.update({
+  path: '/account/',
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
+
+const AuthenticatedAccountSettingsIndexRoute =
+  AuthenticatedAccountSettingsIndexImport.update({
+    path: '/account/settings/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -51,17 +58,21 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
-    '/about': {
-      preLoaderRoute: typeof AboutLazyImport
+    '/_authenticated': {
+      preLoaderRoute: typeof AuthenticatedImport
       parentRoute: typeof rootRoute
     }
-    '/account/': {
-      preLoaderRoute: typeof AccountIndexImport
-      parentRoute: typeof rootRoute
+    '/_authenticated/test': {
+      preLoaderRoute: typeof AuthenticatedTestImport
+      parentRoute: typeof AuthenticatedImport
     }
-    '/account/settings/': {
-      preLoaderRoute: typeof AccountSettingsIndexImport
-      parentRoute: typeof rootRoute
+    '/_authenticated/account/': {
+      preLoaderRoute: typeof AuthenticatedAccountIndexImport
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_authenticated/account/settings/': {
+      preLoaderRoute: typeof AuthenticatedAccountSettingsIndexImport
+      parentRoute: typeof AuthenticatedImport
     }
   }
 }
@@ -70,9 +81,11 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren([
   IndexLazyRoute,
-  AboutLazyRoute,
-  AccountIndexRoute,
-  AccountSettingsIndexRoute,
+  AuthenticatedRoute.addChildren([
+    AuthenticatedTestRoute,
+    AuthenticatedAccountIndexRoute,
+    AuthenticatedAccountSettingsIndexRoute,
+  ]),
 ])
 
 /* prettier-ignore-end */
