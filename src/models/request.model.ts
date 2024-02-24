@@ -13,3 +13,8 @@ export interface IRegisterData {
         language_id: number;
     };
 }
+
+export interface IParamRequest<T> {
+    id: number;
+    data: T;
+}

@@ -17,7 +17,6 @@ function instance() {
         baseURL: 'http://localhost:8080/api/v1/',
         headers: headers,
     });
-
     instance.interceptors.response.use(
         (response) => {
             return response;

@@ -36,7 +36,7 @@ const RegisterForm = ({formId, onSubmit}: Props) => {
             password: '',
             password_confirmation: '',
             settings: {
-                language_id: 0,
+                language_id: 1,
                 main_currency_id: 1,
             }
         },

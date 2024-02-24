@@ -7,7 +7,7 @@ type Props = {
     placeholder?: string
     id?: string
     name?: string
-    value?: string
+    value: number
     onChange?: (event: ChangeEvent<HTMLSelectElement>) => void
     hasError?: boolean
     errorMessage?: string
@@ -37,6 +37,7 @@ const CurrencySelect = (
     if (isError) {
         return <div>Error</div>
     }
+
     return (
         <Select
             items={data?.data}
@@ -44,8 +45,9 @@ const CurrencySelect = (
             placeholder={placeholder}
             className="max-w-xs"
             id={id}
+            selectionMode="single"
+            selectedKeys={[value.toString()]}
             name={name}
-            defaultSelectedKeys={value}
             onChange={onChange}
             isRequired={required}
             errorMessage={errorMessage}
@@ -54,9 +56,8 @@ const CurrencySelect = (
         >
             {(currency) =>
                 <SelectItem
-                    key={currency.id}
-                    value={currency.id}
-
+                    key={currency.id.toString()}
+                    value={currency.id.toString()}
                 >
                     {`${currency.name} - ${currency.symbol}`}
                 </SelectItem>

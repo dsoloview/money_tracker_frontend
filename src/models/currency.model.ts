@@ -1,5 +1,5 @@
 export interface ICurrency {
-    id: string;
+    id: number;
     code: string;
     name: string;
     symbol: string;
