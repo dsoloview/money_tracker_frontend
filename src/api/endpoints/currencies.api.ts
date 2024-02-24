@@ -7,9 +7,9 @@ const useCurrencies = () => {
     return useQuery<IResponse<ICurrency[]>>({
         queryKey: ['currencies'],
         queryFn: async () => {
-            const response = await api.get('currencies');
+            const response = await api().get('currencies');
             return response.data;
-        }
+        },
     })
 }
 

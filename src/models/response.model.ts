@@ -17,6 +17,8 @@ export interface IErrorResponse {
 
 export interface IValidationErrorResponse<T> extends IErrorResponse {
     errors: {
-        [K in keyof T]: string;
+        [K in keyof T]: T[K] extends object
+            ? { [K2 in keyof T[K]]: string}
+            : string;
     };
 }

@@ -3,12 +3,31 @@ import {ChangeEvent} from "react";
 import {useCurrencies} from "../../api/endpoints/currencies.api.ts";
 
 type Props = {
+    label?: string
+    placeholder?: string
+    id?: string
+    name?: string
     value?: string
     onChange?: (event: ChangeEvent<HTMLSelectElement>) => void
     hasError?: boolean
     errorMessage?: string
+    required?: boolean
+    onBlur?: (e: unknown) => void
 }
-const CurrencySelect = ({value, onChange, hasError, errorMessage}: Props) => {
+const CurrencySelect = (
+    {
+        label,
+        placeholder,
+        id,
+        name,
+        value,
+        onChange,
+        hasError,
+        errorMessage,
+        required,
+        onBlur
+
+    }: Props) => {
     const {data, isLoading, isError} = useCurrencies();
 
     if (isLoading) {
@@ -21,16 +40,17 @@ const CurrencySelect = ({value, onChange, hasError, errorMessage}: Props) => {
     return (
         <Select
             items={data?.data}
-            label="Currencies"
-            placeholder="Select currency"
+            label={label}
+            placeholder={placeholder}
             className="max-w-xs"
-            id="currency"
-            name="currency"
+            id={id}
+            name={name}
             defaultSelectedKeys={value}
             onChange={onChange}
-            isRequired
+            isRequired={required}
             errorMessage={errorMessage}
             isInvalid={hasError}
+            onBlur={onBlur}
         >
             {(currency) =>
                 <SelectItem

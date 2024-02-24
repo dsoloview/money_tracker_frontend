@@ -11,10 +11,13 @@ export interface AuthState {
 
 const useAuthStore = create<AuthState>()(
     persist(
-        (set) => ({
+        (set, ) => ({
             authData: null,
-        setData: (authData) => set({authData}),
-        removeData: () => set({authData: null})
-}), {name: 'authStore'}));
+            setData: (authData) => set({authData: authData}),
+            removeData: () => set({authData: null})
+        }),
+        {name: 'authStore'}
+    )
+);
 
 export default useAuthStore;

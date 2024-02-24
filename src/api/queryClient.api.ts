@@ -9,14 +9,14 @@ const queryClient = new QueryClient({
             retry (failureCount, error) {
                 if (isIError(error) && error.status === 401) return false
                 return failureCount < 3
-            }
+            },
         }
     },
     mutationCache: new MutationCache({
         onError: (error, _variables, _context, mutation) => {
             if (mutation.options.onError) return;
 
-            if (    isIError(error)) {
+            if (isIError(error)) {
                 if (error.status === 401) {
                     toast.error('You are not authenticated')
                     useAuthStore.getState().removeData()
@@ -38,7 +38,7 @@ const queryClient = new QueryClient({
 
                 toast.error(error.message)
             }
-        }
+        },
     })
 });
 

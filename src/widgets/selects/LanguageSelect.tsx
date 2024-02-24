@@ -3,12 +3,30 @@ import {ChangeEvent} from "react";
 import {useLanguages} from "../../api/endpoints/languages.api.ts";
 
 type Props = {
+    label?: string
+    placeholder?: string
+    id?: string
+    name?: string
     value?: string
     onChange?: (event: ChangeEvent<HTMLSelectElement>) => void
     hasError?: boolean
     errorMessage?: string
+    required?: boolean
+    onBlur?: (e: unknown) => void
 }
-const LanguageSelect = ({value, onChange, hasError, errorMessage}: Props) => {
+const LanguageSelect = (
+    {
+        label,
+        placeholder,
+        id,
+        name,
+        value,
+        onChange,
+        hasError,
+        errorMessage,
+        required,
+        onBlur
+    }: Props) => {
     const {data, isLoading, isError} = useLanguages();
 
     if (isLoading) {
@@ -18,19 +36,21 @@ const LanguageSelect = ({value, onChange, hasError, errorMessage}: Props) => {
     if (isError) {
         return <div>Error</div>
     }
+
     return (
         <Select
             items={data?.data}
-            label="Languages"
-            placeholder="Select language"
+            label={label}
+            placeholder={placeholder}
             className="max-w-xs"
-            id="language"
-            name="language"
+            id={id}
+            name={name}
             defaultSelectedKeys={value}
             onChange={onChange}
-            isRequired
+            isRequired={required}
             errorMessage={errorMessage}
             isInvalid={hasError}
+            onBlur={onBlur}
         >
             {(language) =>
                 <SelectItem

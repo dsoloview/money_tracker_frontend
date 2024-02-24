@@ -10,14 +10,20 @@ import {
 import {useState} from "react";
 import {Link as RouterLink} from "@tanstack/react-router";
 import LogoutButton from "../../widgets/buttons/LogoutButton.tsx";
+import useAuthStore from "../../stores/authStore.ts";
+import {useTranslation} from "react-i18next";
 
-const menuItems = [
-    {name: "Settings", href: "/account/settings"},
-    {name: "Account", href: "/account"},
-];
 const AccountTopBar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const currentPage = window.location.pathname;
+    const user = useAuthStore(state => state.authData?.user);
+    const {t} = useTranslation();
+
+    const menuItems = [
+        {name: t('menu.home'), href: "/"},
+        {name: t('menu.settings'), href: "/account/settings"},
+        {name: t('menu.account'), href: "/account"},
+    ];
 
     return (
         <Navbar onMenuOpenChange={setIsMenuOpen}>
@@ -42,6 +48,14 @@ const AccountTopBar = () => {
                 }
             </NavbarContent>
             <NavbarContent justify="end">
+                {user && (
+                    <NavbarItem className="hidden lg:flex">
+                        <Link as={RouterLink} to="/account" color="foreground">
+                            {user.email}
+                        </Link>
+                    </NavbarItem>
+
+                )}
                 <NavbarItem className="hidden lg:flex">
                     <LogoutButton />
                 </NavbarItem>

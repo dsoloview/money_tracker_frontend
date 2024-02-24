@@ -1,9 +1,12 @@
-import {Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader} from "@nextui-org/react";
+import {Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader} from "@nextui-org/react";
+import {useTranslation} from "react-i18next";
+import RegisterForm from "../forms/RegisterForm.tsx";
 type Props = {
     isOpen: boolean;
     onOpenChange: (value: boolean) => void;
 }
 const SignupModal = ({isOpen, onOpenChange}: Props) => {
+    const {t} = useTranslation()
     return (
         <Modal
             isOpen={isOpen}
@@ -20,27 +23,16 @@ const SignupModal = ({isOpen, onOpenChange}: Props) => {
             <ModalContent>
                 {(onClose) => (
                     <>
-                        <ModalHeader>Login</ModalHeader>
+                        <ModalHeader>{t('auth.register')}</ModalHeader>
                         <ModalBody>
-                            <Input
-                                autoFocus
-                                label="Email"
-                                placeholder="Enter your email"
-                                variant="bordered"
-                            />
-                            <Input
-                                label="Password"
-                                placeholder="Enter your password"
-                                variant="bordered"
-                                type="password"
-                            />
+                            <RegisterForm formId="registerForm" onSubmit={onClose} />
                         </ModalBody>
                         <ModalFooter>
                             <Button color="danger" variant="flat" onPress={onClose}>
-                                Close
+                                {t('button.close')}
                             </Button>
-                            <Button color="primary" onPress={onClose}>
-                                Sign in
+                            <Button color="primary" type="submit" form="registerForm">
+                                {t('auth.register')}
                             </Button>
                         </ModalFooter>
                     </>

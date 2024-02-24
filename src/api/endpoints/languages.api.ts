@@ -7,7 +7,7 @@ const useLanguages = () => {
     return useQuery<IResponse<ILanguage[]>>({
         queryKey: ['languages'],
         queryFn: async () => {
-            const response = await api.get('languages');
+            const response = await api().get('languages');
             return response.data;
         },
     })

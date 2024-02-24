@@ -1,35 +1,37 @@
 import axios from "axios";
 import useAuthStore, {AuthState} from "../stores/authStore.ts";
 
+function instance() {
+    const headers: {[key: string]: string}  = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+    };
 
-const headers: any = {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-};
+    const token = getToken();
 
-const token = getToken();
+    if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+    }
 
-console.log(token);
+    const instance = axios.create({
+        baseURL: 'http://localhost:8080/api/v1/',
+        headers: headers,
+    });
 
-if (token) {
-    headers['Authorization'] = `Bearer ${token}`;
+    instance.interceptors.response.use(
+        (response) => {
+            return response;
+        },
+        (error) => {
+            return Promise.reject({
+                data: error.response.data,
+                status: error.response.status
+            });
+        });
+
+    return instance;
 }
 
-const instance = axios.create({
-    baseURL: 'http://localhost:8080/api/v1/',
-    headers: headers,
-});
-
-instance.interceptors.response.use(
-    (response) => {
-        return response;
-    },
-    (error) => {
-        return Promise.reject({
-            data: error.response.data,
-            status: error.response.status
-        });
-    });
 
 function getToken(): string | undefined {
     let token: string | undefined;

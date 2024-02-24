@@ -2,9 +2,10 @@ import {Input} from "@nextui-org/react";
 import {useFormik} from "formik";
 import * as yup from "yup";
 import {useLogin} from "../../api/endpoints/auth/auth.api.ts";
-import {useNavigate} from "@tanstack/react-router";
 import {useEffect} from "react";
 import {isIValidationErrorResponse} from "../../tools/errors/errors.tools.ts";
+import {useTranslation} from "react-i18next";
+import {ILoginData} from "../../models/request.model.ts";
 
 const validationSchema = yup.object({
     email: yup.string().email('Invalid email address').required('Required'),
@@ -18,9 +19,8 @@ type Props = {
 
 const LoginForm = ({formId, onSubmit}: Props) => {
     const {mutate, isError, isSuccess, error} = useLogin()
-    const navigate = useNavigate()
-
-    const formik = useFormik({
+    const {t} = useTranslation()
+    const formik = useFormik<ILoginData>({
         initialValues: {
             email: '',
             password: '',
@@ -40,23 +40,19 @@ const LoginForm = ({formId, onSubmit}: Props) => {
         } else {
             formik.setErrors({})
         }
-
     }
 
     useEffect(() => {
         if (isSuccess) {
             onSubmit()
-            navigate({
-                to: '/account/settings'
-            })
         }
-    }, [isSuccess, onSubmit, navigate])
+    }, [isSuccess, onSubmit])
 
     return (
         <form className="flex flex-col gap-3" id={formId} onSubmit={formik.handleSubmit}>
             <Input
                 autoFocus
-                label="Email"
+                label={t('form.email')}
                 placeholder="Enter your email"
                 id="email"
                 name="email"
@@ -69,7 +65,7 @@ const LoginForm = ({formId, onSubmit}: Props) => {
                 errorMessage={formik.errors.email}
             />
             <Input
-                label="Password"
+                label={t('form.password')}
                 placeholder="Enter your password"
                 id="password"
                 name="password"
