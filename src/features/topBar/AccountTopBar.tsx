@@ -27,7 +27,7 @@ const AccountTopBar = () => {
 
     return (
         <Navbar onMenuOpenChange={setIsMenuOpen}>
-            <NavbarContent>
+            <NavbarContent justify="start">
                 <NavbarMenuToggle
                     aria-label={isMenuOpen ? "Close menu" : "Open menu"}
                     className="sm:hidden"

@@ -13,6 +13,7 @@ type Props = {
     errorMessage?: string
     required?: boolean
     onBlur?: (e: unknown) => void
+    className?: string
 }
 const LanguageSelect = (
     {
@@ -25,7 +26,8 @@ const LanguageSelect = (
         hasError,
         errorMessage,
         required,
-        onBlur
+        onBlur,
+        className
     }: Props) => {
     const {data, isLoading, isError} = useLanguages();
 
@@ -42,7 +44,7 @@ const LanguageSelect = (
             items={data?.data}
             label={label}
             placeholder={placeholder}
-            className="max-w-xs"
+            className={className}
             id={id}
             name={name}
             selectionMode="single"

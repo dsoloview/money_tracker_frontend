@@ -13,7 +13,6 @@ i18next
     .init({
         fallbackLng: 'en',
         lng: 'en',
-        debug: true,
         ns: [defaultNS],
         defaultNS,
         resources,

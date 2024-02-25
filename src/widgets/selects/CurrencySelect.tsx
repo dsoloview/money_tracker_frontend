@@ -7,12 +7,13 @@ type Props = {
     placeholder?: string
     id?: string
     name?: string
-    value: number
+    value: string
     onChange?: (event: ChangeEvent<HTMLSelectElement>) => void
     hasError?: boolean
     errorMessage?: string
     required?: boolean
     onBlur?: (e: unknown) => void
+    className?: string
 }
 const CurrencySelect = (
     {
@@ -25,7 +26,8 @@ const CurrencySelect = (
         hasError,
         errorMessage,
         required,
-        onBlur
+        onBlur,
+        className
 
     }: Props) => {
     const {data, isLoading, isError} = useCurrencies();
@@ -43,7 +45,7 @@ const CurrencySelect = (
             items={data?.data}
             label={label}
             placeholder={placeholder}
-            className="max-w-xs"
+            className={className}
             id={id}
             selectionMode="single"
             selectedKeys={[value.toString()]}
