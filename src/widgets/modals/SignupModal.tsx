@@ -1,12 +1,19 @@
 import {
-    Modal,
-    ModalContent,
-    ModalHeader,
-    ModalFooter,
-    ModalBody,
+    Box,
     Button,
-    Input, FormControl, FormLabel, FormErrorMessage,
-    Box, Heading, Stack, ModalOverlay
+    Flex,
+    FormControl,
+    FormErrorMessage,
+    FormLabel,
+    Heading,
+    Input,
+    Modal,
+    ModalBody,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    Stack
 } from '@chakra-ui/react'
 import {useTranslation} from "react-i18next";
 import {useRegister} from "../../api/endpoints/auth/auth.api.ts";
@@ -84,14 +91,13 @@ const SignupModal = ({isOpen, onClose}: Props) => {
     }, [error, isError]);
 
 
-
     return (
         <Modal
             isOpen={isOpen}
             onClose={onClose}
             isCentered
         >
-            <ModalOverlay />
+            <ModalOverlay/>
             <ModalContent>
                 <Box p={5}>
                     <ModalHeader>
@@ -185,7 +191,7 @@ const SignupModal = ({isOpen, onClose}: Props) => {
                                     <LanguageSelect
                                         id="language_id"
                                         name="settings.language_id"
-                                        value={formik.values.settings.language_id.toString()}
+                                        value={formik.values.settings.language_id}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                     />
@@ -195,12 +201,14 @@ const SignupModal = ({isOpen, onClose}: Props) => {
                         </form>
                     </ModalBody>
                     <ModalFooter>
-                        <Button onClick={onClose}>
-                            {t('button.close')}
-                        </Button>
-                        <Button type="submit" form="registerForm" colorScheme="blue">
-                            {t('auth.register')}
-                        </Button>
+                        <Flex gap="3">
+                            <Button colorScheme="blue" type="submit" form="registerForm">
+                                {t('form.submit')}
+                            </Button>
+                            <Button onClick={onClose} colorScheme="red">
+                                {t('button.close')}
+                            </Button>
+                        </Flex>
                     </ModalFooter>
                 </Box>
             </ModalContent>
