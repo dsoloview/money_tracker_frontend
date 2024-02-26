@@ -1,15 +1,18 @@
 import {ReactNode} from "react";
 import IndexTopBar from "../features/topBar/IndexTopBar.tsx";
+import CustomContainer from "./CustomContainer.tsx";
 
 type Props = {
     children: ReactNode
 }
-const IndexLayout  = ({children}: Props) => {
+const IndexLayout = ({children}: Props) => {
     return (
         <div>
-            <IndexTopBar />
+            <IndexTopBar/>
             <main>
-                {children}
+                <CustomContainer>
+                    {children}
+                </CustomContainer>
             </main>
         </div>
     );

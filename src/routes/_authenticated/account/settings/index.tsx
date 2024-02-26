@@ -5,7 +5,6 @@ import CurrencySelect from "../../../../widgets/selects/CurrencySelect.tsx";
 import useAuthStore from "../../../../stores/authStore.ts";
 import {useTranslation} from "react-i18next";
 import LanguageSelect from "../../../../widgets/selects/LanguageSelect.tsx";
-import PageTitle from "../../../../widgets/PageTitle.tsx";
 import * as yup from "yup";
 import i18next from "i18next";
 import {Button, FormControl, FormErrorMessage, FormLabel, Input, Stack, useDisclosure} from "@chakra-ui/react";
@@ -88,7 +87,6 @@ function Settings() {
 
     return (
         <AccountLayout>
-            <PageTitle>{t('menu.settings')}</PageTitle>
             <div className="max-w-3xl mx-auto px-4">
                 {userInfoBlock}
                 <form onSubmit={formik.handleSubmit} className="space-y-4">

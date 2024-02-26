@@ -1,6 +1,6 @@
 'use client'
 
-import {Box, Button, Flex, useColorModeValue, useDisclosure,} from '@chakra-ui/react'
+import {Box, Button, Container, Flex, useColorModeValue, useDisclosure,} from '@chakra-ui/react'
 import useAuthStore from "../../stores/authStore.ts";
 import {useTranslation} from "react-i18next";
 import LogoutButton from "../../widgets/buttons/LogoutButton.tsx";
@@ -38,12 +38,14 @@ export default function IndexTopBar() {
     )
     return (
         <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
-            <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-                <Box>Money Tracker</Box>
-                <Flex alignItems={'center'}>
-                    {user ? authContent : notAuthContent}
+            <Container maxW="container.xl">
+                <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
+                    <Box>Money Tracker</Box>
+                    <Flex alignItems={'center'}>
+                        {user ? authContent : notAuthContent}
+                    </Flex>
                 </Flex>
-            </Flex>
+            </Container>
         </Box>
     )
 }
