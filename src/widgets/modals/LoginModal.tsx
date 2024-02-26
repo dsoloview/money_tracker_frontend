@@ -1,15 +1,31 @@
-import {Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader} from "@nextui-org/react";
+import {
+    Modal,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    Button,
+    Input,
+    FormControl,
+    FormErrorMessage,
+    Box,
+    Heading,
+    Stack,
+    ModalOverlay,
+    InputGroup,
+    InputRightElement, Flex
+} from '@chakra-ui/react'
 import {useTranslation} from "react-i18next";
 import * as yup from "yup";
 import {useLogin} from "../../api/endpoints/auth/auth.api.ts";
 import {useFormik} from "formik";
 import {ILoginData} from "../../models/request.model.ts";
 import {isIValidationErrorResponse} from "../../tools/errors/errors.tools.ts";
-import {Navigate} from "@tanstack/react-router";
 import i18next from "i18next";
+import {useEffect, useState} from "react";
 type Props = {
     isOpen: boolean;
-    onOpenChange: (value: boolean) => void;
+    onClose: () => void;
 }
 
 const validationSchema = yup.object({
@@ -17,11 +33,12 @@ const validationSchema = yup.object({
         .email(i18next.t('form.validation.email'))
         .required(i18next.t('form.validation.required')),
     password: yup.string()
+        .min(8, i18next.t('form.validation.minLength', {count: 8}))
         .required(i18next.t('form.validation.required')),
 });
 
-const LoginModal = ({isOpen, onOpenChange}: Props) => {
-    const {mutate, isSuccess, isError, error} = useLogin()
+const LoginModal = ({isOpen, onClose}: Props) => {
+    const {mutate, isError, error} = useLogin()
     const {t} = useTranslation()
     const formik = useFormik<ILoginData>({
         initialValues: {
@@ -33,82 +50,88 @@ const LoginModal = ({isOpen, onOpenChange}: Props) => {
             mutate(values)
         },
     })
+    const [showPassword, setShowPassword] = useState(false)
 
-    if (isError && error) {
-        if (isIValidationErrorResponse(error.data)) {
-            const errors = error.data.errors
-            if (errors) {
-                formik.setErrors(errors)
+    useEffect(() => {
+        if (isError && error) {
+            if (isIValidationErrorResponse(error.data)) {
+                const errors = error.data.errors
+                if (errors) {
+                    formik.setErrors(errors)
+                }
+            } else {
+                formik.setErrors({})
             }
-        } else {
-            formik.setErrors({})
         }
-    }
+    }, [error, isError]);
 
-    if (isSuccess) {
-        return <Navigate to="/account" />
-    }
 
     return (
         <Modal
             isOpen={isOpen}
-            onOpenChange={onOpenChange}
-            placement="top-center"
-            motionProps={
-                {
-                    initial: {opacity: 0, y: -20},
-                    animate: {opacity: 1, y: 0},
-                    exit: {opacity: 0, y: -20},
-                }
-            }
+            onClose={onClose}
+            isCentered
         >
+            <ModalOverlay />
             <ModalContent>
-                {(onClose) => (
-                    <>
-                    <ModalHeader>{t('auth.login')}</ModalHeader>
-                        <ModalBody>
-                            <form className="flex flex-col gap-3" id="loginForm" onSubmit={formik.handleSubmit}>
-                                <Input
-                                    autoFocus
-                                    label={t('form.email')}
-                                    placeholder="Enter your email"
-                                    id="email"
-                                    name="email"
-                                    variant="bordered"
+                <Box p={5}>
+                    <ModalHeader>
+                        <Heading as="h2" size="lg">{t('auth.login')}</Heading>
+                    </ModalHeader>
+                    <ModalBody>
+                        <form id="loginForm" onSubmit={formik.handleSubmit}>
+                            <Stack spacing={3}>
+                                <FormControl
                                     isRequired
-                                    value={formik.values.email}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
                                     isInvalid={formik.touched.email && Boolean(formik.errors.email)}
-                                    errorMessage={formik.errors.email}
-                                />
-                                <Input
-                                    label={t('form.password')}
-                                    placeholder="Enter your password"
-                                    id="password"
-                                    name="password"
-                                    variant="bordered"
-                                    type="password"
+                                >
+                                    <Input
+                                        autoFocus
+                                        placeholder={t('form.placeholder.email')}
+                                        id="email"
+                                        name="email"
+                                        value={formik.values.email}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                    />
+                                    <FormErrorMessage>{formik.errors.email}</FormErrorMessage>
+                                </FormControl>
+                                <FormControl
                                     isRequired
-                                    value={formik.values.password}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
                                     isInvalid={formik.touched.password && Boolean(formik.errors.password)}
-                                    errorMessage={formik.errors.password}
-                                />
-                            </form>
-                        </ModalBody>
-                        <ModalFooter>
-                            <Button color="danger" variant="flat" onPress={onClose}>
-                                {t('button.close')}
-                            </Button>
-                            <Button type="submit" form="loginForm" color="primary">
+                                >
+                                    <InputGroup>
+                                        <Input
+                                            placeholder={t('form.placeholder.password')}
+                                            id="password"
+                                            name="password"
+                                            type={showPassword ? "text" : "password"}
+                                            value={formik.values.password}
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
+                                        />
+                                        <InputRightElement width="4.5rem">
+                                            <Button h="1.75rem" size="sm" onClick={() => setShowPassword(!showPassword)}>
+                                                {showPassword ? "Hide" : "Show"}
+                                            </Button>
+                                        </InputRightElement>
+                                    </InputGroup>
+                                    <FormErrorMessage>{formik.errors.password}</FormErrorMessage>
+                                </FormControl>
+                            </Stack>
+                        </form>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Flex gap="3">
+                            <Button colorScheme="blue" type="submit" form="loginForm">
                                 {t('form.submit')}
                             </Button>
-                        </ModalFooter>
-                    </>
-                )}
-
+                            <Button onClick={onClose} colorScheme="red">
+                                {t('button.close')}
+                            </Button>
+                        </Flex>
+                    </ModalFooter>
+                </Box>
             </ModalContent>
         </Modal>
     );

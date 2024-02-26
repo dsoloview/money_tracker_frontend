@@ -1,63 +1,49 @@
-import {
-    Button,
-    Navbar,
-    NavbarBrand,
-    NavbarContent,
-    NavbarItem, useDisclosure,
-} from "@nextui-org/react";
+'use client'
+
+import {Box, Button, Flex, useColorModeValue, useDisclosure,} from '@chakra-ui/react'
+import useAuthStore from "../../stores/authStore.ts";
+import {useTranslation} from "react-i18next";
+import LogoutButton from "../../widgets/buttons/LogoutButton.tsx";
 import LoginModal from "../../widgets/modals/LoginModal.tsx";
 import SignupModal from "../../widgets/modals/SignupModal.tsx";
-import useAuthStore from "../../stores/authStore.ts";
-import LogoutButton from "../../widgets/buttons/LogoutButton.tsx";
-import { Link } from "@tanstack/react-router";
-import {useTranslation} from "react-i18next";
+import {Link} from "@tanstack/react-router";
 
-const IndexTopBar = () => {
+export default function IndexTopBar() {
+
     const user = useAuthStore(state => state.authData?.user);
-    const {isOpen: isOpenLoginModal, onOpen: onOpenLoginModal, onOpenChange: onOpenChangeLoginModal} = useDisclosure()
-    const {isOpen: isOpenSignupModal, onOpen: onOpenSignupModal, onOpenChange: onOpenChangeSignupModal} = useDisclosure()
+    const {isOpen: isOpenLoginModal, onOpen: onOpenLoginModal, onClose: onCloseLoginModal} = useDisclosure()
+    const {isOpen: isOpenSignupModal, onOpen: onOpenSignupModal, onClose: onCloseSignupModal} = useDisclosure()
     const {t} = useTranslation();
 
     const authContent = (
         <>
-            <NavbarItem className="hidden lg:flex">
-                <Button as={Link} to="/account" color="primary" variant="flat">{t('menu.account')}</Button>
-            </NavbarItem>
-            <NavbarItem className="hidden lg:flex">
-                <LogoutButton />
-            </NavbarItem>
+            <Button as={Link} to="/account">{t('menu.account')}</Button>
+            <LogoutButton/>
         </>
     )
 
     const notAuthContent = (
         <>
-            <NavbarItem className="hidden lg:flex">
-                <Button color="primary" variant="flat" onPress={onOpenLoginModal}>{t('auth.login')}</Button>
-                <LoginModal
-                    isOpen={isOpenLoginModal}
-                    onOpenChange={onOpenChangeLoginModal}
-                />
-            </NavbarItem>
-            <NavbarItem className="hidden lg:flex">
-                <Button onPress={onOpenSignupModal} color="primary" href="#" variant="flat">{t('auth.register')}</Button>
-                <SignupModal isOpen={isOpenSignupModal} onOpenChange={onOpenChangeSignupModal} />
-            </NavbarItem>
+            <Button onClick={onOpenLoginModal}>{t('auth.login')}</Button>
+            <LoginModal
+                isOpen={isOpenLoginModal}
+                onClose={onCloseLoginModal}
+            />
+            <Button onClick={onOpenSignupModal}>{t('auth.register')}</Button>
+            <SignupModal
+                isOpen={isOpenSignupModal}
+                onClose={onCloseSignupModal}
+            />
         </>
-    );
-
-
+    )
     return (
-        <Navbar>
-            <NavbarContent>
-                <NavbarBrand>
-                    Money Tracker
-                </NavbarBrand>
-            </NavbarContent>
-            <NavbarContent justify="end">
-                {user ? authContent : notAuthContent}
-            </NavbarContent>
-        </Navbar>
+        <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
+            <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
+                <Box>Money Tracker</Box>
+                <Flex alignItems={'center'}>
+                    {user ? authContent : notAuthContent}
+                </Flex>
+            </Flex>
+        </Box>
     )
 }
-
-export default IndexTopBar;

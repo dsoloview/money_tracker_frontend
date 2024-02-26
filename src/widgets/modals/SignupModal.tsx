@@ -1,4 +1,13 @@
-import {Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader} from "@nextui-org/react";
+import {
+    Modal,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    Button,
+    Input, FormControl, FormLabel, FormErrorMessage,
+    Box, Heading, Stack, ModalOverlay
+} from '@chakra-ui/react'
 import {useTranslation} from "react-i18next";
 import {useRegister} from "../../api/endpoints/auth/auth.api.ts";
 import {useFormik} from "formik";
@@ -9,6 +18,7 @@ import LanguageSelect from "../selects/LanguageSelect.tsx";
 import * as yup from "yup";
 import {ref} from "yup";
 import i18next from "i18next";
+import {useEffect} from "react";
 
 const validationSchema = yup.object({
     name: yup.string()
@@ -37,9 +47,9 @@ const validationSchema = yup.object({
 
 type Props = {
     isOpen: boolean;
-    onOpenChange: (value: boolean) => void;
+    onClose: () => void;
 }
-const SignupModal = ({isOpen, onOpenChange}: Props) => {
+const SignupModal = ({isOpen, onClose}: Props) => {
     const {mutate, isError, error} = useRegister()
     const {t} = useTranslation()
     const formik = useFormik<IRegisterData>({
@@ -49,8 +59,8 @@ const SignupModal = ({isOpen, onOpenChange}: Props) => {
             password: '',
             password_confirmation: '',
             settings: {
-                language_id: 1,
-                main_currency_id: 1,
+                language_id: 0,
+                main_currency_id: 0,
             }
         },
         validationSchema: validationSchema,
@@ -59,126 +69,140 @@ const SignupModal = ({isOpen, onOpenChange}: Props) => {
         },
     })
 
-    if (isError && error) {
-        if (isIValidationErrorResponse(error.data)) {
-            const errors = error.data.errors
+    useEffect(() => {
+        if (isError && error) {
+            if (isIValidationErrorResponse(error.data)) {
+                const errors = error.data.errors
 
-            if (errors) {
-                formik.setErrors(errors)
+                if (errors) {
+                    formik.setErrors(errors)
+                }
+            } else {
+                formik.setErrors({})
             }
-        } else {
-            formik.setErrors({})
         }
-    }
+    }, [error, isError]);
+
+
 
     return (
         <Modal
             isOpen={isOpen}
-            onOpenChange={onOpenChange}
-            placement="top-center"
-            motionProps={
-                {
-                    initial: {opacity: 0, y: -20},
-                    animate: {opacity: 1, y: 0},
-                    exit: {opacity: 0, y: -20},
-                }
-            }
+            onClose={onClose}
+            isCentered
         >
+            <ModalOverlay />
             <ModalContent>
-                {(onClose) => (
-                    <>
-                        <ModalHeader>{t('auth.register')}</ModalHeader>
-                        <ModalBody>
-                            <form className="flex flex-col gap-3" id="registerForm" onSubmit={formik.handleSubmit}>
-                                <Input
-                                    label={t('form.name')}
-                                    placeholder="Enter your name"
-                                    id="name"
-                                    name="name"
-                                    variant="bordered"
+                <Box p={5}>
+                    <ModalHeader>
+                        <Heading as="h2" size="lg">{t('auth.register')}</Heading>
+                    </ModalHeader>
+                    <ModalBody>
+                        <form id="registerForm" onSubmit={formik.handleSubmit}>
+                            <Stack spacing={3}>
+                                <FormControl
                                     isRequired
-                                    value={formik.values.name}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
                                     isInvalid={formik.touched.name && Boolean(formik.errors.name)}
-                                    errorMessage={formik.errors.name}
-                                />
-                                <Input
-                                    autoFocus
-                                    label={t('form.email')}
-                                    placeholder="Enter your email"
-                                    id="email"
-                                    name="email"
-                                    variant="bordered"
+                                >
+                                    <FormLabel>{t('form.name')}</FormLabel>
+                                    <Input
+                                        autoFocus
+                                        placeholder="Enter your name"
+                                        id="name"
+                                        name="name"
+                                        value={formik.values.name}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                    />
+                                    <FormErrorMessage>{formik.errors.name}</FormErrorMessage>
+                                </FormControl>
+                                <FormControl
                                     isRequired
-                                    value={formik.values.email}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
                                     isInvalid={formik.touched.email && Boolean(formik.errors.email)}
-                                    errorMessage={formik.errors.email}
-                                />
-                                <Input
-                                    label={t('form.password')}
-                                    placeholder="Enter your password"
-                                    id="password"
-                                    name="password"
-                                    variant="bordered"
-                                    type="password"
+                                >
+                                    <FormLabel>{t('form.email')}</FormLabel>
+                                    <Input
+                                        placeholder={t('form.placeholder.email')}
+                                        id="email"
+                                        name="email"
+                                        value={formik.values.email}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                    />
+                                    <FormErrorMessage>{formik.errors.email}</FormErrorMessage>
+                                </FormControl>
+                                <FormControl
                                     isRequired
-                                    value={formik.values.password}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
                                     isInvalid={formik.touched.password && Boolean(formik.errors.password)}
-                                    errorMessage={formik.errors.password}
-                                />
-                                <Input
-                                    label={t('form.confirmPassword')}
-                                    placeholder="Confirm your password"
-                                    id="password_confirmation"
-                                    name="password_confirmation"
-                                    variant="bordered"
-                                    type="password"
+                                >
+                                    <FormLabel>{t('form.password')}</FormLabel>
+                                    <Input
+                                        placeholder="Enter your password"
+                                        id="password"
+                                        name="password"
+                                        type="password"
+                                        value={formik.values.password}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                    />
+                                    <FormErrorMessage>{formik.errors.password}</FormErrorMessage>
+                                </FormControl>
+                                <FormControl
                                     isRequired
-                                    value={formik.values.password_confirmation}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
                                     isInvalid={formik.touched.password_confirmation && Boolean(formik.errors.password_confirmation)}
-                                    errorMessage={formik.errors.password_confirmation}
-                                />
-                                <CurrencySelect
-                                    label={t('model.currency')}
-                                    id="main_currency_id"
-                                    name="settings.main_currency_id"
-                                    value={formik.values.settings.main_currency_id.toString()}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    hasError={formik.touched.settings?.main_currency_id && Boolean(formik.errors.settings?.main_currency_id)}
-                                    errorMessage={formik.errors.settings?.main_currency_id}
-                                    required
-                                />
-                                <LanguageSelect
-                                    label={t('model.language')}
-                                    id="language_id"
-                                    name="settings.language_id"
-                                    value={formik.values.settings.language_id.toString()}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    hasError={formik.touched.settings?.language_id && Boolean(formik.errors.settings?.language_id)}
-                                    errorMessage={formik.errors.settings?.language_id}
-                                    required
-                                />
-                            </form>
-                        </ModalBody>
-                        <ModalFooter>
-                            <Button color="danger" variant="flat" onPress={onClose}>
-                                {t('button.close')}
-                            </Button>
-                            <Button color="primary" type="submit" form="registerForm">
-                                {t('auth.register')}
-                            </Button>
-                        </ModalFooter>
-                    </>
-                )}
+                                >
+                                    <FormLabel>{t('form.confirmPassword')}</FormLabel>
+                                    <Input
+                                        placeholder="Confirm your password"
+                                        id="password_confirmation"
+                                        name="password_confirmation"
+                                        type="password"
+                                        value={formik.values.password_confirmation}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                    />
+                                    <FormErrorMessage>{formik.errors.password_confirmation}</FormErrorMessage>
+                                </FormControl>
+                                <FormControl
+                                    isRequired
+                                    isInvalid={formik.touched.settings?.main_currency_id && Boolean(formik.errors.settings?.main_currency_id)}
+                                >
+                                    <FormLabel>{t('form.currency')}</FormLabel>
+                                    <CurrencySelect
+                                        id="main_currency_id"
+                                        name="settings.main_currency_id"
+                                        value={formik.values.settings.main_currency_id}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                    />
+                                    <FormErrorMessage>{formik.errors.settings?.main_currency_id}</FormErrorMessage>
+                                </FormControl>
+                                <FormControl
+                                    isRequired
+                                    isInvalid={formik.touched.settings?.language_id && Boolean(formik.errors.settings?.language_id)}
+                                >
+                                    <FormLabel>{t('form.language')}</FormLabel>
+                                    <LanguageSelect
+                                        id="language_id"
+                                        name="settings.language_id"
+                                        value={formik.values.settings.language_id.toString()}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                    />
+                                    <FormErrorMessage>{formik.errors.settings?.language_id}</FormErrorMessage>
+                                </FormControl>
+                            </Stack>
+                        </form>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button onClick={onClose}>
+                            {t('button.close')}
+                        </Button>
+                        <Button type="submit" form="registerForm" colorScheme="blue">
+                            {t('auth.register')}
+                        </Button>
+                    </ModalFooter>
+                </Box>
             </ModalContent>
         </Modal>
     );

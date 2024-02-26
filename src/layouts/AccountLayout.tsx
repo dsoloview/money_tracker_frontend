@@ -1,18 +1,17 @@
 import {ReactNode} from "react";
 import AccountTopBar from "../features/topBar/AccountTopBar.tsx";
-import Container from "./Container.tsx";
 
 type Props = {
     children: ReactNode
 }
 const AccountLayout  = ({children}: Props) => {
     return (
-        <Container>
+        <div>
             <AccountTopBar/>
             <main>
                 {children}
             </main>
-        </Container>
+        </div>
     );
 }
 

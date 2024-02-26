@@ -1,8 +1,8 @@
-import {Button} from "@nextui-org/react";
 import useAuthStore from "../../stores/authStore.ts";
 import {useNavigate} from "@tanstack/react-router";
 import {toast} from "react-toastify";
 import {useTranslation} from "react-i18next";
+import { Button } from '@chakra-ui/react'
 
 const LogoutButton = () => {
     const removeAuthData = useAuthStore((state) => state.removeData)
@@ -18,7 +18,7 @@ const LogoutButton = () => {
     }
 
     return (
-        <Button onPress={handleLogout} color="primary" href="#" variant="flat">
+        <Button onClick={handleLogout}>
             {t('auth.logout')}
         </Button>
     );

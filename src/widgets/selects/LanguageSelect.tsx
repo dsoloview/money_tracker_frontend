@@ -1,4 +1,4 @@
-import {Select, SelectItem, Spinner} from "@nextui-org/react";
+import { Select } from '@chakra-ui/react'
 import {ChangeEvent} from "react";
 import {useLanguages} from "../../api/endpoints/languages.api.ts";
 
@@ -7,7 +7,7 @@ type Props = {
     placeholder?: string
     id?: string
     name?: string
-    value?: string
+    value?: number
     onChange?: (event: ChangeEvent<HTMLSelectElement>) => void
     hasError?: boolean
     errorMessage?: string
@@ -17,14 +17,12 @@ type Props = {
 }
 const LanguageSelect = (
     {
-        label,
         placeholder,
         id,
         name,
         value,
         onChange,
         hasError,
-        errorMessage,
         required,
         onBlur,
         className
@@ -32,7 +30,7 @@ const LanguageSelect = (
     const {data, isLoading, isError} = useLanguages();
 
     if (isLoading) {
-        return <Spinner />
+        return <div>Loading</div>
     }
 
     if (isError) {
@@ -41,30 +39,22 @@ const LanguageSelect = (
 
     return (
         <Select
-            items={data?.data}
-            label={label}
+            value={value}
             placeholder={placeholder}
             className={className}
             id={id}
             name={name}
-            selectionMode="single"
-            selectedKeys={value}
-            defaultSelectedKeys={value}
             onChange={onChange}
             isRequired={required}
-            errorMessage={errorMessage}
             isInvalid={hasError}
             onBlur={onBlur}
         >
-            {(language) =>
-                <SelectItem
-                    key={language.id}
-                    value={language.id}
-
-                >
-                    {`${language.name} - ${language.code}`}
-                </SelectItem>
-            }
+            <option value={0} disabled>Select language</option>
+            {data?.data.map((language) => (
+                <option key={language.id} value={language.id}>
+                    {language.name} ({language.code})
+                </option>
+            ))}
         </Select>
     )
 }

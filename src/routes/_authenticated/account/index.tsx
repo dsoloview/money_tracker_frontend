@@ -1,7 +1,7 @@
 import {createFileRoute} from "@tanstack/react-router";
 import AccountLayout from "../../../layouts/AccountLayout.tsx";
-import {Button} from "@nextui-org/react";
 import {toast} from "react-toastify";
+import {Button} from "@chakra-ui/react";
 
 export const Route = createFileRoute('/_authenticated/account/')({
     component: Account
@@ -13,7 +13,7 @@ export function Account() {
     }
     return (
         <AccountLayout>
-            <Button onPress={handleClick}>Click</Button>
+            <Button onClick={handleClick} />
             <div>Account</div>
         </AccountLayout>
     )

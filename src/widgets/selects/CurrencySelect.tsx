@@ -1,5 +1,5 @@
-import {Select, SelectItem, Spinner} from "@nextui-org/react";
 import {ChangeEvent} from "react";
+import { Select } from '@chakra-ui/react'
 import {useCurrencies} from "../../api/endpoints/currencies.api.ts";
 
 type Props = {
@@ -7,7 +7,7 @@ type Props = {
     placeholder?: string
     id?: string
     name?: string
-    value: string
+    value: number
     onChange?: (event: ChangeEvent<HTMLSelectElement>) => void
     hasError?: boolean
     errorMessage?: string
@@ -17,23 +17,21 @@ type Props = {
 }
 const CurrencySelect = (
     {
-        label,
         placeholder,
         id,
         name,
-        value,
         onChange,
         hasError,
-        errorMessage,
         required,
         onBlur,
-        className
+        className,
+        value
 
     }: Props) => {
     const {data, isLoading, isError} = useCurrencies();
 
     if (isLoading) {
-        return <Spinner />
+        return "Loading"
     }
 
     if (isError) {
@@ -42,28 +40,22 @@ const CurrencySelect = (
 
     return (
         <Select
-            items={data?.data}
-            label={label}
+            value={value}
             placeholder={placeholder}
             className={className}
             id={id}
-            selectionMode="single"
-            selectedKeys={[value.toString()]}
             name={name}
             onChange={onChange}
             isRequired={required}
-            errorMessage={errorMessage}
             isInvalid={hasError}
             onBlur={onBlur}
         >
-            {(currency) =>
-                <SelectItem
-                    key={currency.id.toString()}
-                    value={currency.id.toString()}
-                >
-                    {`${currency.name} - ${currency.symbol}`}
-                </SelectItem>
-            }
+            <option value={0} disabled>Select currency</option>
+            {data?.data.map((currency) => (
+                <option key={currency.id} value={currency.id}>
+                    {currency.name} ({currency.code})
+                </option>
+            ))}
         </Select>
     )
 }

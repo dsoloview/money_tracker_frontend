@@ -16,6 +16,8 @@ export default {
             email: "Email",
             password: "Password",
             confirmPassword: "Confirm Password",
+            currency: "Currency",
+            language: "Language",
             submit: "Submit",
             cancel: "Cancel",
             validation: {
@@ -27,6 +29,10 @@ export default {
                 maxLength: "This field must be at most {{count}} characters long",
                 integer: "This field must be an integer",
                 string: "This field must be a string"
+            },
+            placeholder: {
+                email: "Enter your email",
+                password: "Enter your password",
             }
         },
         model: {

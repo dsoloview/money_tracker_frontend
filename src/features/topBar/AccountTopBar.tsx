@@ -1,75 +1,58 @@
-import {
-    Navbar,
-    NavbarBrand,
-    NavbarContent,
-    Link,
-    NavbarItem,
-    NavbarMenu, NavbarMenuItem,
-    NavbarMenuToggle
-} from "@nextui-org/react";
-import {useState} from "react";
-import {Link as RouterLink} from "@tanstack/react-router";
-import LogoutButton from "../../widgets/buttons/LogoutButton.tsx";
 import useAuthStore from "../../stores/authStore.ts";
 import {useTranslation} from "react-i18next";
+import {Box, Flex, HStack, IconButton, Stack, useColorModeValue, useDisclosure} from "@chakra-ui/react";
+import {CloseIcon, HamburgerIcon} from "@chakra-ui/icons";
+import LogoutButton from "../../widgets/buttons/LogoutButton.tsx";
+import {ILink} from "../../models/navigation.model.ts";
+import {NavLink} from "../../widgets/navigation/NavLink.tsx";
 
 const AccountTopBar = () => {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const currentPage = window.location.pathname;
     const user = useAuthStore(state => state.authData?.user);
     const {t} = useTranslation();
+    const {isOpen, onOpen, onClose} = useDisclosure()
 
-    const menuItems = [
+    const menuItems: ILink[] = [
         {name: t('menu.home'), href: "/"},
         {name: t('menu.settings'), href: "/account/settings"},
         {name: t('menu.account'), href: "/account"},
     ];
 
     return (
-        <Navbar onMenuOpenChange={setIsMenuOpen}>
-            <NavbarContent justify="start">
-                <NavbarMenuToggle
-                    aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-                    className="sm:hidden"
+        <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
+            <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
+                <IconButton
+                    size={'md'}
+                    icon={isOpen ? <CloseIcon/> : <HamburgerIcon/>}
+                    aria-label={'Open Menu'}
+                    display={{md: 'none'}}
+                    onClick={isOpen ? onClose : onOpen}
                 />
-                <NavbarBrand>
-                    Money Tracker
-                </NavbarBrand>
-            </NavbarContent>
-            <NavbarContent className="hidden sm:flex gap-4" justify="center">
-                {
-                    menuItems.map((item, index) => (
-                        <NavbarItem key={`${item}-${index}`}>
-                            <Link as={RouterLink} to={item.href} color={item.href === currentPage ? "primary" : "foreground"}>
-                                {item.name}
-                            </Link>
-                        </NavbarItem>
-                    ))
-                }
-            </NavbarContent>
-            <NavbarContent justify="end">
-                {user && (
-                    <NavbarItem className="hidden lg:flex">
-                        <Link as={RouterLink} to="/account" color="foreground">
-                            {user.email}
-                        </Link>
-                    </NavbarItem>
+                <HStack spacing={8} alignItems={'center'}>
+                    <Box>Money Tracker</Box>
+                    <HStack as={'nav'} spacing={4} display={{base: 'none', md: 'flex'}}>
+                        {menuItems.map((link) => (
+                            <NavLink link={link} key={link.href}/>
+                        ))}
+                    </HStack>
+                </HStack>
+                <Flex alignItems={'center'}>
+                    <Box>
+                        {user?.email}
+                    </Box>
+                    <LogoutButton/>
+                </Flex>
+            </Flex>
 
-                )}
-                <NavbarItem className="hidden lg:flex">
-                    <LogoutButton />
-                </NavbarItem>
-            </NavbarContent>
-            <NavbarMenu>
-                {menuItems.map((item, index) => (
-                    <NavbarMenuItem key={`${item}-${index}`}>
-                        <Link as={RouterLink} to={item.href} color={item.href === currentPage ? "primary" : "foreground"}>
-                            {item.name}
-                        </Link>
-                    </NavbarMenuItem>
-                ))}
-            </NavbarMenu>
-        </Navbar>
+            {isOpen ? (
+                <Box pb={4} display={{md: 'none'}}>
+                    <Stack as={'nav'} spacing={4}>
+                        {menuItems.map((link) => (
+                            <NavLink link={link} key={link.href}/>
+                        ))}
+                    </Stack>
+                </Box>
+            ) : null}
+        </Box>
     )
 }
 
