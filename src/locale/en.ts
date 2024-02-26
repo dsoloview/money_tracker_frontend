@@ -33,14 +33,33 @@ export default {
             placeholder: {
                 email: "Enter your email",
                 password: "Enter your password",
+                current_password: "Enter your current password",
+                password_confirmation: "Confirm your password",
             }
         },
         model: {
             currency: "Currency",
             language: "Language",
+            user: {
+                id: "ID",
+                name: "Name",
+                email: "Email",
+                password: "Password",
+                confirmPassword: "Confirm Password",
+                roles: "Roles",
+                settings: {
+                    settings: "Settings",
+                    mainCurrency: "Main Currency",
+                    language: "Language"
+                }
+            }
+        },
+        title: {
+            userInformation: "User Information",
         },
         button: {
-            close: "Close"
+            close: "Close",
+            update_password: "Update Password"
         }
     }
 }

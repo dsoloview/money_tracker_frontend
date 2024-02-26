@@ -15,10 +15,14 @@ export interface IErrorResponse {
     message: string;
 }
 
+export interface ISuccessResponse {
+    success: boolean;
+}
+
 export interface IValidationErrorResponse<T> extends IErrorResponse {
     errors: {
         [K in keyof T]: T[K] extends object
-            ? { [K2 in keyof T[K]]: string}
+            ? { [K2 in keyof T[K]]: string }
             : string;
     };
 }

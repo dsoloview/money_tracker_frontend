@@ -1,15 +1,17 @@
-import { createFileRoute } from "@tanstack/react-router";
+import {createFileRoute} from "@tanstack/react-router";
 import AccountLayout from "../../../../layouts/AccountLayout.tsx";
-import { useFormik } from "formik";
+import {useFormik} from "formik";
 import CurrencySelect from "../../../../widgets/selects/CurrencySelect.tsx";
 import useAuthStore from "../../../../stores/authStore.ts";
-import { useTranslation } from "react-i18next";
-import { useUpdateUserSettings } from "../../../../api/endpoints/user/user.api.ts";
+import {useTranslation} from "react-i18next";
 import LanguageSelect from "../../../../widgets/selects/LanguageSelect.tsx";
 import PageTitle from "../../../../widgets/PageTitle.tsx";
 import * as yup from "yup";
 import i18next from "i18next";
-import {Button, FormControl, FormErrorMessage, FormLabel, Input, Stack} from "@chakra-ui/react";
+import {Button, FormControl, FormErrorMessage, FormLabel, Input, Stack, useDisclosure} from "@chakra-ui/react";
+import {useUpdateUser} from "../../../../api/endpoints/user/user.api.ts";
+import {IUpdateUserRequest} from "../../../../models/request.model.ts";
+import UpdatePasswordModal from "../../../../widgets/modals/UpdatePasswordModal.tsx";
 
 export const Route = createFileRoute('/_authenticated/account/settings/')({
     component: Settings
@@ -44,27 +46,28 @@ const validationSchema = yup.object({
 
 function Settings() {
     const authData = useAuthStore(state => state.authData);
-    const { mutate } = useUpdateUserSettings();
-    const { t } = useTranslation();
+    const {t} = useTranslation();
+    const {mutate} = useUpdateUser();
+    const {onOpen, onClose, isOpen} = useDisclosure();
 
     const userInfoBlock = (
         <div className="grid grid-cols-2 gap-4">
             <div>
-                <p className="text-lg font-semibold">{t('User Information')}</p>
-                <p className="text-gray-600 mb-2">{t('Name')}: {authData?.user.name}</p>
-                <p className="text-gray-600 mb-2">{t('Email')}: {authData?.user.email}</p>
-                <p className="text-gray-600 mb-2">{t('ID')}: {authData?.user.id}</p>
-                <p className="text-gray-600 mb-2">{t('Roles')}: {authData?.user.roles.map(role => role.name).join(', ')}</p>
+                <p className="text-lg font-semibold">{t('title.userInformation')}</p>
+                <p className="text-gray-600 mb-2">{t('model.user.name')}: {authData?.user.name}</p>
+                <p className="text-gray-600 mb-2">{t('model.user.email')}: {authData?.user.email}</p>
+                <p className="text-gray-600 mb-2">{t('model.user.id')}: {authData?.user.id}</p>
+                <p className="text-gray-600 mb-2">{t('model.user.roles')}: {authData?.user.roles.map(role => role.name).join(', ')}</p>
             </div>
             <div>
-                <p className="text-lg font-semibold">{t('Settings')}</p>
-                <p className="text-gray-600 mb-2">{t('Language')}: {authData?.user.settings.language.name}</p>
-                <p className="text-gray-600 mb-2">{t('Main Currency')}: {authData?.user.settings.main_currency.name} ({authData?.user.settings.main_currency.symbol})</p>
+                <p className="text-lg font-semibold">{t('model.user.settings.settings')}</p>
+                <p className="text-gray-600 mb-2">{t('model.user.settings.language')}: {authData?.user.settings.language.name}</p>
+                <p className="text-gray-600 mb-2">{t('model.user.settings.mainCurrency')}: {authData?.user.settings.main_currency.name} ({authData?.user.settings.main_currency.symbol})</p>
             </div>
         </div>
     );
 
-    const formik = useFormik({
+    const formik = useFormik<IUpdateUserRequest>({
         initialValues: {
             name: authData?.user.name || "",
             email: authData?.user.email || "",
@@ -75,7 +78,11 @@ function Settings() {
         },
         validationSchema: validationSchema,
         onSubmit: async (values) => {
-            console.log(values);
+            if (!authData?.user.id) return;
+            mutate({
+                id: authData.user.id,
+                data: values
+            });
         },
     });
 
@@ -146,7 +153,8 @@ function Settings() {
                             <FormErrorMessage>{formik.errors.settings?.language_id}</FormErrorMessage>
                         </FormControl>
                         <Button type="submit">{t('form.submit')}</Button>
-                        <Button>Update password</Button>
+                        <Button onClick={onOpen}>{t('button.update_password')}</Button>
+                        <UpdatePasswordModal isOpen={isOpen} onClose={onClose}/>
                     </Stack>
                 </form>
             </div>

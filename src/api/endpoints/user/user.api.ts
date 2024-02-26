@@ -1,21 +1,21 @@
 import {useMutation} from "@tanstack/react-query";
 import {IError} from "../../../models/error.model.ts";
-import {IParamRequest} from "../../../models/request.model.ts";
+import {IParamRequest, IUpdatePasswordRequest, IUpdateUserRequest} from "../../../models/request.model.ts";
 import {toast} from "react-toastify";
-import {IUserSettings} from "../../../models/user.model.ts";
+import {IUser} from "../../../models/user.model.ts";
 import api from "../../api.ts";
-import {ISettingsForm} from "../../../routes/_authenticated/account/settings";
 import useAuthStore from "../../../stores/authStore.ts";
+import {ISuccessResponse} from "../../../models/response.model.ts";
 
-const useUpdateUserSettings = () => {
-    return useMutation<IUserSettings, IError<ISettingsForm>, IParamRequest<ISettingsForm>, unknown>({
+const useUpdateUser = () => {
+    return useMutation<IUser, IError<IUpdateUserRequest>, IParamRequest<IUpdateUserRequest>, unknown>({
         mutationFn: async (request) => {
-            const response = await api().patch(`users/${request.id}/settings`, request.data);
+            const response = await api().patch(`users/${request.id}`, request.data);
             return response.data.data;
         },
         onSuccess: (response) => {
-            useAuthStore.getState().setSettings(response)
-            toast.success('Settings updated')
+            useAuthStore.getState().setUser(response)
+            toast.success('User updated')
         },
         onError: (error) => {
             toast.error(error.data.message)
@@ -23,4 +23,19 @@ const useUpdateUserSettings = () => {
     })
 }
 
-export { useUpdateUserSettings };
+const useUpdatePassword = () => {
+    return useMutation<ISuccessResponse, IError<IUpdatePasswordRequest>, IParamRequest<IUpdatePasswordRequest>, unknown>({
+        mutationFn: async (request) => {
+            const response = await api().patch(`users/${request.id}/password`, request.data);
+            return response.data;
+        },
+        onSuccess: () => {
+            toast.success('User password updated')
+        },
+        onError: (error) => {
+            toast.error(error.data.message)
+        }
+    })
+}
+
+export {useUpdateUser, useUpdatePassword};
