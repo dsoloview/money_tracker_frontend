@@ -6,6 +6,12 @@ export default {
             settings: "Settings",
             account: "Account"
         },
+        modal: {
+            login: "Login",
+            register: "Register",
+            createAccount: "Create Account",
+            updateAccount: "Update Account",
+        },
         auth: {
             login: "Login",
             register: "Register",
@@ -31,6 +37,10 @@ export default {
                 string: "This field must be a string"
             },
             placeholder: {
+                name: "Enter your name",
+                bank: "Enter your bank",
+                balance: "Enter your balance",
+                currency: "Select your currency",
                 email: "Enter your email",
                 password: "Enter your password",
                 current_password: "Enter your current password",
