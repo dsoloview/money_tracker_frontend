@@ -1,20 +1,7 @@
-import {ChangeEvent} from "react";
-import { Select } from '@chakra-ui/react'
+import {Select} from '@chakra-ui/react'
 import {useCurrencies} from "../../api/endpoints/currencies.api.ts";
+import {ISelectProps} from "../../models/widget.model.ts";
 
-type Props = {
-    label?: string
-    placeholder?: string
-    id?: string
-    name?: string
-    value: number
-    onChange?: (event: ChangeEvent<HTMLSelectElement>) => void
-    hasError?: boolean
-    errorMessage?: string
-    required?: boolean
-    onBlur?: (e: unknown) => void
-    className?: string
-}
 const CurrencySelect = (
     {
         placeholder,
@@ -27,7 +14,7 @@ const CurrencySelect = (
         className,
         value
 
-    }: Props) => {
+    }: ISelectProps) => {
     const {data, isLoading, isError} = useCurrencies();
 
     if (isLoading) {

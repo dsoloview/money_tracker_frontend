@@ -26,6 +26,19 @@ export default {
             language: "Language",
             submit: "Submit",
             cancel: "Cancel",
+            label: {
+                name: "Name",
+                email: "Email",
+                password: "Password",
+                confirmPassword: "Confirm Password",
+                currency: "Currency",
+                language: "Language",
+                account: "Account",
+                categories: "Categories",
+                type: "Type",
+                amount: "Amount",
+                comment: "Comment",
+            },
             validation: {
                 required: "This field is required",
                 email: "Please enter a valid email address",
@@ -45,6 +58,8 @@ export default {
                 password: "Enter your password",
                 current_password: "Enter your current password",
                 password_confirmation: "Confirm your password",
+                amount: "Enter the amount",
+                comment: "Enter a comment",
             }
         },
         model: {

@@ -1,20 +1,7 @@
-import { Select } from '@chakra-ui/react'
-import {ChangeEvent} from "react";
+import {Select} from '@chakra-ui/react'
 import {useLanguages} from "../../api/endpoints/languages.api.ts";
+import {ISelectProps} from "../../models/widget.model.ts";
 
-type Props = {
-    label?: string
-    placeholder?: string
-    id?: string
-    name?: string
-    value?: number
-    onChange?: (event: ChangeEvent<HTMLSelectElement>) => void
-    hasError?: boolean
-    errorMessage?: string
-    required?: boolean
-    onBlur?: (e: unknown) => void
-    className?: string
-}
 const LanguageSelect = (
     {
         placeholder,
@@ -26,7 +13,7 @@ const LanguageSelect = (
         required,
         onBlur,
         className
-    }: Props) => {
+    }: ISelectProps) => {
     const {data, isLoading, isError} = useLanguages();
 
     if (isLoading) {
