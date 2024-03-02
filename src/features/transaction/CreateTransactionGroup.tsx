@@ -19,15 +19,14 @@ import {AddIcon} from "@chakra-ui/icons";
 import * as yup from "yup";
 import i18next from "i18next";
 import {useTranslation} from "react-i18next";
-import {useFormik} from "formik";
 import {ITransactionRequest} from "../../models/transaction.model.ts";
-import {CategoryTransactionType} from "../../models/category.model.ts";
 import CategoryTransactionTypeRadio from "../../widgets/radio/CategoryTransactionTypeRadio.tsx";
 import AccountSelect from "../../widgets/selects/AccountSelect.tsx";
 import CategorySelect from "../../widgets/selects/CategorySelect.tsx";
 import {useCreateAccountTransaction} from "../../api/endpoints/account/accountTransaction/accountTransaction.api.ts";
-import {useEffect} from "react";
-import {isIValidationErrorResponse} from "../../tools/errors/errors.tools.ts";
+import {useMutateWithFormik} from "../../hooks/useMutateWithFormik.ts";
+import {ChangeEvent} from "react";
+import {CategoryTransactionType} from "../../models/category.model.ts";
 
 const validationSchema = yup.object({
     comment: yup.string()
@@ -48,45 +47,26 @@ const validationSchema = yup.object({
 const CreateTransactionGroup = () => {
     const {isOpen, onOpen, onClose} = useDisclosure();
     const {t} = useTranslation();
-    const {mutate, isError, error, isSuccess} = useCreateAccountTransaction();
-    const formik = useFormik<ITransactionRequest>({
+    const {formik} = useMutateWithFormik<ITransactionRequest>({
+        mutation: useCreateAccountTransaction,
         initialValues: {
-            account_id: 0,
-            comment: '',
+            comment: "",
             amount: 0,
-            categories_ids: [],
             type: CategoryTransactionType.EXPENSE,
+            account_id: 0,
+            categories_ids: []
         },
         validationSchema: validationSchema,
-        onSubmit: async (values) => {
-            mutate({
+        onSuccess: onClose,
+        prepareSubmitData: (values) => {
+            return {
                 id: values.account_id,
                 data: values
-            })
-        },
-    })
-
-    useEffect(() => {
-        if (isError && error) {
-            if (isIValidationErrorResponse(error.data)) {
-                const errors = error.data.errors
-                if (errors) {
-                    formik.setErrors(errors)
-                }
-            } else {
-                formik.setErrors({})
             }
         }
-    }, [error, isError]);
+    });
 
-    useEffect(() => {
-        if (isSuccess) {
-            formik.resetForm()
-            onClose()
-        }
-    }, [isSuccess]);
-
-    const handleChangeType = (e) => {
+    const handleChangeType = (e: ChangeEvent<HTMLInputElement>) => {
         formik.values.categories_ids = [];
         formik.setFieldValue('type', e.target.value);
     }

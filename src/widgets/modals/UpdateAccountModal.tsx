@@ -16,13 +16,11 @@ import {
 } from '@chakra-ui/react'
 import {useTranslation} from "react-i18next";
 import * as yup from "yup";
-import {useFormik} from "formik";
-import {isIValidationErrorResponse} from "../../tools/errors/errors.tools.ts";
 import i18next from "i18next";
-import {useEffect} from "react";
 import {IAccount, IAccountCreateUpdateRequest} from "../../models/account.model.ts";
 import CurrencySelect from "../selects/CurrencySelect.tsx";
 import {useUpdateAccount} from "../../api/endpoints/account/account.api.ts";
+import {useMutateWithFormik} from "../../hooks/useMutateWithFormik.ts";
 
 type Props = {
     isOpen: boolean;
@@ -42,43 +40,25 @@ const validationSchema = yup.object({
 });
 
 const UpdateAccountModal = ({isOpen, onClose, account}: Props) => {
-    const {mutate, isError, error, isSuccess} = useUpdateAccount()
     const {t} = useTranslation()
-    const formik = useFormik<IAccountCreateUpdateRequest>({
+
+    const {formik} = useMutateWithFormik<IAccountCreateUpdateRequest>({
+        mutation: useUpdateAccount,
+        validationSchema: validationSchema,
         initialValues: {
             name: account.name,
             bank: account.bank,
             currency_id: account.currency.id,
             balance: account.balance
         },
-        validationSchema: validationSchema,
-        onSubmit: async (values) => {
-            mutate({
+        onSuccess: onClose,
+        prepareSubmitData: (values) => {
+            return {
                 id: account.id,
                 data: values
-            })
-        },
-    })
-
-    useEffect(() => {
-        if (isError && error) {
-            if (isIValidationErrorResponse(error.data)) {
-                const errors = error.data.errors
-                if (errors) {
-                    formik.setErrors(errors)
-                }
-            } else {
-                formik.setErrors({})
             }
         }
-    }, [error, isError]);
-
-    useEffect(() => {
-        if (isSuccess) {
-            formik.resetForm()
-            onClose()
-        }
-    }, [isSuccess]);
+    })
 
     return (
         <Modal

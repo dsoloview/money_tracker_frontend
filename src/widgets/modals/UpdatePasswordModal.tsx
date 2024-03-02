@@ -18,13 +18,12 @@ import {
 } from '@chakra-ui/react'
 import {useTranslation} from "react-i18next";
 import * as yup from "yup";
-import {useFormik} from "formik";
 import {IUpdatePasswordRequest} from "../../models/request.model.ts";
-import {isIValidationErrorResponse} from "../../tools/errors/errors.tools.ts";
 import i18next from "i18next";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import useAuthStore from "../../stores/authStore.ts";
 import {useUpdatePassword} from "../../api/endpoints/user/user.api.ts";
+import {useMutateWithFormik} from "../../hooks/useMutateWithFormik.ts";
 
 type Props = {
     isOpen: boolean;
@@ -45,44 +44,26 @@ const validationSchema = yup.object({
 
 const UpdatePasswordModal = ({isOpen, onClose}: Props) => {
     const authData = useAuthStore(state => state.authData);
-    const {mutate, isError, error, isSuccess} = useUpdatePassword()
     const {t} = useTranslation()
-    const formik = useFormik<IUpdatePasswordRequest>({
-        initialValues: {
-            current_password: '',
-            password: '',
-            password_confirmation: ''
-        },
-        validationSchema: validationSchema,
-        onSubmit: async (values) => {
-            if (!authData?.user.id) return
-            mutate({
-                id: authData.user.id,
-                data: values
-            })
-        },
-    })
     const [showPassword, setShowPassword] = useState(false)
 
-    useEffect(() => {
-        if (isError && error) {
-            if (isIValidationErrorResponse(error.data)) {
-                const errors = error.data.errors
-                if (errors) {
-                    formik.setErrors(errors)
-                }
-            } else {
-                formik.setErrors({})
+    const {formik} = useMutateWithFormik<IUpdatePasswordRequest>({
+        mutation: useUpdatePassword,
+        validationSchema: validationSchema,
+        initialValues: {
+            current_password: "",
+            password: "",
+            password_confirmation: ""
+        },
+        onSuccess: onClose,
+        prepareSubmitData: (values) => {
+            if (!authData?.user.id) return
+            return {
+                id: authData.user.id,
+                data: values
             }
         }
-    }, [error, isError]);
-
-    useEffect(() => {
-        if (isSuccess) {
-            formik.resetForm()
-            onClose()
-        }
-    }, [isSuccess]);
+    })
 
 
     return (

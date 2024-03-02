@@ -17,15 +17,13 @@ import {
 } from '@chakra-ui/react'
 import {useTranslation} from "react-i18next";
 import {useRegister} from "../../api/endpoints/auth/auth.api.ts";
-import {useFormik} from "formik";
 import {IRegisterData} from "../../models/request.model.ts";
-import {isIValidationErrorResponse} from "../../tools/errors/errors.tools.ts";
 import CurrencySelect from "../selects/CurrencySelect.tsx";
 import LanguageSelect from "../selects/LanguageSelect.tsx";
 import * as yup from "yup";
 import {ref} from "yup";
 import i18next from "i18next";
-import {useEffect} from "react";
+import {useMutateWithFormik} from "../../hooks/useMutateWithFormik.ts";
 
 const validationSchema = yup.object({
     name: yup.string()
@@ -57,38 +55,22 @@ type Props = {
     onClose: () => void;
 }
 const SignupModal = ({isOpen, onClose}: Props) => {
-    const {mutate, isError, error} = useRegister()
     const {t} = useTranslation()
-    const formik = useFormik<IRegisterData>({
+    const {formik} = useMutateWithFormik<IRegisterData>({
+        mutation: useRegister,
         initialValues: {
-            email: '',
-            name: '',
-            password: '',
-            password_confirmation: '',
+            name: "",
+            email: "",
+            password: "",
+            password_confirmation: "",
             settings: {
-                language_id: 0,
                 main_currency_id: 0,
+                language_id: 0
             }
         },
         validationSchema: validationSchema,
-        onSubmit: async (values) => {
-            mutate(values)
-        },
-    })
-
-    useEffect(() => {
-        if (isError && error) {
-            if (isIValidationErrorResponse(error.data)) {
-                const errors = error.data.errors
-
-                if (errors) {
-                    formik.setErrors(errors)
-                }
-            } else {
-                formik.setErrors({})
-            }
-        }
-    }, [error, isError]);
+        onSuccess: onClose,
+    });
 
 
     return (
@@ -177,7 +159,7 @@ const SignupModal = ({isOpen, onClose}: Props) => {
                                     <CurrencySelect
                                         id="main_currency_id"
                                         name="settings.main_currency_id"
-                                        value={formik.values.settings.main_currency_id}
+                                        value={formik.values.settings?.main_currency_id}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                     />
@@ -191,7 +173,7 @@ const SignupModal = ({isOpen, onClose}: Props) => {
                                     <LanguageSelect
                                         id="language_id"
                                         name="settings.language_id"
-                                        value={formik.values.settings.language_id}
+                                        value={formik.values.settings?.language_id}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                     />

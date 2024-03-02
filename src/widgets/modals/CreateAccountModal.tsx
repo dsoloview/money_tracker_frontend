@@ -16,14 +16,12 @@ import {
 } from '@chakra-ui/react'
 import {useTranslation} from "react-i18next";
 import * as yup from "yup";
-import {useFormik} from "formik";
-import {isIValidationErrorResponse} from "../../tools/errors/errors.tools.ts";
 import i18next from "i18next";
-import {useEffect} from "react";
 import useAuthStore from "../../stores/authStore.ts";
 import {IAccountCreateUpdateRequest} from "../../models/account.model.ts";
 import {useCreateUserAccount} from "../../api/endpoints/user/account/userAccount.api.ts";
 import CurrencySelect from "../selects/CurrencySelect.tsx";
+import {useMutateWithFormik} from "../../hooks/useMutateWithFormik.ts";
 
 type Props = {
     isOpen: boolean;
@@ -43,44 +41,25 @@ const validationSchema = yup.object({
 
 const CreateAccountModal = ({isOpen, onClose}: Props) => {
     const authData = useAuthStore(state => state.authData);
-    const {mutate, isError, error, isSuccess} = useCreateUserAccount()
     const {t} = useTranslation()
-    const formik = useFormik<IAccountCreateUpdateRequest>({
+    const {formik} = useMutateWithFormik<IAccountCreateUpdateRequest>({
+        mutation: useCreateUserAccount,
+        validationSchema: validationSchema,
         initialValues: {
             name: "",
             bank: "",
-            currency_id: 1,
+            currency_id: 0,
             balance: 0
         },
-        validationSchema: validationSchema,
-        onSubmit: async (values) => {
+        onSuccess: onClose,
+        prepareSubmitData: (values) => {
             if (!authData?.user.id) return
-            mutate({
+            return {
                 id: authData.user.id,
                 data: values
-            })
-        },
-    })
-
-    useEffect(() => {
-        if (isError && error) {
-            if (isIValidationErrorResponse(error.data)) {
-                const errors = error.data.errors
-                if (errors) {
-                    formik.setErrors(errors)
-                }
-            } else {
-                formik.setErrors({})
             }
         }
-    }, [error, isError]);
-
-    useEffect(() => {
-        if (isSuccess) {
-            formik.resetForm()
-            onClose()
-        }
-    }, [isSuccess]);
+    })
 
     return (
         <Modal

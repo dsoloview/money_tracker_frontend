@@ -1,11 +1,12 @@
 import {Radio, RadioGroup, Stack} from "@chakra-ui/react";
 import {CategoryTransactionType} from "../../models/category.model.ts";
+import {ChangeEvent} from "react";
 
 type Props = {
     id?: string;
     name?: string;
     value: CategoryTransactionType;
-    onChange: (event: unknown) => void;
+    onChange: (event: ChangeEvent<HTMLInputElement>) => void;
     onBlur: (e: unknown) => void;
 }
 const CategoryTransactionTypeRadio = ({value, onChange, onBlur, id, name}: Props) => {

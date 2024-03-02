@@ -1,28 +1,29 @@
 import {
-    Modal,
-    ModalContent,
-    ModalHeader,
-    ModalFooter,
-    ModalBody,
+    Box,
     Button,
-    Input,
+    Flex,
     FormControl,
     FormErrorMessage,
-    Box,
     Heading,
-    Stack,
-    ModalOverlay,
+    Input,
     InputGroup,
-    InputRightElement, Flex
+    InputRightElement,
+    Modal,
+    ModalBody,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    Stack
 } from '@chakra-ui/react'
 import {useTranslation} from "react-i18next";
 import * as yup from "yup";
 import {useLogin} from "../../api/endpoints/auth/auth.api.ts";
-import {useFormik} from "formik";
 import {ILoginData} from "../../models/request.model.ts";
-import {isIValidationErrorResponse} from "../../tools/errors/errors.tools.ts";
 import i18next from "i18next";
-import {useEffect, useState} from "react";
+import {useMutateWithFormik} from "../../hooks/useMutateWithFormik.ts";
+import {useState} from "react";
+
 type Props = {
     isOpen: boolean;
     onClose: () => void;
@@ -38,32 +39,18 @@ const validationSchema = yup.object({
 });
 
 const LoginModal = ({isOpen, onClose}: Props) => {
-    const {mutate, isError, error} = useLogin()
     const {t} = useTranslation()
-    const formik = useFormik<ILoginData>({
-        initialValues: {
-            email: '',
-            password: '',
-        },
-        validationSchema: validationSchema,
-        onSubmit: async (values) => {
-            mutate(values)
-        },
-    })
     const [showPassword, setShowPassword] = useState(false)
 
-    useEffect(() => {
-        if (isError && error) {
-            if (isIValidationErrorResponse(error.data)) {
-                const errors = error.data.errors
-                if (errors) {
-                    formik.setErrors(errors)
-                }
-            } else {
-                formik.setErrors({})
-            }
-        }
-    }, [error, isError]);
+    const {formik} = useMutateWithFormik<ILoginData>({
+        mutation: useLogin,
+        initialValues: {
+            email: "",
+            password: ""
+        },
+        validationSchema: validationSchema,
+        onSuccess: onClose,
+    });
 
 
     return (
@@ -72,7 +59,7 @@ const LoginModal = ({isOpen, onClose}: Props) => {
             onClose={onClose}
             isCentered
         >
-            <ModalOverlay />
+            <ModalOverlay/>
             <ModalContent>
                 <Box p={5}>
                     <ModalHeader>
@@ -111,7 +98,8 @@ const LoginModal = ({isOpen, onClose}: Props) => {
                                             onBlur={formik.handleBlur}
                                         />
                                         <InputRightElement width="4.5rem">
-                                            <Button h="1.75rem" size="sm" onClick={() => setShowPassword(!showPassword)}>
+                                            <Button h="1.75rem" size="sm"
+                                                    onClick={() => setShowPassword(!showPassword)}>
                                                 {showPassword ? "Hide" : "Show"}
                                             </Button>
                                         </InputRightElement>
