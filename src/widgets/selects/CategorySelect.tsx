@@ -16,20 +16,8 @@ type Props = {
 
 const CategorySelect = ({setFieldValue, values, name, type}: Props) => {
     const user = useAuthStore((state) => state.authData?.user);
-    const {data, isLoading, isError} = useGetUserCategories(user?.id || 0);
+    const {data} = useGetUserCategories(user?.id || 0);
     const [showAll, setShowAll] = useState(false);
-
-    if (isLoading) {
-        return <div>Loading</div>;
-    }
-
-    if (isError) {
-        return <div>Error</div>;
-    }
-
-    if (!data) {
-        return <div>No data</div>;
-    }
 
     const handleCategoryClick = (categoryId: number) => {
         if (values.includes(categoryId)) {

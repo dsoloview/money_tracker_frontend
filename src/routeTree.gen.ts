@@ -16,7 +16,8 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as AuthenticatedTestImport } from './routes/_authenticated/test'
 import { Route as AuthenticatedAccountIndexImport } from './routes/_authenticated/account/index'
-import { Route as AuthenticatedAccountSettingsIndexImport } from './routes/_authenticated/account/settings/index'
+import { Route as AuthenticatedAccountTransactionsImport } from './routes/_authenticated/account/transactions'
+import { Route as AuthenticatedAccountSettingsImport } from './routes/_authenticated/account/settings'
 
 // Create Virtual Routes
 
@@ -44,9 +45,15 @@ const AuthenticatedAccountIndexRoute = AuthenticatedAccountIndexImport.update({
   getParentRoute: () => AuthenticatedRoute,
 } as any)
 
-const AuthenticatedAccountSettingsIndexRoute =
-  AuthenticatedAccountSettingsIndexImport.update({
-    path: '/account/settings/',
+const AuthenticatedAccountTransactionsRoute =
+  AuthenticatedAccountTransactionsImport.update({
+    path: '/account/transactions',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+
+const AuthenticatedAccountSettingsRoute =
+  AuthenticatedAccountSettingsImport.update({
+    path: '/account/settings',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
 
@@ -66,12 +73,16 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTestImport
       parentRoute: typeof AuthenticatedImport
     }
-    '/_authenticated/account/': {
-      preLoaderRoute: typeof AuthenticatedAccountIndexImport
+    '/_authenticated/account/settings': {
+      preLoaderRoute: typeof AuthenticatedAccountSettingsImport
       parentRoute: typeof AuthenticatedImport
     }
-    '/_authenticated/account/settings/': {
-      preLoaderRoute: typeof AuthenticatedAccountSettingsIndexImport
+    '/_authenticated/account/transactions': {
+      preLoaderRoute: typeof AuthenticatedAccountTransactionsImport
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_authenticated/account/': {
+      preLoaderRoute: typeof AuthenticatedAccountIndexImport
       parentRoute: typeof AuthenticatedImport
     }
   }
@@ -83,8 +94,9 @@ export const routeTree = rootRoute.addChildren([
   IndexLazyRoute,
   AuthenticatedRoute.addChildren([
     AuthenticatedTestRoute,
+    AuthenticatedAccountSettingsRoute,
+    AuthenticatedAccountTransactionsRoute,
     AuthenticatedAccountIndexRoute,
-    AuthenticatedAccountSettingsIndexRoute,
   ]),
 ])
 

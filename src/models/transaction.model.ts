@@ -6,6 +6,7 @@ export interface ITransaction {
     account_id: number;
     comment: string;
     amount: number;
+    type: CategoryTransactionType;
     account: IAccount;
     categories: ICategory[];
     created_at: string;

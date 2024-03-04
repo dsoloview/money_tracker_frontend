@@ -1,6 +1,7 @@
-import {Select} from '@chakra-ui/react'
+import {Select, Spinner} from '@chakra-ui/react'
 import {useCurrencies} from "../../api/endpoints/currencies.api.ts";
 import {ISelectProps} from "../../models/widget.model.ts";
+import {Suspense} from "react";
 
 const CurrencySelect = (
     {
@@ -15,16 +16,39 @@ const CurrencySelect = (
         value
 
     }: ISelectProps) => {
-    const {data, isLoading, isError} = useCurrencies();
 
-    if (isLoading) {
-        return "Loading"
-    }
+    return (
+        <Suspense fallback={<Spinner/>}>
+            <SuspenseCurrencySelect
+                value={value}
+                placeholder={placeholder}
+                className={className}
+                id={id}
+                name={name}
+                onChange={onChange}
+                required={required}
+                hasError={hasError}
+                onBlur={onBlur}
+            />
+        </Suspense>
 
-    if (isError) {
-        return <div>Error</div>
-    }
+    )
+}
 
+const SuspenseCurrencySelect = (
+    {
+        placeholder,
+        id,
+        name,
+        onChange,
+        hasError,
+        required,
+        onBlur,
+        className,
+        value
+
+    }: ISelectProps) => {
+    const {data} = useCurrencies();
     return (
         <Select
             value={value}

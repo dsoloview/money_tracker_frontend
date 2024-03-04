@@ -30,6 +30,7 @@ const useCreateAccountTransaction = () => {
             queryClient.invalidateQueries({queryKey: ['accountTransactions', request.id]})
             if (user) {
                 queryClient.invalidateQueries({queryKey: ['userAccounts', user.id]})
+                queryClient.invalidateQueries({queryKey: ['userTransactions', user.id]})
             }
         },
         onError: (error) => {

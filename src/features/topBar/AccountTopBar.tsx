@@ -15,6 +15,7 @@ const AccountTopBar = () => {
         {name: t('menu.home'), href: "/"},
         {name: t('menu.settings'), href: "/account/settings"},
         {name: t('menu.account'), href: "/account"},
+        {name: t('menu.transactions'), href: "/account/transactions"},
     ];
 
     return (

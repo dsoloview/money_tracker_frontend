@@ -1,18 +1,18 @@
 import {createFileRoute} from "@tanstack/react-router";
-import AccountLayout from "../../../../layouts/AccountLayout.tsx";
+import AccountLayout from "../../../layouts/AccountLayout.tsx";
 import {useFormik} from "formik";
-import CurrencySelect from "../../../../widgets/selects/CurrencySelect.tsx";
-import useAuthStore from "../../../../stores/authStore.ts";
+import CurrencySelect from "../../../widgets/selects/CurrencySelect.tsx";
+import useAuthStore from "../../../stores/authStore.ts";
 import {useTranslation} from "react-i18next";
-import LanguageSelect from "../../../../widgets/selects/LanguageSelect.tsx";
+import LanguageSelect from "../../../widgets/selects/LanguageSelect.tsx";
 import * as yup from "yup";
 import i18next from "i18next";
 import {Button, FormControl, FormErrorMessage, FormLabel, Input, Stack, useDisclosure} from "@chakra-ui/react";
-import {useUpdateUser} from "../../../../api/endpoints/user/user.api.ts";
-import {IUpdateUserRequest} from "../../../../models/request.model.ts";
-import UpdatePasswordModal from "../../../../widgets/modals/UpdatePasswordModal.tsx";
+import {useUpdateUser} from "../../../api/endpoints/user/user.api.ts";
+import {IUpdateUserRequest} from "../../../models/request.model.ts";
+import UpdatePasswordModal from "../../../widgets/modals/UpdatePasswordModal.tsx";
 
-export const Route = createFileRoute('/_authenticated/account/settings/')({
+export const Route = createFileRoute('/_authenticated/account/settings')({
     component: Settings
 })
 

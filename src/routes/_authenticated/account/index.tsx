@@ -1,9 +1,10 @@
 import {createFileRoute} from "@tanstack/react-router";
 import AccountLayout from "../../../layouts/AccountLayout.tsx";
-import {Box, Flex, Heading, IconButton, useDisclosure} from "@chakra-ui/react";
+import {Box, Flex, Heading, IconButton, Skeleton, useDisclosure} from "@chakra-ui/react";
 import CreateAccountModal from "../../../widgets/modals/CreateAccountModal.tsx";
 import AccountsList from "../../../features/account/components/AccountsList.tsx";
 import {AddIcon} from "@chakra-ui/icons";
+import {Suspense} from "react";
 
 export const Route = createFileRoute('/_authenticated/account/')({
     component: Account
@@ -15,7 +16,11 @@ export function Account() {
     return (
         <AccountLayout>
             <Heading size="lg">Accounts</Heading>
-            <AccountsList/>
+            <Suspense fallback={[...Array(3).keys()].map(i => {
+                return <Skeleton key={i} height="100px" my={5}/>
+            })}>
+                <AccountsList/>
+            </Suspense>
             <Box mt={5}>
                 <Flex justifyContent="flex-end">
                     <IconButton

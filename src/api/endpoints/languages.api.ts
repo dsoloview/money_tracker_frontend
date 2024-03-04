@@ -1,10 +1,10 @@
-import {useQuery} from "@tanstack/react-query";
+import {useSuspenseQuery} from "@tanstack/react-query";
 import {ILanguage} from "../../models/language.model.ts";
 import {IResponse} from "../../models/response.model.ts";
 import api from "../api.ts";
 
 const useLanguages = () => {
-    return useQuery<IResponse<ILanguage[]>>({
+    return useSuspenseQuery<IResponse<ILanguage[]>>({
         queryKey: ['languages'],
         queryFn: async () => {
             const response = await api().get('languages');
@@ -13,4 +13,4 @@ const useLanguages = () => {
     })
 }
 
-export { useLanguages };
+export {useLanguages};

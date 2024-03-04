@@ -4,7 +4,8 @@ export default {
         menu: {
             home: "Home",
             settings: "Settings",
-            account: "Account"
+            account: "Account",
+            transactions: "Transactions",
         },
         modal: {
             login: "Login",

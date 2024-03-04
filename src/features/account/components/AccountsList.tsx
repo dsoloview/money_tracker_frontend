@@ -9,14 +9,10 @@ import {IAccount} from "../../../models/account.model.ts";
 
 const AccountsList = () => {
     const user = useAuthStore(state => state.authData?.user);
-    const {data, isLoading} = useGetUserAccounts(user?.id || 0);
+    const {data} = useGetUserAccounts(user?.id || 0);
     const {mutate} = useDeleteAccount();
     const {onOpen, isOpen, onClose} = useDisclosure();
     const [selectedAccount, setSelectedAccount] = useState<IAccount | null>(null);
-
-    if (isLoading) {
-        return <div>Loading...</div>
-    }
 
     const handleDelete = (accountId: number) => {
         mutate(accountId)
@@ -30,7 +26,7 @@ const AccountsList = () => {
     return (
         <Box>
             <List spacing={3}>
-                {data?.data.map((account) => (
+                {data.data.map((account) => (
                     <ListItem key={account.id}>
                         <Box shadow="md" p={5} rounded="md" bg="white">
                             <Stack direction="row" align="center" justify="space-between">

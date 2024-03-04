@@ -1,6 +1,7 @@
-import {Select} from '@chakra-ui/react'
-import {useLanguages} from "../../api/endpoints/languages.api.ts";
+import {Select, Spinner} from '@chakra-ui/react'
 import {ISelectProps} from "../../models/widget.model.ts";
+import {Suspense} from "react";
+import {useLanguages} from "../../api/endpoints/languages.api.ts";
 
 const LanguageSelect = (
     {
@@ -14,16 +15,39 @@ const LanguageSelect = (
         onBlur,
         className
     }: ISelectProps) => {
-    const {data, isLoading, isError} = useLanguages();
 
-    if (isLoading) {
-        return <div>Loading</div>
-    }
+    return (
+        <Suspense fallback={<Spinner/>}>
+            <SuspenseLanguageSelect
+                value={value}
+                placeholder={placeholder}
+                className={className}
+                id={id}
+                name={name}
+                onChange={onChange}
+                required={required}
+                hasError={hasError}
+                onBlur={onBlur}
+            />
+        </Suspense>
+    )
+}
 
-    if (isError) {
-        return <div>Error</div>
-    }
+const SuspenseLanguageSelect = (
+    {
+        placeholder,
+        id,
+        name,
+        onChange,
+        hasError,
+        required,
+        onBlur,
+        className,
+        value
 
+    }: ISelectProps) => {
+    const {data} = useLanguages();
+    
     return (
         <Select
             value={value}

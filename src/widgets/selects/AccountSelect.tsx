@@ -18,19 +18,7 @@ const AccountSelect = (
         name
     }: Props) => {
     const user = useAuthStore(state => state.authData?.user);
-    const {data, isLoading, isError} = useGetUserAccounts(user?.id || 0);
-
-    if (isLoading) {
-        return "Loading";
-    }
-
-    if (isError) {
-        return <div>Error</div>;
-    }
-
-    if (!data) {
-        return <div>No data</div>;
-    }
+    const {data} = useGetUserAccounts(user?.id || 0);
 
     const options = data.data.map((account) => {
         let balanceColor = "black";

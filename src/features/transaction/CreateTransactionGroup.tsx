@@ -12,6 +12,7 @@ import {
     FormLabel,
     Input,
     InputGroup,
+    Spinner,
     Stack,
     useDisclosure
 } from "@chakra-ui/react";
@@ -25,7 +26,7 @@ import AccountSelect from "../../widgets/selects/AccountSelect.tsx";
 import CategorySelect from "../../widgets/selects/CategorySelect.tsx";
 import {useCreateAccountTransaction} from "../../api/endpoints/account/accountTransaction/accountTransaction.api.ts";
 import {useMutateWithFormik} from "../../hooks/useMutateWithFormik.ts";
-import {ChangeEvent} from "react";
+import {ChangeEvent, Suspense} from "react";
 import {CategoryTransactionType} from "../../models/category.model.ts";
 
 const validationSchema = yup.object({
@@ -134,12 +135,14 @@ const CreateTransactionGroup = () => {
                                         isInvalid={formik.touched.account_id && Boolean(formik.errors.account_id)}
                                     >
                                         <FormLabel htmlFor="account_id">{t('form.label.account')}</FormLabel>
-                                        <AccountSelect
-                                            id="account_id"
-                                            name="account_id"
-                                            onBlur={formik.handleBlur}
-                                            setFieldValue={formik.setFieldValue}
-                                        />
+                                        <Suspense fallback={<Spinner/>}>
+                                            <AccountSelect
+                                                id="account_id"
+                                                name="account_id"
+                                                onBlur={formik.handleBlur}
+                                                setFieldValue={formik.setFieldValue}
+                                            />
+                                        </Suspense>
                                         <FormErrorMessage>{formik.errors.account_id}</FormErrorMessage>
                                     </FormControl>
                                     <FormControl
@@ -147,14 +150,16 @@ const CreateTransactionGroup = () => {
                                         isInvalid={formik.touched.categories_ids && Boolean(formik.errors.categories_ids)}
                                     >
                                         <FormLabel htmlFor="categories_ids">{t('form.label.categories')}</FormLabel>
-                                        <CategorySelect
-                                            type={formik.values.type}
-                                            values={formik.values.categories_ids}
-                                            id="categories_ids"
-                                            name="categories_ids"
-                                            onBlur={formik.handleBlur}
-                                            setFieldValue={formik.setFieldValue}
-                                        />
+                                        <Suspense fallback={<Spinner/>}>
+                                            <CategorySelect
+                                                type={formik.values.type}
+                                                values={formik.values.categories_ids}
+                                                id="categories_ids"
+                                                name="categories_ids"
+                                                onBlur={formik.handleBlur}
+                                                setFieldValue={formik.setFieldValue}
+                                            />
+                                        </Suspense>
                                         <FormErrorMessage>{formik.errors.categories_ids}</FormErrorMessage>
                                     </FormControl>
                                     <FormControl

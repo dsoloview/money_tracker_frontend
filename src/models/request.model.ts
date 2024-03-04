@@ -14,9 +14,18 @@ export interface IRegisterData {
     };
 }
 
-export interface IParamRequest<T> {
+export interface IIdRequest {
     id: number;
+}
+
+export interface IParamRequest<T> extends IIdRequest {
     data: T;
+}
+
+export interface IParamTableGetRequest extends IIdRequest {
+    page: number;
+    sort: string;
+    direction: string;
 }
 
 export interface IUpdateUserRequest {
