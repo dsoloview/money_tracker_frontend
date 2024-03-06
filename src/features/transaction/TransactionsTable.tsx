@@ -1,88 +1,62 @@
 import {DataTable} from "../../widgets/table/DataTable.tsx";
-import Pagination from "../../widgets/table/Pagination.tsx";
 import useAuthStore from "../../stores/authStore.ts";
-import {useState} from "react";
 import {useGetUserTransactions} from "../../api/endpoints/user/transaction/userTransaction.api.ts";
 import {IParamTableGetRequest} from "../../models/request.model.ts";
-import {createColumnHelper} from "@tanstack/react-table";
+import usePagination from "../../hooks/usePagination.ts";
+import {useSorting} from "../../hooks/useSort.ts";
+import {ITransaction} from "../../models/transaction.model.ts";
 
-type TransactionTableData = {
-    id: number;
-    amount: number;
-    comment: string;
-    type: string;
-    created_at: string;
-}
-
+const columns = [
+    {
+        header: "ID",
+        accessor: "id",
+        meta: {
+            isNumeric: true,
+        },
+    },
+    {
+        header: "Amount",
+        accessor: "amount",
+        meta: {
+            isNumeric: true,
+        },
+    },
+    {
+        header: "Date",
+        accessor: "created_at",
+    },
+    {
+        header: "Type",
+        accessor: "type",
+    },
+    {
+        header: "Status",
+        accessor: "status",
+    },
+];
 const TransactionsTable = () => {
     const user = useAuthStore(state => state.authData?.user);
-    const [page, setPage] = useState(1);
-    const [sort, setSort] = useState('id' as 'id' | 'amount' | 'comment' | 'type' | 'created_at');
-    const [direction, setDirection] = useState('asc' as 'asc' | 'desc');
-    const {data} = useGetUserTransactions({
+    const {pagination, onPaginationChange} = usePagination();
+    const {sort, onSortingChange, field, order} = useSorting("id", "ASC");
+
+    const {data, isLoading} = useGetUserTransactions({
         id: user?.id || 0,
-        page,
-        sort,
-        direction
+        page: pagination.pageIndex + 1,
+        sort: field,
+        direction: order,
     } as IParamTableGetRequest);
-
-
-    const tableData: TransactionTableData[] = data.data.map(transaction => ({
-        id: transaction.id,
-        amount: transaction.amount,
-        comment: transaction.comment,
-        type: transaction.type,
-        created_at: transaction.created_at,
-    }));
-
-    const columnHelper = createColumnHelper<TransactionTableData>();
-
-    const columns = [
-        columnHelper.accessor('id', {
-            cell: (row) => row.getValue(),
-            header: 'ID',
-        }),
-        columnHelper.accessor('amount', {
-            cell: (row) => row.getValue(),
-            header: 'Amount',
-        }),
-        columnHelper.accessor('comment', {
-            cell: (row) => row.getValue(),
-            header: 'Comment',
-        }),
-        columnHelper.accessor('type', {
-            cell: (row) => row.getValue(),
-            header: 'Type',
-        }),
-        columnHelper.accessor('created_at', {
-            cell: (row) => row.getValue(),
-            header: 'Created at',
-        }),
-    ];
 
     return (
         <>
-            <DataTable data={tableData} columns={columns}/>
-            <Pagination
-                pageIndex={data.meta.current_page}
-                pageCount={data.meta.last_page}
-                gotoPage={(pageIndex) => {
-                    setPage(pageIndex);
-                }}
-                nextPage={() => {
-                    setPage((state) => {
-                        return state + 1;
-                    });
-                }}
-                previousPage={() => {
-                    setPage((state) => {
-                        return state - 1;
-                    });
-                }}
-                canNextPage={data.meta.current_page < data.meta.last_page}
-                canPreviousPage={data.meta.current_page > 1}
-
-
+            <DataTable<ITransaction>
+                data={data?.data || []}
+                columns={columns}
+                pagination={pagination}
+                onPaginationChange={onPaginationChange}
+                pageCount={data?.meta.last_page || 0}
+                sort={sort}
+                onSortingChange={onSortingChange}
+                isLoading={isLoading}
             />
         </>
     )
