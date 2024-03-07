@@ -1,9 +1,10 @@
-import {Box, Button, Collapse, Flex, Text} from "@chakra-ui/react";
+import {Box, Button, Collapse, Flex} from "@chakra-ui/react";
 import {useState} from "react";
 import useAuthStore from "../../stores/authStore.ts";
 import {useGetUserCategories} from "../../api/endpoints/user/category/userCategory.api.ts";
 import {ChevronDownIcon, ChevronUpIcon} from "@chakra-ui/icons";
 import {CategoryTransactionType} from "../../models/category.model.ts";
+import CategoryButton from "../category/CategoryButton.tsx";
 
 type Props = {
     id: string;
@@ -30,34 +31,12 @@ const CategorySelect = ({setFieldValue, values, name, type}: Props) => {
     const options = data.data
         .filter((category) => category.type === type)
         .map((category) => (
-            <Box key={category.id} textAlign="center" mx={2}>
-                <Button
-                    onClick={() => handleCategoryClick(category.id)}
-                    borderRadius="full"
-                    p={1}
-                    mb={1} // Margin below the button
-                    variant={values.includes(category.id) ? "solid" : "outline"}
-                    borderWidth={1}
-                    borderColor="gray.300"
-                    bg={values.includes(category.id) ? "blue.200" : "transparent"}
-                    _hover={{bg: "blue.100"}}
-                    w="60px" // Fixed width
-                    h="60px" // Fixed height
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                >
-                    {category.icon ? (
-                        <img src={category.icon} alt={category.name}
-                             style={{width: "30px", height: "30px", borderRadius: "50%"}}/>
-                    ) : (
-                        <Text fontSize="lg">{category.name.charAt(0)}</Text>
-                    )}
-                </Button>
-                <Text fontSize="sm" mt={1} maxWidth="60px" mx="auto" textAlign="center">
-                    {category.name}
-                </Text>
-            </Box>
+            <CategoryButton
+                key={category.id}
+                category={category}
+                handleCategoryClick={handleCategoryClick}
+                values={values}
+            />
         ));
 
     // Create rows with a maximum of 6 circles each

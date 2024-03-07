@@ -5,39 +5,69 @@ import {IParamTableGetRequest} from "../../models/request.model.ts";
 import usePagination from "../../hooks/usePagination.ts";
 import {useSorting} from "../../hooks/useSort.ts";
 import {ITransaction} from "../../models/transaction.model.ts";
+import CategoryBadge from "../../widgets/category/CategoryBadge.tsx";
+import {Badge, HStack} from "@chakra-ui/react";
+import {formatDateTimeString} from "../../tools/date/date.helper.ts";
+import {CategoryTransactionType} from "../../models/category.model.ts";
 
 const columns = [
     {
-        header: "ID",
-        accessor: "id",
-        meta: {
-            isNumeric: true,
+        header: "Account",
+        accessor: 'account.name',
+        cell: (row: ITransaction) => {
+            return row.account.name;
         },
+        enableSorting: false,
     },
     {
         header: "Amount",
-        accessor: "amount",
-        meta: {
-            isNumeric: true,
+        accessor: 'amount',
+        cell(row: ITransaction) {
+            return (
+                <Badge colorScheme={row.type === CategoryTransactionType.EXPENSE ? "red" : "green"}>
+                    {row.amount} {row.account.currency.symbol}
+                </Badge>
+            )
         },
+        enableSorting: true,
     },
     {
-        header: "Date",
-        accessor: "created_at",
+        header: "Category",
+        accessor: 'categories',
+        cell: (row: ITransaction) => {
+            return (
+                <HStack>
+                    {row.categories.map((category) => (
+                        <CategoryBadge key={category.id} category={category}/>
+                    ))}
+                </HStack>
+            )
+        },
+        enableSorting: false,
     },
     {
         header: "Type",
-        accessor: "type",
+        accessor: 'type',
+        cell: (row: ITransaction) => {
+            return <Badge colorScheme={row.type === CategoryTransactionType.EXPENSE ? "red" : "green"}>
+                {row.type}
+            </Badge>
+        },
+        enableSorting: true,
     },
     {
-        header: "Status",
-        accessor: "status",
+        header: "Date",
+        accessor: 'date',
+        cell: (row: ITransaction) => {
+            return formatDateTimeString(row.date);
+        },
+        enableSorting: true,
     },
 ];
 const TransactionsTable = () => {
     const user = useAuthStore(state => state.authData?.user);
     const {pagination, onPaginationChange} = usePagination();
-    const {sort, onSortingChange, field, order} = useSorting("id", "ASC");
+    const {sort, onSortingChange, field, order} = useSorting("date", "desc");
 
     const {data, isLoading} = useGetUserTransactions({
         id: user?.id || 0,

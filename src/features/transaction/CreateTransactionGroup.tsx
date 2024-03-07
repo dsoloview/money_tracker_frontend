@@ -39,6 +39,8 @@ const validationSchema = yup.object({
         .required(i18next.t('form.validation.required')),
     account_id: yup.number()
         .required(i18next.t('form.validation.required')),
+    date: yup.date()
+        .required(i18next.t('form.validation.required')),
     categories_ids: yup.array()
         .required(i18next.t('form.validation.required'))
         .min(1),
@@ -55,6 +57,7 @@ const CreateTransactionGroup = () => {
             amount: 0,
             type: CategoryTransactionType.EXPENSE,
             account_id: 0,
+            date: new Date().toISOString(),
             categories_ids: []
         },
         validationSchema: validationSchema,
@@ -129,6 +132,24 @@ const CreateTransactionGroup = () => {
                                             />
                                         </InputGroup>
                                         <FormErrorMessage>{formik.errors.amount}</FormErrorMessage>
+                                    </FormControl>
+                                    <FormControl
+                                        isRequired
+                                        isInvalid={formik.touched.date && Boolean(formik.errors.date)}
+                                    >
+                                        <FormLabel htmlFor="date">{t('form.label.date')}</FormLabel>
+                                        <InputGroup>
+                                            <Input
+                                                placeholder={t('form.placeholder.date')}
+                                                id="date"
+                                                name="date"
+                                                type="datetime-local"
+                                                value={formik.values.date}
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                            />
+                                        </InputGroup>
+                                        <FormErrorMessage>{formik.errors.date}</FormErrorMessage>
                                     </FormControl>
                                     <FormControl
                                         isRequired

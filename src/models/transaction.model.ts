@@ -9,6 +9,7 @@ export interface ITransaction {
     type: CategoryTransactionType;
     account: IAccount;
     categories: ICategory[];
+    date: string;
     created_at: string;
     updated_at: string;
 }
@@ -18,5 +19,6 @@ export interface ITransactionRequest {
     comment: string;
     amount: number;
     categories_ids: number[];
+    date: string;
     type: CategoryTransactionType;
 }

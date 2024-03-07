@@ -39,8 +39,15 @@ export function DataTable<Data extends object>(
 
     const cols = columns.map((column) => {
         return columnHelper.accessor(column.accessor, {
-            cell: (row) => row.getValue(),
+            cell: (row) => {
+                if (column.cell) {
+                    return column.cell(row.row.original);
+                }
+
+                return row.getValue();
+            },
             header: column.header,
+            enableSorting: column.enableSorting,
         });
     });
 

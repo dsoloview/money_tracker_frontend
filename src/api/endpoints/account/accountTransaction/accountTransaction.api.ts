@@ -25,7 +25,7 @@ const useCreateAccountTransaction = () => {
             return response.data.data;
         },
         onSuccess: (_, request) => {
-            toast.success('Account was created successfully')
+            toast.success('Transaction was created successfully')
             const user = useAuthStore.getState().authData?.user
             queryClient.invalidateQueries({queryKey: ['accountTransactions', request.id]})
             if (user) {

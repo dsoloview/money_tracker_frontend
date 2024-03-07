@@ -39,6 +39,7 @@ export default {
                 type: "Type",
                 amount: "Amount",
                 comment: "Comment",
+                date: "Date",
             },
             validation: {
                 required: "This field is required",
@@ -61,6 +62,7 @@ export default {
                 password_confirmation: "Confirm your password",
                 amount: "Enter the amount",
                 comment: "Enter a comment",
+                date: "Select the date",
             }
         },
         model: {
