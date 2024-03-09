@@ -22,3 +22,8 @@ export interface ITransactionRequest {
     date: string;
     type: CategoryTransactionType;
 }
+
+export interface IMinMaxTransactionResponse {
+    min: number;
+    max: number;
+}

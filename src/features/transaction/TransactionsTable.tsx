@@ -9,6 +9,8 @@ import CategoryBadge from "../../widgets/category/CategoryBadge.tsx";
 import {Badge, HStack} from "@chakra-ui/react";
 import {formatDateTimeString} from "../../tools/date/date.helper.ts";
 import {CategoryTransactionType} from "../../models/category.model.ts";
+import useFilters from "../../hooks/useFilters.ts";
+import TransactionTableFilters from "./TransactionTableFilters.tsx";
 
 const columns = [
     {
@@ -64,20 +66,46 @@ const columns = [
         enableSorting: true,
     },
 ];
+
+export type TransactionTableFiltersType = {
+    account_id?: {
+        '$eq'?: number;
+    };
+    type?: {
+        '$eq'?: CategoryTransactionType;
+    };
+    amount?: {
+        '$gte'?: number;
+        '$lte'?: number;
+    };
+}
+
 const TransactionsTable = () => {
-    const user = useAuthStore(state => state.authData?.user);
-    const {pagination, onPaginationChange} = usePagination();
+    const {pagination, onPaginationChange, resetPagination} = usePagination();
     const {sort, onSortingChange, field, order} = useSorting("date", "desc");
+    const {filters, onFilterChange, resetFilters} = useFilters<TransactionTableFiltersType>({
+        onFiltersChange: resetPagination
+    });
+    const user = useAuthStore(state => state.authData?.user);
 
     const {data, isLoading} = useGetUserTransactions({
         id: user?.id || 0,
         page: pagination.pageIndex + 1,
         sort: field,
         direction: order,
+        filters: filters
     } as IParamTableGetRequest);
 
     return (
         <>
+            <TransactionTableFilters
+                filters={filters}
+                onFiltersChange={onFilterChange}
+                resetFilters={resetFilters}
+                minAmount={data?.min_amount || 0}
+                maxAmount={data?.max_amount || 0}
+
+            />
             <DataTable<ITransaction>
                 data={data?.data || []}
                 columns={columns}

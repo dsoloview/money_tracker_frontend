@@ -26,15 +26,15 @@ import AccountSelect from "../../widgets/selects/AccountSelect.tsx";
 import CategorySelect from "../../widgets/selects/CategorySelect.tsx";
 import {useCreateAccountTransaction} from "../../api/endpoints/account/accountTransaction/accountTransaction.api.ts";
 import {useMutateWithFormik} from "../../hooks/useMutateWithFormik.ts";
-import {ChangeEvent, Suspense} from "react";
+import {Suspense} from "react";
 import {CategoryTransactionType} from "../../models/category.model.ts";
+import PrecisionFloatInput from "../../widgets/inputs/PrecisionFloatInput.tsx";
 
 const validationSchema = yup.object({
     comment: yup.string()
         .required(i18next.t('form.validation.required')),
-    amount: yup.number()
-        .required(i18next.t('form.validation.required'))
-        .min(1),
+    amount: yup.string()
+        .required(i18next.t('form.validation.required')),
     type: yup.string()
         .required(i18next.t('form.validation.required')),
     account_id: yup.number()
@@ -70,9 +70,9 @@ const CreateTransactionGroup = () => {
         }
     });
 
-    const handleChangeType = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleChangeType = (nextValue: string) => {
         formik.values.categories_ids = [];
-        formik.setFieldValue('type', e.target.value);
+        formik.setFieldValue('type', nextValue);
     }
 
     return (
@@ -121,14 +121,14 @@ const CreateTransactionGroup = () => {
                                     >
                                         <FormLabel htmlFor="amount">{t('form.label.amount')}</FormLabel>
                                         <InputGroup>
-                                            <Input
+                                            <PrecisionFloatInput
                                                 placeholder={t('form.placeholder.amount')}
                                                 id="amount"
                                                 name="amount"
-                                                type="number"
                                                 value={formik.values.amount}
-                                                onChange={formik.handleChange}
+                                                setFieldValue={formik.setFieldValue}
                                                 onBlur={formik.handleBlur}
+                                                precision={2}
                                             />
                                         </InputGroup>
                                         <FormErrorMessage>{formik.errors.amount}</FormErrorMessage>
@@ -193,7 +193,7 @@ const CreateTransactionGroup = () => {
                                             name="type"
                                             value={formik.values.type}
                                             onChange={handleChangeType}
-                                            onBlur={formik.handleBlur}
+                                            defaultValue={CategoryTransactionType.EXPENSE}
                                         />
                                         <FormErrorMessage>{formik.errors.type}</FormErrorMessage>
                                     </FormControl>

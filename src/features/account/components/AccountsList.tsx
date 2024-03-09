@@ -6,6 +6,7 @@ import {useDeleteAccount} from "../../../api/endpoints/account/account.api.ts";
 import {useState} from "react";
 import UpdateAccountModal from "../../../widgets/modals/UpdateAccountModal.tsx";
 import {IAccount} from "../../../models/account.model.ts";
+import {useNavigate} from "@tanstack/react-router";
 
 const AccountsList = () => {
     const user = useAuthStore(state => state.authData?.user);
@@ -13,7 +14,7 @@ const AccountsList = () => {
     const {mutate} = useDeleteAccount();
     const {onOpen, isOpen, onClose} = useDisclosure();
     const [selectedAccount, setSelectedAccount] = useState<IAccount | null>(null);
-
+    const navigate = useNavigate();
     const handleDelete = (accountId: number) => {
         mutate(accountId)
     }
@@ -21,6 +22,15 @@ const AccountsList = () => {
     const handleEdit = (account: IAccount) => {
         setSelectedAccount(account);
         onOpen();
+    }
+
+    const handleSelectAccount = (account: IAccount) => {
+        navigate({
+            to: "/account/transactions",
+            search: {
+                'filters[account_id][$eq]': account.id
+            }
+        })
     }
 
     return (
@@ -42,7 +52,7 @@ const AccountsList = () => {
                                     <Button colorScheme="yellow" onClick={() => handleEdit(account)}>
                                         <EditIcon/>
                                     </Button>
-                                    <Button colorScheme="green">
+                                    <Button onClick={() => handleSelectAccount(account)} colorScheme="green">
                                         <ArrowRightIcon/>
                                     </Button>
                                 </Stack>
@@ -53,7 +63,7 @@ const AccountsList = () => {
             </List>
             {selectedAccount
                 && <UpdateAccountModal
-                    key={selectedAccount.id}
+                    key={`${selectedAccount.id}-${selectedAccount.balance}`}
                     isOpen={isOpen}
                     onClose={onClose}
                     account={selectedAccount}/>

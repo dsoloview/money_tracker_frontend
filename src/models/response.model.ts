@@ -25,7 +25,11 @@ export interface IPaginationResponse<T> extends IResponse<T> {
         to: number;
         total: number;
     };
+}
 
+export interface IMinMaxTransactionResponse<T> extends IPaginationResponse<T> {
+    min_amount: number;
+    max_amount: number;
 }
 
 export interface IAuthResponse {

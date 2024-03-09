@@ -21,6 +21,7 @@ import {IAccount, IAccountCreateUpdateRequest} from "../../models/account.model.
 import CurrencySelect from "../selects/CurrencySelect.tsx";
 import {useUpdateAccount} from "../../api/endpoints/account/account.api.ts";
 import {useMutateWithFormik} from "../../hooks/useMutateWithFormik.ts";
+import PrecisionFloatInput from "../inputs/PrecisionFloatInput.tsx";
 
 type Props = {
     isOpen: boolean;
@@ -35,7 +36,7 @@ const validationSchema = yup.object({
         .required(i18next.t('form.validation.required')),
     currency_id: yup.number()
         .required(i18next.t('form.validation.required')),
-    balance: yup.number()
+    balance: yup.string()
         .required(i18next.t('form.validation.required')),
 });
 
@@ -120,14 +121,14 @@ const UpdateAccountModal = ({isOpen, onClose, account}: Props) => {
                                     isRequired
                                     isInvalid={formik.touched.balance && Boolean(formik.errors.balance)}
                                 >
-                                    <Input
+                                    <PrecisionFloatInput
                                         placeholder={t('form.placeholder.balance')}
                                         id="balance"
                                         name="balance"
-                                        type="number"
                                         value={formik.values.balance}
-                                        onChange={formik.handleChange}
+                                        setFieldValue={formik.setFieldValue}
                                         onBlur={formik.handleBlur}
+                                        precision={2}
                                     />
                                     <FormErrorMessage>{formik.errors.balance}</FormErrorMessage>
                                 </FormControl>

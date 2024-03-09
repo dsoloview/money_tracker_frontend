@@ -1,30 +1,48 @@
-import {Radio, RadioGroup, Stack} from "@chakra-ui/react";
+import {HStack, useRadioGroup} from "@chakra-ui/react";
 import {CategoryTransactionType} from "../../models/category.model.ts";
-import {ChangeEvent} from "react";
+import {useMemo} from "react";
+import RadioCard from "./RadioCard.tsx";
 
 type Props = {
     id?: string;
     name?: string;
-    value: CategoryTransactionType;
-    onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-    onBlur: (e: unknown) => void;
+    value: CategoryTransactionType | undefined;
+    onChange: (nextValue: string) => void;
+    defaultValue?: CategoryTransactionType | undefined;
+    haveEmpty?: boolean;
 }
-const CategoryTransactionTypeRadio = ({value, onChange, onBlur, id, name}: Props) => {
-    return (
-        <RadioGroup
-            id={id}
-            name={name}
-            defaultValue={value}
-            onBlur={onBlur}
-        >
-            <Stack spacing={5} direction='row'>
-                {Object.values(CategoryTransactionType).map((type) => (
-                    <Radio onChange={onChange} key={type} value={type}>{type}</Radio>
-                ))}
-            </Stack>
-        </RadioGroup>
-    )
+const CategoryTransactionTypeRadio = ({onChange, name, defaultValue, haveEmpty}: Props) => {
+    const {getRootProps, getRadioProps} = useRadioGroup({
+        name: name,
+        onChange: onChange,
+        defaultValue: defaultValue,
+    })
+    
+    const group = getRootProps()
 
+    const options = useMemo(() => {
+        return Object.values(CategoryTransactionType).map((type) => {
+            return type;
+        })
+    }, []);
+
+    return (
+        <HStack {...group}>
+            {haveEmpty && (
+                <RadioCard {...getRadioProps({value: ""})}>
+                    All
+                </RadioCard>
+            )}
+            {options.map((value) => {
+                const radio = getRadioProps({value})
+                return (
+                    <RadioCard key={value} {...radio}>
+                        {value}
+                    </RadioCard>
+                )
+            })}
+        </HStack>
+    )
 }
 
 export default CategoryTransactionTypeRadio;
