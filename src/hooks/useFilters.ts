@@ -22,7 +22,6 @@ const useFilters = <T extends object>(props?: Props) => {
 
         if (Object.keys(filters).length > 0) {
             if (params.filters !== filters) {
-                console.log(filters)
                 updateQueryParams({filters: filters});
             }
         } else {

@@ -86,6 +86,7 @@ const TransactionsTable = () => {
     const {filters, onFilterChange, resetFilters} = useFilters<TransactionTableFiltersType>({
         onFiltersChange: resetPagination
     });
+    
     const user = useAuthStore(state => state.authData?.user);
 
     const {data, isLoading} = useGetUserTransactions({
@@ -104,6 +105,7 @@ const TransactionsTable = () => {
                 resetFilters={resetFilters}
                 minAmount={data?.min_amount || 0}
                 maxAmount={data?.max_amount || 0}
+                isLoading={isLoading}
 
             />
             <DataTable<ITransaction>

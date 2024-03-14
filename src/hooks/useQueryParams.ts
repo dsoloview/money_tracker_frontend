@@ -19,7 +19,7 @@ const useQueryParams = () => {
         reFetchParams();
         const oldParams = qs.parse(window.location.search.slice(1));
         const preparedParams: AvailableParams = {...oldParams, ...newParams};
-
+        
         const orderedParams: AvailableParams = {};
         Object.keys(preparedParams).sort().forEach(key => {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -32,7 +32,8 @@ const useQueryParams = () => {
     }
 
     const removeQueryParams = (keys: Array<keyof AvailableParams>) => {
-        const newParams = {...params};
+        const oldParams = qs.parse(window.location.search.slice(1));
+        const newParams = {...oldParams};
         keys.forEach(key => delete newParams[key]);
         const newQueryString = qs.stringify(newParams, {encode: false});
         window.history.pushState({}, '', `?${newQueryString}`);

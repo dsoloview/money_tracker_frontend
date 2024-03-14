@@ -18,7 +18,6 @@ export function useSorting(initialField = "id", initialOrder = "desc") {
         if (sort.length > 0) {
             updateQueryParams({sort: [`${sort[0].id}:${sort[0].desc ? "desc" : "asc"}`]});
         } else {
-            console.log('remove sort')
             removeQueryParams(["sort"]);
         }
     }, [sort]);

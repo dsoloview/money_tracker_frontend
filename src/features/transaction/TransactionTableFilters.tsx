@@ -1,23 +1,23 @@
-import {Box, FormControl, FormLabel, Spinner} from "@chakra-ui/react";
+import {Flex, FormControl, FormLabel, Spinner} from "@chakra-ui/react";
 import AccountSelect from "../../widgets/selects/AccountSelect.tsx";
 import CategoryTransactionTypeRadio from "../../widgets/radio/CategoryTransactionTypeRadio.tsx";
 import {TransactionTableFiltersType} from "./TransactionsTable.tsx";
 import {Suspense} from "react";
-import AmountRangeSlider from "../../widgets/range/AmountRangeSlider.tsx";
+import AmountRangeFilter from "../../widgets/filters/AmountRangeFilter.tsx";
 
 type Props = {
     filters: TransactionTableFiltersType;
     onFiltersChange: (key: string, value: any) => void;
     resetFilters?: () => void;
-    minAmount: number;
-    maxAmount: number;
+    minAmount?: number;
+    maxAmount?: number;
+    isLoading: boolean;
 }
 
-function TransactionTableFilters({filters, onFiltersChange, minAmount, maxAmount}: Props) {
+function TransactionTableFilters({filters, onFiltersChange}: Props) {
 
     return (
-        <Box
-            display="flex"
+        <Flex
             justifyContent="space-between"
             alignItems="center"
             mb={4}
@@ -25,7 +25,7 @@ function TransactionTableFilters({filters, onFiltersChange, minAmount, maxAmount
             <FormControl
                 className="max-w-xl"
             >
-                <FormLabel htmlFor="transactionTableAccountFilter">Account</FormLabel>
+                <FormLabel textAlign="center" htmlFor="transactionTableAccountFilter">Account</FormLabel>
                 <Suspense fallback={<Spinner/>}>
                     <AccountSelect
                         id="transactionTableAccountFilter"
@@ -39,7 +39,7 @@ function TransactionTableFilters({filters, onFiltersChange, minAmount, maxAmount
             <FormControl
                 className="max-w-xl"
             >
-                <FormLabel htmlFor="transactionTableAccountFilter">Type</FormLabel>
+                <FormLabel textAlign="center" htmlFor="transactionTableAccountFilter">Type</FormLabel>
                 <CategoryTransactionTypeRadio
                     value={filters?.type?.$eq}
                     name="type"
@@ -51,16 +51,15 @@ function TransactionTableFilters({filters, onFiltersChange, minAmount, maxAmount
             <FormControl
                 className="max-w-xl"
             >
-                <FormLabel htmlFor="transactionTableAccountFilter">Amount</FormLabel>
-                <AmountRangeSlider
-                    onChange={(values: number[]) => onFiltersChange("amount", {$gte: values[0], $lte: values[1]})}
-                    minRangeValue={minAmount}
-                    maxRangeValue={maxAmount}
-                    minAmount={filters?.amount?.$gte || minAmount}
-                    maxAmount={filters?.amount?.$lte || maxAmount}
-                />
+                <FormLabel textAlign="center" htmlFor="transactionTableAccountFilter">Amount</FormLabel>
+                <Suspense fallback={<Spinner/>}>
+                    <AmountRangeFilter
+                        filters={filters}
+                        onFiltersChange={onFiltersChange}
+                    />
+                </Suspense>
             </FormControl>
-        </Box>
+        </Flex>
     );
 }
 

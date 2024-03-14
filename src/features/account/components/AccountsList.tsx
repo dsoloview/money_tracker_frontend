@@ -33,6 +33,11 @@ const AccountsList = () => {
         })
     }
 
+    const onModalClose = () => {
+        setSelectedAccount(null);
+        onClose();
+    }
+
     return (
         <Box>
             <List spacing={3}>
@@ -65,7 +70,7 @@ const AccountsList = () => {
                 && <UpdateAccountModal
                     key={`${selectedAccount.id}-${selectedAccount.balance}`}
                     isOpen={isOpen}
-                    onClose={onClose}
+                    onClose={onModalClose}
                     account={selectedAccount}/>
             }
         </Box>

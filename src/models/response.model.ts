@@ -27,6 +27,11 @@ export interface IPaginationResponse<T> extends IResponse<T> {
     };
 }
 
+export interface IMinMax {
+    min: number;
+    max: number;
+}
+
 export interface IMinMaxTransactionResponse<T> extends IPaginationResponse<T> {
     min_amount: number;
     max_amount: number;

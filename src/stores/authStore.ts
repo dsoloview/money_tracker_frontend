@@ -1,6 +1,6 @@
 import {IAuthResponse} from "../models/response.model.ts";
 import {create} from "zustand";
-import {persist} from "zustand/middleware";
+import {devtools, persist} from "zustand/middleware";
 import {IUser, IUserSettings} from "../models/user.model.ts";
 import {produce} from "immer";
 
@@ -13,7 +13,7 @@ export interface AuthState {
 }
 
 const useAuthStore = create<AuthState>()(
-    persist(
+    devtools(persist(
         (set,) => ({
             authData: null,
             setData: (authData) => set({authData: authData}),
@@ -26,7 +26,7 @@ const useAuthStore = create<AuthState>()(
             }))
         }),
         {name: 'authStore'}
-    )
+    ))
 );
 
 export default useAuthStore;

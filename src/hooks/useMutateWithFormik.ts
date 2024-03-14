@@ -10,8 +10,8 @@ type Props<T> = {
     onSuccess: () => void;
     prepareSubmitData?: (values: T) => any;
     initialValues: T;
-
 }
+
 const useMutateWithFormik = <T extends FormikValues>(
     {
         mutation,

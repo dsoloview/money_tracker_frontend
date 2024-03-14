@@ -17,7 +17,7 @@ const CategoryTransactionTypeRadio = ({onChange, name, defaultValue, haveEmpty}:
         onChange: onChange,
         defaultValue: defaultValue,
     })
-    
+
     const group = getRootProps()
 
     const options = useMemo(() => {
@@ -27,7 +27,12 @@ const CategoryTransactionTypeRadio = ({onChange, name, defaultValue, haveEmpty}:
     }, []);
 
     return (
-        <HStack {...group}>
+        <HStack
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            {...group}
+        >
             {haveEmpty && (
                 <RadioCard {...getRadioProps({value: ""})}>
                     All

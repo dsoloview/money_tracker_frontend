@@ -6,7 +6,7 @@ import useAuthStore from "../stores/authStore.ts";
 const queryClient = new QueryClient({
     defaultOptions: {
         queries: {
-            retry (failureCount, error) {
+            retry(failureCount, error) {
                 if (isIError(error) && error.status === 401) return false
                 return failureCount < 3
             },
