@@ -2,7 +2,7 @@ import axios from "axios";
 import useAuthStore, {AuthState} from "../stores/authStore.ts";
 
 function instance() {
-    const headers: {[key: string]: string}  = {
+    const headers: { [key: string]: string } = {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
     };
@@ -14,7 +14,7 @@ function instance() {
     }
 
     const instance = axios.create({
-        baseURL: 'http://localhost:8080/api/v1/',
+        baseURL: import.meta.env.VITE_API_URL as string,
         headers: headers,
     });
     instance.interceptors.response.use(

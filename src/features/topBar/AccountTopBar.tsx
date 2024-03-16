@@ -1,13 +1,23 @@
-import useAuthStore from "../../stores/authStore.ts";
 import {useTranslation} from "react-i18next";
-import {Box, Container, Flex, HStack, IconButton, Stack, useColorModeValue, useDisclosure} from "@chakra-ui/react";
+import {
+    Box,
+    Container,
+    Flex,
+    HStack,
+    IconButton,
+    Spinner,
+    Stack,
+    useColorModeValue,
+    useDisclosure
+} from "@chakra-ui/react";
 import {CloseIcon, HamburgerIcon} from "@chakra-ui/icons";
 import LogoutButton from "../../widgets/buttons/LogoutButton.tsx";
 import {ILink} from "../../models/navigation.model.ts";
 import {NavLink} from "../../widgets/navigation/NavLink.tsx";
+import UserInfo from "../../widgets/user/UserInfo.tsx";
+import {Suspense} from "react";
 
 const AccountTopBar = () => {
-    const user = useAuthStore(state => state.authData?.user);
     const {t} = useTranslation();
     const {isOpen, onOpen, onClose} = useDisclosure()
 
@@ -38,9 +48,9 @@ const AccountTopBar = () => {
                         </HStack>
                     </HStack>
                     <Flex alignItems={'center'}>
-                        <Box>
-                            {user?.email}
-                        </Box>
+                        <Suspense fallback={<Spinner/>}>
+                            <UserInfo/>
+                        </Suspense>
                         <LogoutButton/>
                     </Flex>
                 </Flex>

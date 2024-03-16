@@ -19,6 +19,7 @@ const useDeleteAccount = () => {
             const userId = useAuthStore.getState().authData?.user.id
             if (userId) {
                 queryClient.invalidateQueries({queryKey: ['userAccounts', userId]})
+                queryClient.invalidateQueries({queryKey: ['user']})
             }
         },
         onError: (error) => {
@@ -38,6 +39,7 @@ const useUpdateAccount = () => {
             const userId = useAuthStore.getState().authData?.user.id
             if (userId) {
                 queryClient.invalidateQueries({queryKey: ['userAccounts', userId]})
+                queryClient.invalidateQueries({queryKey: ['user']})
             }
 
         },

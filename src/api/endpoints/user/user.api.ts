@@ -1,11 +1,11 @@
-import {useMutation} from "@tanstack/react-query";
+import {useMutation, useSuspenseQuery} from "@tanstack/react-query";
 import {IError} from "../../../models/error.model.ts";
 import {IParamRequest, IUpdatePasswordRequest, IUpdateUserRequest} from "../../../models/request.model.ts";
 import {toast} from "react-toastify";
 import {IUser} from "../../../models/user.model.ts";
 import api from "../../api.ts";
-import useAuthStore from "../../../stores/authStore.ts";
-import {ISuccessResponse} from "../../../models/response.model.ts";
+import {IResponse, ISuccessResponse} from "../../../models/response.model.ts";
+import queryClient from "../../queryClient.api.ts";
 
 const useUpdateUser = () => {
     return useMutation<IUser, IError<IUpdateUserRequest>, IParamRequest<IUpdateUserRequest>, unknown>({
@@ -13,8 +13,8 @@ const useUpdateUser = () => {
             const response = await api().patch(`users/${request.id}`, request.data);
             return response.data.data;
         },
-        onSuccess: (response) => {
-            useAuthStore.getState().setUser(response)
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: ['user']})
             toast.success('User updated')
         },
         onError: (error) => {
@@ -38,4 +38,14 @@ const useUpdatePassword = () => {
     })
 }
 
-export {useUpdateUser, useUpdatePassword};
+const useGetUser = (userId) => {
+    return useSuspenseQuery<IResponse<IUser>>({
+        queryKey: ['user'],
+        queryFn: async () => {
+            const response = await api().get(`users/${userId}`);
+            return response.data;
+        },
+    })
+}
+
+export {useUpdateUser, useGetUser, useUpdatePassword};
