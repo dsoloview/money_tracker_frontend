@@ -1,5 +1,5 @@
 import {useMutation} from "@tanstack/react-query";
-import {IAuthResponse} from "../../../models/response.model.ts";
+import {IAuthResponse, ISuccessResponse} from "../../../models/response.model.ts";
 import {toast} from "react-toastify";
 import useAuthStore from "../../../stores/authStore.ts";
 import {IError} from "../../../models/error.model.ts";
@@ -13,6 +13,11 @@ async function login(data: ILoginData) {
 
 async function register(data: IRegisterData) {
     const response = await api().post('auth/register', data);
+    return response.data;
+}
+
+async function logout() {
+    const response = await api().post('auth/logout');
     return response.data;
 }
 
@@ -42,4 +47,16 @@ const useRegister = () => {
     })
 }
 
-export { useLogin, useRegister };
+const useLogout = () => {
+    return useMutation<ISuccessResponse, IError<unknown>>({
+        mutationFn: logout,
+        onSuccess: () => {
+            toast.success('Logout successful')
+        },
+        onError: (error) => {
+            toast.error(error.data.message)
+        }
+    })
+}
+
+export {useLogin, useRegister, useLogout};
