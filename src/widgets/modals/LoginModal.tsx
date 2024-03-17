@@ -20,9 +20,9 @@ import {useTranslation} from "react-i18next";
 import * as yup from "yup";
 import {useLogin} from "../../api/endpoints/auth/auth.api.ts";
 import {ILoginData} from "../../models/request.model.ts";
-import i18next from "i18next";
 import {useMutateWithFormik} from "../../hooks/useMutateWithFormik.ts";
 import {useState} from "react";
+import i18next from '../../tools/language/language.ts';
 
 type Props = {
     isOpen: boolean;

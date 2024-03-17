@@ -4,13 +4,13 @@ import CurrencySelect from "../../../widgets/selects/CurrencySelect.tsx";
 import {useTranslation} from "react-i18next";
 import LanguageSelect from "../../../widgets/selects/LanguageSelect.tsx";
 import * as yup from "yup";
-import i18next from "i18next";
 import {Button, FormControl, FormErrorMessage, FormLabel, Input, Stack, useDisclosure} from "@chakra-ui/react";
 import {useUpdateUser} from "../../../api/endpoints/user/user.api.ts";
 import {IUpdateUserRequest} from "../../../models/request.model.ts";
 import UpdatePasswordModal from "../../../widgets/modals/UpdatePasswordModal.tsx";
 import {useMutateWithFormik} from "../../../hooks/useMutateWithFormik.ts";
 import useUserState from "../../../hooks/useUserState.ts";
+import i18next from "../../../tools/language/language.ts";
 
 export const Route = createFileRoute('/_authenticated/account/settings')({
     component: Settings

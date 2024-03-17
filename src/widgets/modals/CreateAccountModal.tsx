@@ -16,13 +16,13 @@ import {
 } from '@chakra-ui/react'
 import {useTranslation} from "react-i18next";
 import * as yup from "yup";
-import i18next from "i18next";
 import useAuthStore from "../../stores/authStore.ts";
 import {IAccountCreateUpdateRequest} from "../../models/account.model.ts";
 import {useCreateUserAccount} from "../../api/endpoints/user/account/userAccount.api.ts";
 import CurrencySelect from "../selects/CurrencySelect.tsx";
 import {useMutateWithFormik} from "../../hooks/useMutateWithFormik.ts";
 import PrecisionFloatInput from "../inputs/PrecisionFloatInput.tsx";
+import i18next from '../../tools/language/language.ts';
 
 type Props = {
     isOpen: boolean;

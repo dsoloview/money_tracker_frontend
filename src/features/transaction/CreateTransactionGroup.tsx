@@ -18,7 +18,6 @@ import {
 } from "@chakra-ui/react";
 import {AddIcon} from "@chakra-ui/icons";
 import * as yup from "yup";
-import i18next from "i18next";
 import {useTranslation} from "react-i18next";
 import {ITransactionRequest} from "../../models/transaction.model.ts";
 import CategoryTransactionTypeRadio from "../../widgets/radio/CategoryTransactionTypeRadio.tsx";
@@ -30,6 +29,7 @@ import {Suspense} from "react";
 import {CategoryTransactionType} from "../../models/category.model.ts";
 import PrecisionFloatInput from "../../widgets/inputs/PrecisionFloatInput.tsx";
 import {getCurrenctDateTimeForInput} from "../../tools/date/date.helper.ts";
+import i18next from "../../tools/language/language.ts";
 
 const validationSchema = yup.object({
     comment: yup.string()

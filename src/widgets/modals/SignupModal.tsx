@@ -22,8 +22,8 @@ import CurrencySelect from "../selects/CurrencySelect.tsx";
 import LanguageSelect from "../selects/LanguageSelect.tsx";
 import * as yup from "yup";
 import {ref} from "yup";
-import i18next from "i18next";
 import {useMutateWithFormik} from "../../hooks/useMutateWithFormik.ts";
+import i18next from '../../tools/language/language.ts';
 
 const validationSchema = yup.object({
     name: yup.string()

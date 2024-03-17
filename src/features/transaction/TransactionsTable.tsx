@@ -11,7 +11,7 @@ import {CategoryTransactionType} from "../../models/category.model.ts";
 import useFilters from "../../hooks/useFilters.ts";
 import TransactionTableFilters from "./TransactionTableFilters.tsx";
 import useUserState from "../../hooks/useUserState.ts";
-import i18next from "i18next";
+import i18next from "../../tools/language/language.ts";
 
 const columns = [
     {
