@@ -2,6 +2,7 @@ import {MutationCache, QueryCache, QueryClient} from "@tanstack/react-query";
 import {isIError} from "../tools/errors/errors.tools.ts";
 import {toast} from "react-toastify";
 import useAuthStore from "../stores/authStore.ts";
+import {redirect} from "react-router-dom";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -19,7 +20,7 @@ const queryClient = new QueryClient({
             if (isIError(error)) {
                 if (error.status === 401) {
                     useAuthStore.getState().removeData()
-                    window.location.reload()
+                    redirect('/')
                 }
 
                 toast.error(error.message)
@@ -31,7 +32,7 @@ const queryClient = new QueryClient({
             if (isIError(error)) {
                 if (error.status === 401) {
                     useAuthStore.getState().removeData()
-                    window.location.reload()
+                    redirect('/')
                 }
 
                 toast.error(error.message)

@@ -5,8 +5,9 @@ import {useDeleteAccount} from "../../../api/endpoints/account/account.api.ts";
 import {useState} from "react";
 import UpdateAccountModal from "../../../widgets/modals/UpdateAccountModal.tsx";
 import {IAccount} from "../../../models/account.model.ts";
-import {useNavigate} from "@tanstack/react-router";
 import useUserState from "../../../hooks/useUserState.ts";
+import {useNavigate} from "react-router-dom";
+import qs from "qs";
 
 const AccountsList = () => {
     const user = useUserState();
@@ -25,12 +26,14 @@ const AccountsList = () => {
     }
 
     const handleSelectAccount = (account: IAccount) => {
-        navigate({
-            to: "/account/transactions",
-            search: {
-                'filters[account_id][$eq]': account.id
+        const query = qs.stringify({
+            filters: {
+                account_id: {
+                    $eq: account.id
+                }
             }
         })
+        navigate(`/account/transactions?${query}`);
     }
 
     const onModalClose = () => {

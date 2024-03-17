@@ -6,7 +6,8 @@ import {useTranslation} from "react-i18next";
 import LogoutButton from "../../widgets/buttons/LogoutButton.tsx";
 import LoginModal from "../../widgets/modals/LoginModal.tsx";
 import SignupModal from "../../widgets/modals/SignupModal.tsx";
-import {Link} from "@tanstack/react-router";
+import {Link} from "react-router-dom";
+
 
 export default function IndexTopBar() {
 

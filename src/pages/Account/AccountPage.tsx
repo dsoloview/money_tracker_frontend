@@ -1,16 +1,11 @@
-import {createFileRoute} from "@tanstack/react-router";
-import AccountLayout from "../../../layouts/AccountLayout.tsx";
+import AccountLayout from "../../layouts/AccountLayout.tsx";
 import {Box, Flex, Heading, IconButton, Skeleton, useDisclosure} from "@chakra-ui/react";
-import CreateAccountModal from "../../../widgets/modals/CreateAccountModal.tsx";
-import AccountsList from "../../../features/account/components/AccountsList.tsx";
+import CreateAccountModal from "../../widgets/modals/CreateAccountModal.tsx";
+import AccountsList from "../../features/account/components/AccountsList.tsx";
 import {AddIcon} from "@chakra-ui/icons";
 import {Suspense} from "react";
 
-export const Route = createFileRoute('/_authenticated/account/')({
-    component: Account
-})
-
-export function Account() {
+export function AccountPage() {
     const {onOpen, isOpen, onClose} = useDisclosure()
 
     return (
@@ -25,7 +20,7 @@ export function Account() {
                 <Flex justifyContent="flex-end">
                     <IconButton
                         onClick={onOpen}
-                        aria-label="Create Account"
+                        aria-label="Create AccountPage"
                         icon={<AddIcon/>}
                         colorScheme="blue"
                         size="lg"
@@ -36,4 +31,6 @@ export function Account() {
         </AccountLayout>
     );
 }
+
+export default AccountPage;
 
