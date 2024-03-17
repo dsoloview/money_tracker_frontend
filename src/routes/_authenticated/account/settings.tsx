@@ -1,8 +1,6 @@
 import {createFileRoute} from "@tanstack/react-router";
 import AccountLayout from "../../../layouts/AccountLayout.tsx";
-import {useFormik} from "formik";
 import CurrencySelect from "../../../widgets/selects/CurrencySelect.tsx";
-import useAuthStore from "../../../stores/authStore.ts";
 import {useTranslation} from "react-i18next";
 import LanguageSelect from "../../../widgets/selects/LanguageSelect.tsx";
 import * as yup from "yup";
@@ -11,6 +9,8 @@ import {Button, FormControl, FormErrorMessage, FormLabel, Input, Stack, useDiscl
 import {useUpdateUser} from "../../../api/endpoints/user/user.api.ts";
 import {IUpdateUserRequest} from "../../../models/request.model.ts";
 import UpdatePasswordModal from "../../../widgets/modals/UpdatePasswordModal.tsx";
+import {useMutateWithFormik} from "../../../hooks/useMutateWithFormik.ts";
+import useUserState from "../../../hooks/useUserState.ts";
 
 export const Route = createFileRoute('/_authenticated/account/settings')({
     component: Settings
@@ -44,45 +44,45 @@ const validationSchema = yup.object({
 });
 
 function Settings() {
-    const authData = useAuthStore(state => state.authData);
+    const user = useUserState();
     const {t} = useTranslation();
-    const {mutate} = useUpdateUser();
     const {onOpen, onClose, isOpen} = useDisclosure();
 
     const userInfoBlock = (
         <div className="grid grid-cols-2 gap-4">
             <div>
                 <p className="text-lg font-semibold">{t('title.userInformation')}</p>
-                <p className="text-gray-600 mb-2">{t('model.user.name')}: {authData?.user.name}</p>
-                <p className="text-gray-600 mb-2">{t('model.user.email')}: {authData?.user.email}</p>
-                <p className="text-gray-600 mb-2">{t('model.user.id')}: {authData?.user.id}</p>
-                <p className="text-gray-600 mb-2">{t('model.user.roles')}: {authData?.user.roles.map(role => role.name).join(', ')}</p>
+                <p className="text-gray-600 mb-2">{t('model.user.name')}: {user.name}</p>
+                <p className="text-gray-600 mb-2">{t('model.user.email')}: {user.email}</p>
+                <p className="text-gray-600 mb-2">{t('model.user.id')}: {user.id}</p>
+                <p className="text-gray-600 mb-2">{t('model.user.roles')}: {user.roles.map(role => role.name).join(', ')}</p>
             </div>
             <div>
                 <p className="text-lg font-semibold">{t('model.user.settings.settings')}</p>
-                <p className="text-gray-600 mb-2">{t('model.user.settings.language')}: {authData?.user.settings.language.name}</p>
-                <p className="text-gray-600 mb-2">{t('model.user.settings.mainCurrency')}: {authData?.user.settings.main_currency.name} ({authData?.user.settings.main_currency.symbol})</p>
+                <p className="text-gray-600 mb-2">{t('model.user.settings.language')}: {user.settings.language.name}</p>
+                <p className="text-gray-600 mb-2">{t('model.user.settings.mainCurrency')}: {user.settings.main_currency.name} ({user.settings.main_currency.symbol})</p>
             </div>
         </div>
     );
 
-    const formik = useFormik<IUpdateUserRequest>({
+    const {formik, isPending} = useMutateWithFormik<IUpdateUserRequest>({
+        mutation: useUpdateUser,
         initialValues: {
-            name: authData?.user.name || "",
-            email: authData?.user.email || "",
+            name: user.name,
+            email: user.email,
             settings: {
-                language_id: authData?.user.settings.language.id || 1,
-                main_currency_id: authData?.user.settings.main_currency.id || 1,
+                language_id: user.settings.language.id || 1,
+                main_currency_id: user.settings.main_currency.id || 1,
             },
         },
         validationSchema: validationSchema,
-        onSubmit: async (values) => {
-            if (!authData?.user.id) return;
-            mutate({
-                id: authData.user.id,
+        prepareSubmitData: (values) => {
+            return {
+                id: user.id,
                 data: values
-            });
+            }
         },
+        resetOnSuccess: false,
     });
 
     return (
@@ -98,7 +98,7 @@ function Settings() {
                             <FormLabel>{t('form.name')}</FormLabel>
                             <Input
                                 autoFocus
-                                placeholder="Enter your name"
+                                placeholder={t('form.placeholder.name')}
                                 id="name"
                                 name="name"
                                 value={formik.values.name}
@@ -150,7 +150,7 @@ function Settings() {
                             />
                             <FormErrorMessage>{formik.errors.settings?.language_id}</FormErrorMessage>
                         </FormControl>
-                        <Button type="submit">{t('form.submit')}</Button>
+                        <Button isLoading={isPending} type="submit">{t('form.submit')}</Button>
                         <Button onClick={onOpen}>{t('button.update_password')}</Button>
                         <UpdatePasswordModal isOpen={isOpen} onClose={onClose}/>
                     </Stack>

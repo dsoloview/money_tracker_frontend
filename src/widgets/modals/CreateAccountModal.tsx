@@ -72,7 +72,7 @@ const CreateAccountModal = ({isOpen, onClose}: Props) => {
             <ModalContent>
                 <Box p={5}>
                     <ModalHeader>
-                        <Heading as="h2" size="lg">{t('modal.createAccount')}</Heading>
+                        <Heading as="h2" size="lg">{t('title.createAccount')}</Heading>
                     </ModalHeader>
                     <ModalBody>
                         <form id="createAccountForm" onSubmit={formik.handleSubmit}>

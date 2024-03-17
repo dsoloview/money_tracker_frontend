@@ -4,6 +4,7 @@ import CategoryTransactionTypeRadio from "../../widgets/radio/CategoryTransactio
 import {TransactionTableFiltersType} from "./TransactionsTable.tsx";
 import {Suspense} from "react";
 import AmountRangeFilter from "../../widgets/filters/AmountRangeFilter.tsx";
+import {useTranslation} from "react-i18next";
 
 type Props = {
     filters: TransactionTableFiltersType;
@@ -15,7 +16,7 @@ type Props = {
 }
 
 function TransactionTableFilters({filters, onFiltersChange}: Props) {
-
+    const {t} = useTranslation();
     return (
         <Flex
             justifyContent="space-between"
@@ -25,13 +26,14 @@ function TransactionTableFilters({filters, onFiltersChange}: Props) {
             <FormControl
                 className="max-w-xl"
             >
-                <FormLabel textAlign="center" htmlFor="transactionTableAccountFilter">Account</FormLabel>
+                <FormLabel textAlign="center"
+                           htmlFor="transactionTableAccountFilter">{t('form.label.account')}</FormLabel>
                 <Suspense fallback={<Spinner/>}>
                     <AccountSelect
                         id="transactionTableAccountFilter"
                         name="account_id"
                         onChange={(accountId: number) => onFiltersChange("account_id", accountId)}
-                        placeholder="Select account"
+                        placeholder={t('form.placeholder.account')}
                         defaultValue={filters?.account_id?.$eq}
                     />
                 </Suspense>
@@ -39,7 +41,7 @@ function TransactionTableFilters({filters, onFiltersChange}: Props) {
             <FormControl
                 className="max-w-xl"
             >
-                <FormLabel textAlign="center" htmlFor="transactionTableAccountFilter">Type</FormLabel>
+                <FormLabel textAlign="center" htmlFor="transactionTableAccountFilter">{t('form.label.type')}</FormLabel>
                 <CategoryTransactionTypeRadio
                     value={filters?.type?.$eq}
                     name="type"
@@ -51,7 +53,8 @@ function TransactionTableFilters({filters, onFiltersChange}: Props) {
             <FormControl
                 className="max-w-xl"
             >
-                <FormLabel textAlign="center" htmlFor="transactionTableAccountFilter">Amount</FormLabel>
+                <FormLabel textAlign="center"
+                           htmlFor="transactionTableAccountFilter">{t('form.label.amount')}</FormLabel>
                 <Suspense fallback={<Spinner/>}>
                     <AmountRangeFilter
                         filters={filters}

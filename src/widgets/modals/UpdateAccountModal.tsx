@@ -71,7 +71,7 @@ const UpdateAccountModal = ({isOpen, onClose, account}: Props) => {
             <ModalContent>
                 <Box p={5}>
                     <ModalHeader>
-                        <Heading as="h2" size="lg">{t('modal.updateAccount')}</Heading>
+                        <Heading as="h2" size="lg">{t('title.updateAccount')}</Heading>
                     </ModalHeader>
                     <ModalBody>
                         <form id={`updateAccountForm_${account.id}`} onSubmit={formik.handleSubmit}>

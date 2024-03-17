@@ -7,9 +7,10 @@ import {UseMutationResult} from "@tanstack/react-query";
 type Props<T> = {
     mutation: () => UseMutationResult<any, any, any, any>;
     validationSchema: yup.ObjectSchema<any>;
-    onSuccess: () => void;
+    onSuccess?: () => void;
     prepareSubmitData?: (values: T) => any;
     initialValues: T;
+    resetOnSuccess?: boolean;
 }
 
 const useMutateWithFormik = <T extends FormikValues>(
@@ -18,7 +19,8 @@ const useMutateWithFormik = <T extends FormikValues>(
         validationSchema,
         onSuccess,
         prepareSubmitData,
-        initialValues
+        initialValues,
+        resetOnSuccess = true
     }: Props<T>
 ) => {
     const {mutate, isPending, error, isError, isSuccess} = mutation();
@@ -46,8 +48,12 @@ const useMutateWithFormik = <T extends FormikValues>(
 
     useEffect(() => {
         if (isSuccess) {
-            formik.resetForm()
-            onSuccess()
+            if (resetOnSuccess) {
+                formik.resetForm()
+            }
+            if (onSuccess) {
+                onSuccess()
+            }
         }
     }, [isSuccess]);
 

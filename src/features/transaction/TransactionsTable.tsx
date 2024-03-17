@@ -11,10 +11,11 @@ import {CategoryTransactionType} from "../../models/category.model.ts";
 import useFilters from "../../hooks/useFilters.ts";
 import TransactionTableFilters from "./TransactionTableFilters.tsx";
 import useUserState from "../../hooks/useUserState.ts";
+import i18next from "i18next";
 
 const columns = [
     {
-        header: "Account",
+        header: i18next.t('form.label.account'),
         accessor: 'account.name',
         cell: (row: ITransaction) => {
             return row.account.name;
@@ -22,7 +23,7 @@ const columns = [
         enableSorting: false,
     },
     {
-        header: "Amount",
+        header: i18next.t('form.label.amount'),
         accessor: 'amount',
         cell(row: ITransaction) {
             return (
@@ -34,7 +35,7 @@ const columns = [
         enableSorting: true,
     },
     {
-        header: "Category",
+        header: i18next.t('form.label.categories'),
         accessor: 'categories',
         cell: (row: ITransaction) => {
             return (
@@ -48,7 +49,7 @@ const columns = [
         enableSorting: false,
     },
     {
-        header: "Type",
+        header: i18next.t('form.label.type'),
         accessor: 'type',
         cell: (row: ITransaction) => {
             return <Badge colorScheme={row.type === CategoryTransactionType.EXPENSE ? "red" : "green"}>
@@ -58,7 +59,7 @@ const columns = [
         enableSorting: true,
     },
     {
-        header: "Date",
+        header: i18next.t('form.label.date'),
         accessor: 'date',
         cell: (row: ITransaction) => {
             return formatDateTimeString(row.date);

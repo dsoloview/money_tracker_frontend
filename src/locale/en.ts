@@ -7,12 +7,6 @@ export default {
             account: "Account",
             transactions: "Transactions",
         },
-        modal: {
-            login: "Login",
-            register: "Register",
-            createAccount: "Create Account",
-            updateAccount: "Update Account",
-        },
         auth: {
             login: "Login",
             register: "Register",
@@ -63,6 +57,9 @@ export default {
                 amount: "Enter the amount",
                 comment: "Enter a comment",
                 date: "Select the date",
+                minAmount: "Min amount",
+                maxAmount: "Max amount",
+                account: "Select an account",
             }
         },
         model: {
@@ -84,10 +81,14 @@ export default {
         },
         title: {
             userInformation: "User Information",
+            login: "Login",
+            register: "Register",
+            createAccount: "Create Account",
+            updateAccount: "Update Account",
         },
         button: {
             close: "Close",
             update_password: "Update Password"
-        }
+        },
     }
 }

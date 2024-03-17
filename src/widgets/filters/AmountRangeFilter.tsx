@@ -4,6 +4,7 @@ import {useGetUserTransactionsMinMax} from "../../api/endpoints/user/transaction
 import {useEffect, useState} from "react";
 import {useDebouncedCallback} from "use-debounce";
 import useUserState from "../../hooks/useUserState.ts";
+import {useTranslation} from "react-i18next";
 
 type Props = {
     filters: TransactionTableFiltersType;
@@ -16,6 +17,7 @@ const AmountRangeFilter = (
         onFiltersChange,
     }: Props
 ) => {
+    const {t} = useTranslation();
     const user = useUserState();
     const {data} = useGetUserTransactionsMinMax({
         id: user.id,
@@ -72,7 +74,7 @@ const AmountRangeFilter = (
                 onChange={handleMinAmountChange}
                 id="transactionTableMinAmountFilter"
                 name="minAmount"
-                placeholder="Min amount"
+                placeholder={t("form.placeholder.minAmount")}
                 type="number"
                 w={40}
             />
@@ -81,7 +83,7 @@ const AmountRangeFilter = (
                 onChange={handleMaxAmountChange}
                 id="transactionTableMaxAmountFilter"
                 name="maxAmount"
-                placeholder="Max amount"
+                placeholder={t("form.placeholder.maxAmount")}
                 type="number"
                 w={40}
             />
