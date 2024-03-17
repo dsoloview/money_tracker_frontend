@@ -29,6 +29,7 @@ import {useMutateWithFormik} from "../../hooks/useMutateWithFormik.ts";
 import {Suspense} from "react";
 import {CategoryTransactionType} from "../../models/category.model.ts";
 import PrecisionFloatInput from "../../widgets/inputs/PrecisionFloatInput.tsx";
+import {getCurrenctDateTimeForInput} from "../../tools/date/date.helper.ts";
 
 const validationSchema = yup.object({
     comment: yup.string()
@@ -57,7 +58,7 @@ const CreateTransactionGroup = () => {
             amount: 0,
             type: CategoryTransactionType.EXPENSE,
             account_id: 0,
-            date: new Date().toISOString(),
+            date: getCurrenctDateTimeForInput(),
             categories_ids: []
         },
         validationSchema: validationSchema,
@@ -69,6 +70,8 @@ const CreateTransactionGroup = () => {
             }
         }
     });
+
+    console.log(formik.values)
 
     const handleChangeType = (nextValue: string) => {
         formik.values.categories_ids = [];
