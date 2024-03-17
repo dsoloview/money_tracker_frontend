@@ -56,7 +56,7 @@ type Props = {
 }
 const SignupModal = ({isOpen, onClose}: Props) => {
     const {t} = useTranslation()
-    const {formik} = useMutateWithFormik<IRegisterData>({
+    const {formik, isPending} = useMutateWithFormik<IRegisterData>({
         mutation: useRegister,
         initialValues: {
             name: "",
@@ -184,7 +184,7 @@ const SignupModal = ({isOpen, onClose}: Props) => {
                     </ModalBody>
                     <ModalFooter>
                         <Flex gap="3">
-                            <Button colorScheme="blue" type="submit" form="registerForm">
+                            <Button isLoading={isPending} colorScheme="blue" type="submit" form="registerForm">
                                 {t('form.submit')}
                             </Button>
                             <Button onClick={onClose} colorScheme="red">

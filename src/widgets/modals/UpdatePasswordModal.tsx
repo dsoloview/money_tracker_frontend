@@ -47,7 +47,7 @@ const UpdatePasswordModal = ({isOpen, onClose}: Props) => {
     const {t} = useTranslation()
     const [showPassword, setShowPassword] = useState(false)
 
-    const {formik} = useMutateWithFormik<IUpdatePasswordRequest>({
+    const {formik, isPending} = useMutateWithFormik<IUpdatePasswordRequest>({
         mutation: useUpdatePassword,
         validationSchema: validationSchema,
         initialValues: {
@@ -140,7 +140,7 @@ const UpdatePasswordModal = ({isOpen, onClose}: Props) => {
                     </ModalBody>
                     <ModalFooter>
                         <Flex gap="3">
-                            <Button colorScheme="blue" type="submit" form="updatePasswordForm">
+                            <Button isLoading={isPending} colorScheme="blue" type="submit" form="updatePasswordForm">
                                 {t('form.submit')}
                             </Button>
                             <Button onClick={onClose} colorScheme="red">

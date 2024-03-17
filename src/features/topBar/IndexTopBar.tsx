@@ -16,10 +16,12 @@ export default function IndexTopBar() {
     const {t} = useTranslation();
 
     const authContent = (
-        <>
-            <Button as={Link} to="/account">{t('menu.account')}</Button>
+        <Flex
+            gap={3}
+        >
+            <Button colorScheme="blue" as={Link} to="/account">{t('menu.account')}</Button>
             <LogoutButton/>
-        </>
+        </Flex>
     )
 
     const notAuthContent = (

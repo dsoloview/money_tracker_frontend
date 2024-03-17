@@ -43,7 +43,7 @@ const validationSchema = yup.object({
 const UpdateAccountModal = ({isOpen, onClose, account}: Props) => {
     const {t} = useTranslation()
 
-    const {formik} = useMutateWithFormik<IAccountCreateUpdateRequest>({
+    const {formik, isPending} = useMutateWithFormik<IAccountCreateUpdateRequest>({
         mutation: useUpdateAccount,
         validationSchema: validationSchema,
         initialValues: {
@@ -137,7 +137,8 @@ const UpdateAccountModal = ({isOpen, onClose, account}: Props) => {
                     </ModalBody>
                     <ModalFooter>
                         <Flex gap="3">
-                            <Button colorScheme="blue" type="submit" form={`updateAccountForm_${account.id}`}>
+                            <Button isLoading={isPending} colorScheme="blue" type="submit"
+                                    form={`updateAccountForm_${account.id}`}>
                                 {t('form.submit')}
                             </Button>
                             <Button onClick={onClose}>{t('form.cancel')}</Button>

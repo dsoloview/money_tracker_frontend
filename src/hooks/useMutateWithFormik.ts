@@ -21,7 +21,7 @@ const useMutateWithFormik = <T extends FormikValues>(
         initialValues
     }: Props<T>
 ) => {
-    const {mutate, error, isError, isSuccess} = mutation();
+    const {mutate, isPending, error, isError, isSuccess} = mutation();
 
     const formik = useFormik<T>({
         initialValues: initialValues,
@@ -51,7 +51,7 @@ const useMutateWithFormik = <T extends FormikValues>(
         }
     }, [isSuccess]);
 
-    return {formik};
+    return {formik, isPending};
 }
 
 export {useMutateWithFormik};

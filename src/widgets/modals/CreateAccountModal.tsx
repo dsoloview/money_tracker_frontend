@@ -43,7 +43,7 @@ const validationSchema = yup.object({
 const CreateAccountModal = ({isOpen, onClose}: Props) => {
     const authData = useAuthStore(state => state.authData);
     const {t} = useTranslation()
-    const {formik} = useMutateWithFormik<IAccountCreateUpdateRequest>({
+    const {formik, isPending} = useMutateWithFormik<IAccountCreateUpdateRequest>({
         mutation: useCreateUserAccount,
         validationSchema: validationSchema,
         initialValues: {
@@ -138,7 +138,7 @@ const CreateAccountModal = ({isOpen, onClose}: Props) => {
                     </ModalBody>
                     <ModalFooter>
                         <Flex gap="3">
-                            <Button colorScheme="blue" type="submit" form="createAccountForm">
+                            <Button isLoading={isPending} colorScheme="blue" type="submit" form="createAccountForm">
                                 {t('form.submit')}
                             </Button>
                             <Button onClick={onClose}>{t('form.cancel')}</Button>

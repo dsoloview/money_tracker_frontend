@@ -38,7 +38,7 @@ const useUpdatePassword = () => {
     })
 }
 
-const useGetUser = (userId) => {
+const useGetUser = (userId: number) => {
     return useSuspenseQuery<IResponse<IUser>>({
         queryKey: ['user'],
         queryFn: async () => {

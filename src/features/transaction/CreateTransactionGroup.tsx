@@ -50,7 +50,7 @@ const validationSchema = yup.object({
 const CreateTransactionGroup = () => {
     const {isOpen, onOpen, onClose} = useDisclosure();
     const {t} = useTranslation();
-    const {formik} = useMutateWithFormik<ITransactionRequest>({
+    const {formik, isPending} = useMutateWithFormik<ITransactionRequest>({
         mutation: useCreateAccountTransaction,
         initialValues: {
             comment: "",
@@ -202,6 +202,7 @@ const CreateTransactionGroup = () => {
                         </DrawerBody>
                         <DrawerFooter>
                             <Button
+                                isLoading={isPending}
                                 type="submit"
                                 form="createTransactionForm"
                                 colorScheme="blue"

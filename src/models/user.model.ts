@@ -9,6 +9,7 @@ export interface IUser {
     settings: IUserSettings;
     updated_at: string;
     created_at: string;
+    balance?: number;
 }
 
 export interface IRole {

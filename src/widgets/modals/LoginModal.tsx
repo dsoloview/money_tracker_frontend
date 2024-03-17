@@ -42,7 +42,7 @@ const LoginModal = ({isOpen, onClose}: Props) => {
     const {t} = useTranslation()
     const [showPassword, setShowPassword] = useState(false)
 
-    const {formik} = useMutateWithFormik<ILoginData>({
+    const {formik, isPending} = useMutateWithFormik<ILoginData>({
         mutation: useLogin,
         initialValues: {
             email: "",
@@ -111,7 +111,7 @@ const LoginModal = ({isOpen, onClose}: Props) => {
                     </ModalBody>
                     <ModalFooter>
                         <Flex gap="3">
-                            <Button colorScheme="blue" type="submit" form="loginForm">
+                            <Button isLoading={isPending} colorScheme="blue" type="submit" form="loginForm">
                                 {t('form.submit')}
                             </Button>
                             <Button onClick={onClose} colorScheme="red">
