@@ -1,7 +1,7 @@
-import useAuthStore from "../../stores/authStore.ts";
 import {useGetUserAccounts} from "../../api/endpoints/user/account/userAccount.api.ts";
 import {Select} from "chakra-react-select";
 import {Badge, Box, Flex, Text} from "@chakra-ui/react";
+import useUserState from "../../hooks/useUserState.ts";
 
 type Props = {
     id: string,
@@ -23,8 +23,8 @@ const AccountSelect = (
         placeholder,
         defaultValue
     }: Props) => {
-    const user = useAuthStore(state => state.authData?.user);
-    const {data} = useGetUserAccounts(user?.id || 0);
+    const user = useUserState();
+    const {data} = useGetUserAccounts(user.id);
 
     const options = data.data.map((account) => {
         let balanceColor = "black";
@@ -75,7 +75,7 @@ const AccountSelect = (
         }
         return true;
     };
-    
+
     return (
         <Select
             id={id}

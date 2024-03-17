@@ -1,5 +1,4 @@
 import {DataTable} from "../../widgets/table/DataTable.tsx";
-import useAuthStore from "../../stores/authStore.ts";
 import {useGetUserTransactions} from "../../api/endpoints/user/transaction/userTransaction.api.ts";
 import {IParamTableGetRequest} from "../../models/request.model.ts";
 import usePagination from "../../hooks/usePagination.ts";
@@ -11,6 +10,7 @@ import {formatDateTimeString} from "../../tools/date/date.helper.ts";
 import {CategoryTransactionType} from "../../models/category.model.ts";
 import useFilters from "../../hooks/useFilters.ts";
 import TransactionTableFilters from "./TransactionTableFilters.tsx";
+import useUserState from "../../hooks/useUserState.ts";
 
 const columns = [
     {
@@ -86,11 +86,11 @@ const TransactionsTable = () => {
     const {filters, onFilterChange, resetFilters} = useFilters<TransactionTableFiltersType>({
         onFiltersChange: resetPagination
     });
-    
-    const user = useAuthStore(state => state.authData?.user);
+
+    const user = useUserState();
 
     const {data, isLoading} = useGetUserTransactions({
-        id: user?.id || 0,
+        id: user.id,
         page: pagination.pageIndex + 1,
         sort: field,
         direction: order,

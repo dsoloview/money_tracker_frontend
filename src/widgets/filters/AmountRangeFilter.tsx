@@ -1,9 +1,9 @@
 import {TransactionTableFiltersType} from "../../features/transaction/TransactionsTable.tsx";
 import {Flex, Input} from "@chakra-ui/react";
 import {useGetUserTransactionsMinMax} from "../../api/endpoints/user/transaction/userTransaction.api.ts";
-import useAuthStore from "../../stores/authStore.ts";
 import {useEffect, useState} from "react";
 import {useDebouncedCallback} from "use-debounce";
+import useUserState from "../../hooks/useUserState.ts";
 
 type Props = {
     filters: TransactionTableFiltersType;
@@ -16,9 +16,9 @@ const AmountRangeFilter = (
         onFiltersChange,
     }: Props
 ) => {
-    const user = useAuthStore(state => state.authData?.user);
+    const user = useUserState();
     const {data} = useGetUserTransactionsMinMax({
-        id: user?.id || 0,
+        id: user.id,
         filters: filters
     })
     const [minAmount, setMinAmount] = useState<number>(

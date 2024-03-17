@@ -1,16 +1,16 @@
 import {Box, Button, List, ListItem, Stack, Text, useDisclosure} from "@chakra-ui/react";
 import {ArrowRightIcon, DeleteIcon, EditIcon} from "@chakra-ui/icons";
-import useAuthStore from "../../../stores/authStore.ts";
 import {useGetUserAccounts} from "../../../api/endpoints/user/account/userAccount.api.ts";
 import {useDeleteAccount} from "../../../api/endpoints/account/account.api.ts";
 import {useState} from "react";
 import UpdateAccountModal from "../../../widgets/modals/UpdateAccountModal.tsx";
 import {IAccount} from "../../../models/account.model.ts";
 import {useNavigate} from "@tanstack/react-router";
+import useUserState from "../../../hooks/useUserState.ts";
 
 const AccountsList = () => {
-    const user = useAuthStore(state => state.authData?.user);
-    const {data} = useGetUserAccounts(user?.id || 0);
+    const user = useUserState();
+    const {data} = useGetUserAccounts(user.id);
     const {mutate} = useDeleteAccount();
     const {onOpen, isOpen, onClose} = useDisclosure();
     const [selectedAccount, setSelectedAccount] = useState<IAccount | null>(null);

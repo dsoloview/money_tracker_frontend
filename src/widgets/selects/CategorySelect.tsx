@@ -1,10 +1,10 @@
 import {Box, Button, Collapse, Flex} from "@chakra-ui/react";
 import {useState} from "react";
-import useAuthStore from "../../stores/authStore.ts";
 import {useGetUserCategories} from "../../api/endpoints/user/category/userCategory.api.ts";
 import {ChevronDownIcon, ChevronUpIcon} from "@chakra-ui/icons";
 import {CategoryTransactionType} from "../../models/category.model.ts";
 import CategoryButton from "../category/CategoryButton.tsx";
+import useUserState from "../../hooks/useUserState.ts";
 
 type Props = {
     id: string;
@@ -14,10 +14,10 @@ type Props = {
     values: number[]; // Formik values object
     type: CategoryTransactionType;
 };
-
+``
 const CategorySelect = ({setFieldValue, values, name, type}: Props) => {
-    const user = useAuthStore((state) => state.authData?.user);
-    const {data} = useGetUserCategories(user?.id || 0);
+    const user = useUserState();
+    const {data} = useGetUserCategories(user.id);
     const [showAll, setShowAll] = useState(false);
 
     const handleCategoryClick = (categoryId: number) => {
