@@ -6,6 +6,7 @@ import {IUser} from "../../../models/user.model.ts";
 import api from "../../api.ts";
 import {IResponse, ISuccessResponse} from "../../../models/response.model.ts";
 import queryClient from "../../queryClient.api.ts";
+import useAuthStore from "../../../stores/authStore.ts";
 
 const useUpdateUser = () => {
     return useMutation<IUser, IError<IUpdateUserRequest>, IParamRequest<IUpdateUserRequest>, unknown>({
@@ -43,6 +44,7 @@ const useGetUser = (userId: number) => {
         queryKey: ['user'],
         queryFn: async () => {
             const response = await api().get(`users/${userId}`);
+            useAuthStore.getState().setUser(response.data.data);
             return response.data;
         },
     })

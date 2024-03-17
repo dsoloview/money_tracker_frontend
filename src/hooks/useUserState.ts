@@ -4,9 +4,9 @@ const useUserState = () => {
     const user = useAuthStore(state => state.authData?.user);
 
     if (!user) {
-        throw new Error('User is not authenticated');
+        throw new Error('User is not authenticated')
     }
-    
+
     return user;
 }
 

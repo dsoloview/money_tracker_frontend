@@ -9,12 +9,13 @@ const LogoutButton = () => {
     const navigate = useNavigate()
     const {t} = useTranslation()
     const handleLogout = () => {
-        removeAuthData()
         navigate({
             to: '/'
         }).then(() => {
             toast.success('Logged out successfully')
-        })
+        }).then(() => {
+            removeAuthData()
+        });
     }
 
     return (
