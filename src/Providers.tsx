@@ -3,15 +3,20 @@ import {ReactNode} from "react";
 import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
 import queryClient from "./api/queryClient.api.ts";
 import {ChakraProvider} from "@chakra-ui/react";
+import {ErrorBoundary} from "react-error-boundary";
+import ErrorComponent from "./ErrorComponent.tsx";
 
 
 export default function Providers({children}: { children: ReactNode }) {
     return (
-        <QueryClientProvider client={queryClient}>
-            <ChakraProvider>
-                {children}
-                <ReactQueryDevtools initialIsOpen={false}/>
-            </ChakraProvider>
-        </QueryClientProvider>
+        <ErrorBoundary fallback={<ErrorComponent/>}>
+            <QueryClientProvider client={queryClient}>
+                <ChakraProvider>
+                    {children}
+                    <ReactQueryDevtools initialIsOpen={false}/>
+                </ChakraProvider>
+            </QueryClientProvider>
+        </ErrorBoundary>
+
     )
 }

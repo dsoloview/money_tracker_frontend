@@ -1,20 +1,15 @@
-import {createFileRoute} from "@tanstack/react-router";
-import AccountLayout from "../../../layouts/AccountLayout.tsx";
-import CurrencySelect from "../../../widgets/selects/CurrencySelect.tsx";
+import AccountLayout from "../../layouts/AccountLayout.tsx";
+import CurrencySelect from "../../widgets/selects/CurrencySelect.tsx";
 import {useTranslation} from "react-i18next";
-import LanguageSelect from "../../../widgets/selects/LanguageSelect.tsx";
+import LanguageSelect from "../../widgets/selects/LanguageSelect.tsx";
 import * as yup from "yup";
 import {Button, FormControl, FormErrorMessage, FormLabel, Input, Stack, useDisclosure} from "@chakra-ui/react";
-import {useUpdateUser} from "../../../api/endpoints/user/user.api.ts";
-import {IUpdateUserRequest} from "../../../models/request.model.ts";
-import UpdatePasswordModal from "../../../widgets/modals/UpdatePasswordModal.tsx";
-import {useMutateWithFormik} from "../../../hooks/useMutateWithFormik.ts";
-import useUserState from "../../../hooks/useUserState.ts";
-import i18next from "../../../tools/language/language.ts";
-
-export const Route = createFileRoute('/_authenticated/account/settings')({
-    component: Settings
-})
+import {useUpdateUser} from "../../api/endpoints/user/user.api.ts";
+import {IUpdateUserRequest} from "../../models/request.model.ts";
+import UpdatePasswordModal from "../../widgets/modals/UpdatePasswordModal.tsx";
+import {useMutateWithFormik} from "../../hooks/useMutateWithFormik.ts";
+import useUserState from "../../hooks/useUserState.ts";
+import i18next from "../../tools/language/language.ts";
 
 export interface ISettingsForm {
     name: string;
@@ -43,7 +38,7 @@ const validationSchema = yup.object({
     }),
 });
 
-function Settings() {
+function SettingsPage() {
     const user = useUserState();
     const {t} = useTranslation();
     const {onOpen, onClose, isOpen} = useDisclosure();
@@ -160,4 +155,4 @@ function Settings() {
     );
 }
 
-export default Settings;
+export default SettingsPage;

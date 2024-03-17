@@ -71,8 +71,6 @@ const CreateTransactionGroup = () => {
         }
     });
 
-    console.log(formik.values)
-
     const handleChangeType = (nextValue: string) => {
         formik.values.categories_ids = [];
         formik.setFieldValue('type', nextValue);

@@ -1,6 +1,6 @@
 import {Link} from "@chakra-ui/react";
-import {Link as RouterLink} from "@tanstack/react-router";
 import {ILink} from "../../models/navigation.model.ts";
+import {Link as RouterLink} from "react-router-dom";
 
 type Props = {
     link: ILink
