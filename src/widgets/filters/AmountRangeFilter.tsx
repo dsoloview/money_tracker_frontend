@@ -46,22 +46,26 @@ const AmountRangeFilter = (
         const value = parseFloat(event.target.value);
         if (!value) {
             setMinAmount(data.data.min)
+            minDebounced(data.data.min);
         } else {
             setMinAmount(value)
+            minDebounced(value);
+
         }
 
-        minDebounced(value);
+
     }
 
     const handleMaxAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = parseFloat(event.target.value);
         if (!value) {
             setMaxAmount(data.data.max)
+            maxDebounced(data.data.max);
         } else {
             setMaxAmount(value)
+            maxDebounced(value);
         }
 
-        maxDebounced(value);
     }
 
     return (
