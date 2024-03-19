@@ -10,8 +10,6 @@ type Props = {
     filters: TransactionTableFiltersType;
     onFiltersChange: (key: string, value: any) => void;
     resetFilters?: () => void;
-    minAmount?: number;
-    maxAmount?: number;
     isLoading: boolean;
 }
 

@@ -5,6 +5,7 @@ import useAuthStore from "../../../stores/authStore.ts";
 import {IError} from "../../../models/error.model.ts";
 import api from "../../api.ts";
 import {ILoginData, IRegisterData} from "../../../models/request.model.ts";
+import queryClient from "../../queryClient.api.ts";
 
 async function login(data: ILoginData) {
     const response = await api().post('auth/login', data);
@@ -52,6 +53,7 @@ const useLogout = () => {
         mutationFn: logout,
         onSuccess: () => {
             toast.success('Logout successful')
+            queryClient.clear()
         },
         onError: (error) => {
             toast.error(error.data.message)

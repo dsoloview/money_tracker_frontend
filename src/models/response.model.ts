@@ -32,11 +32,6 @@ export interface IMinMax {
     max: number;
 }
 
-export interface IMinMaxTransactionResponse<T> extends IPaginationResponse<T> {
-    min_amount: number;
-    max_amount: number;
-}
-
 export interface IAuthResponse {
     access_token: string;
     token_type: string;

@@ -12,6 +12,7 @@ import useFilters from "../../hooks/useFilters.ts";
 import TransactionTableFilters from "./TransactionTableFilters.tsx";
 import useUserState from "../../hooks/useUserState.ts";
 import i18next from "../../tools/language/language.ts";
+import TransactionTableStatistics from "./TransactionTableStatistics.tsx";
 
 const columns = [
     {
@@ -104,8 +105,6 @@ const TransactionsTable = () => {
                 filters={filters}
                 onFiltersChange={onFilterChange}
                 resetFilters={resetFilters}
-                minAmount={data?.min_amount || 0}
-                maxAmount={data?.max_amount || 0}
                 isLoading={isLoading}
 
             />
@@ -119,6 +118,7 @@ const TransactionsTable = () => {
                 onSortingChange={onSortingChange}
                 isLoading={isLoading}
             />
+            <TransactionTableStatistics data={data?.info}/>
         </>
     )
 }
