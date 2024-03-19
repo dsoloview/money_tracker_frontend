@@ -1,4 +1,4 @@
-import {useMutation, useSuspenseQuery} from "@tanstack/react-query";
+import {useMutation, useQuery, useSuspenseQuery} from "@tanstack/react-query";
 import {IResponse} from "../../../../models/response.model.ts";
 import api from "../../../api.ts";
 import {IAccount, IAccountCreateUpdateRequest} from "../../../../models/account.model.ts";
@@ -7,8 +7,18 @@ import {IParamRequest} from "../../../../models/request.model.ts";
 import {toast} from "react-toastify";
 import queryClient from "../../../queryClient.api.ts";
 
-const useGetUserAccounts = (userId: number) => {
+const useSuspenseGetUserAccounts = (userId: number) => {
     return useSuspenseQuery<IResponse<IAccount[]>>({
+        queryKey: ['userAccounts', userId],
+        queryFn: async () => {
+            const response = await api().get(`users/${userId}/accounts`);
+            return response.data;
+        },
+    })
+}
+
+const useGetUserAccounts = (userId: number) => {
+    return useQuery<IResponse<IAccount[]>>({
         queryKey: ['userAccounts', userId],
         queryFn: async () => {
             const response = await api().get(`users/${userId}/accounts`);
@@ -34,4 +44,4 @@ const useCreateUserAccount = () => {
     })
 }
 
-export {useGetUserAccounts, useCreateUserAccount};
+export {useGetUserAccounts, useSuspenseGetUserAccounts, useCreateUserAccount};

@@ -1,14 +1,16 @@
 import {TransactionTableFiltersType} from "../../features/transaction/TransactionsTable.tsx";
-import {Flex, Input} from "@chakra-ui/react";
+import {Flex, Input, InputGroup, InputRightElement, Spinner} from "@chakra-ui/react";
 import {useGetUserTransactionsMinMax} from "../../api/endpoints/user/transaction/userTransaction.api.ts";
 import {useEffect, useState} from "react";
 import {useDebouncedCallback} from "use-debounce";
 import useUserState from "../../hooks/useUserState.ts";
 import {useTranslation} from "react-i18next";
+import {ITransactionsInfo} from "../../models/transaction.model.ts";
 
 type Props = {
     filters: TransactionTableFiltersType;
     onFiltersChange: (key: string, value: any) => void;
+    transactionsInfo?: ITransactionsInfo;
 
 }
 const AmountRangeFilter = (
@@ -19,15 +21,16 @@ const AmountRangeFilter = (
 ) => {
     const {t} = useTranslation();
     const user = useUserState();
-    const {data} = useGetUserTransactionsMinMax({
+    const {data, isLoading} = useGetUserTransactionsMinMax({
         id: user.id,
         filters: filters
     })
+
     const [minAmount, setMinAmount] = useState<number>(
-        filters.amount?.$gte || data.data.min
+        filters.amount?.$gte || 0
     );
     const [maxAmount, setMaxAmount] = useState<number>(
-        filters.amount?.$lte || data.data.max
+        filters.amount?.$lte || 0
     );
 
     const minDebounced = useDebouncedCallback((value: number) => {
@@ -38,15 +41,20 @@ const AmountRangeFilter = (
     }, 500);
 
     useEffect(() => {
-        setMinAmount(filters.amount?.$gte || data.data.min);
-        setMaxAmount(filters.amount?.$lte || data.data.max);
+        if (data) {
+            console.log(data.data.min, data.data.max)
+            setMinAmount(filters.amount?.$gte || data.data.min);
+            setMaxAmount(filters.amount?.$lte || data.data.max);
+        }
     }, [data]);
 
     const handleMinAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = parseFloat(event.target.value);
         if (!value) {
-            setMinAmount(data.data.min)
-            minDebounced(data.data.min);
+            if (data) {
+                setMinAmount(data.data.min)
+                minDebounced(data.data.min);
+            }
         } else {
             setMinAmount(value)
             minDebounced(value);
@@ -59,8 +67,10 @@ const AmountRangeFilter = (
     const handleMaxAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = parseFloat(event.target.value);
         if (!value) {
-            setMaxAmount(data.data.max)
-            maxDebounced(data.data.max);
+            if (data) {
+                setMaxAmount(data.data.max)
+                maxDebounced(data.data.max);
+            }
         } else {
             setMaxAmount(value)
             maxDebounced(value);
@@ -73,24 +83,35 @@ const AmountRangeFilter = (
             alignItems="center"
             gap={4}
         >
-            <Input
-                value={minAmount}
-                onChange={handleMinAmountChange}
-                id="transactionTableMinAmountFilter"
-                name="minAmount"
-                placeholder={t("form.placeholder.minAmount")}
-                type="number"
+            <InputGroup
                 w={40}
-            />
-            <Input
-                value={maxAmount}
-                onChange={handleMaxAmountChange}
-                id="transactionTableMaxAmountFilter"
-                name="maxAmount"
-                placeholder={t("form.placeholder.maxAmount")}
-                type="number"
+            >
+                <Input
+                    disabled={isLoading}
+                    value={minAmount}
+                    onChange={handleMinAmountChange}
+                    id="transactionTableMinAmountFilter"
+                    name="minAmount"
+                    placeholder={t("form.placeholder.minAmount")}
+                    type="number"
+                />
+                {isLoading && <InputRightElement><Spinner/></InputRightElement>}
+            </InputGroup>
+            <InputGroup
                 w={40}
-            />
+            >
+                <Input
+                    disabled={isLoading}
+                    value={maxAmount}
+                    onChange={handleMaxAmountChange}
+                    id="transactionTableMaxAmountFilter"
+                    name="maxAmount"
+                    placeholder={t("form.placeholder.maxAmount")}
+                    type="number"
+                />
+                {isLoading && <InputRightElement><Spinner/></InputRightElement>}
+            </InputGroup>
+
         </Flex>
     )
 }

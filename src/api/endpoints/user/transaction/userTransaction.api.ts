@@ -21,7 +21,7 @@ const useGetUserTransactions = (request: IParamTableGetRequest) => {
 }
 
 const useGetUserTransactionsMinMax = (request: IParamTableGetRequest) => {
-    return useSuspenseQuery<IResponse<IMinMax>>({
+    return useQuery<IResponse<IMinMax>>({
         queryKey: ['userTransactionsMinMax', request.id, request.filters],
         queryFn: async () => {
             const query = qs.stringify({

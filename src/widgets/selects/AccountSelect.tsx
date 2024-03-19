@@ -24,35 +24,39 @@ const AccountSelect = (
         defaultValue
     }: Props) => {
     const user = useUserState();
-    const {data} = useGetUserAccounts(user.id);
+    const {data, isLoading} = useGetUserAccounts(user.id);
 
-    const options = data.data.map((account) => {
-        let balanceColor = "black";
-        if (account.balance < 0) {
-            balanceColor = "red";
-        } else if (account.balance > 0) {
-            balanceColor = "green";
-        }
-        return {
-            value: account.id,
-            filterValue: account.name,
-            label: (
-                <Flex justify="space-between" align="center">
-                    <Box>
-                        <Text as="span">{`${account.name}`}</Text>
-                        <Badge ml="0.5rem" colorScheme={balanceColor === 'red' ? 'red' : 'green'}>
-                            {`${account.currency.symbol} ${account.balance}`}
-                        </Badge>
-                    </Box>
-                    <Box>
-                        <Text as="span" color={balanceColor} fontSize="lg" fontWeight="bold" m={2}>
-                            {`${account.currency.code}`}
-                        </Text>
-                    </Box>
-                </Flex>
-            )
-        };
-    });
+    let options: { value: number, filterValue: string, label: JSX.Element }[] = [];
+
+    if (data) {
+        options = data.data.map((account) => {
+            let balanceColor = "black";
+            if (account.balance < 0) {
+                balanceColor = "red";
+            } else if (account.balance > 0) {
+                balanceColor = "green";
+            }
+            return {
+                value: account.id,
+                filterValue: account.name,
+                label: (
+                    <Flex justify="space-between" align="center">
+                        <Box>
+                            <Text as="span">{`${account.name}`}</Text>
+                            <Badge ml="0.5rem" colorScheme={balanceColor === 'red' ? 'red' : 'green'}>
+                                {`${account.currency.symbol} ${account.balance}`}
+                            </Badge>
+                        </Box>
+                        <Box>
+                            <Text as="span" color={balanceColor} fontSize="lg" fontWeight="bold" m={2}>
+                                {`${account.currency.code}`}
+                            </Text>
+                        </Box>
+                    </Flex>
+                )
+            };
+        });
+    }
 
     const handleChange = (option: any) => {
         if (setFieldValue) {
@@ -78,6 +82,7 @@ const AccountSelect = (
 
     return (
         <Select
+            isLoading={isLoading}
             id={id}
             name={name}
             options={options}

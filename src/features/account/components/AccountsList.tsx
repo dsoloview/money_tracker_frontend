@@ -1,6 +1,6 @@
 import {Box, Button, List, ListItem, Stack, Text, useDisclosure} from "@chakra-ui/react";
 import {ArrowRightIcon, DeleteIcon, EditIcon} from "@chakra-ui/icons";
-import {useGetUserAccounts} from "../../../api/endpoints/user/account/userAccount.api.ts";
+import {useSuspenseGetUserAccounts} from "../../../api/endpoints/user/account/userAccount.api.ts";
 import {useDeleteAccount} from "../../../api/endpoints/account/account.api.ts";
 import {useState} from "react";
 import UpdateAccountModal from "../../../widgets/modals/UpdateAccountModal.tsx";
@@ -11,7 +11,7 @@ import qs from "qs";
 
 const AccountsList = () => {
     const user = useUserState();
-    const {data} = useGetUserAccounts(user.id);
+    const {data} = useSuspenseGetUserAccounts(user.id);
     const {mutate} = useDeleteAccount();
     const {onOpen, isOpen, onClose} = useDisclosure();
     const [selectedAccount, setSelectedAccount] = useState<IAccount | null>(null);
