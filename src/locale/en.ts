@@ -39,6 +39,7 @@ export default {
                 amountTo: "Amount To",
                 comment: "Comment",
                 date: "Date",
+                description: "Description",
             },
             validation: {
                 required: "This field is required",
@@ -69,6 +70,8 @@ export default {
                 account: "Select an account",
                 accountFrom: "Select an account from",
                 accountTo: "Select an account to",
+                icon: "Enter an icon",
+                description: "Enter a description",
             }
         },
         model: {
@@ -98,10 +101,13 @@ export default {
             updateTransaction: "Update Transaction",
             createTransfer: "Create Transfer",
             updateTransfer: "Update Transfer",
+            createCategory: "Create Category",
+            updateCategory: "Update Category",
         },
         button: {
             close: "Close",
-            update_password: "Update Password"
+            update_password: "Update Password",
+            update_categories: "Update Categories",
         },
     }
 }

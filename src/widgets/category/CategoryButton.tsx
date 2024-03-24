@@ -1,5 +1,6 @@
 import {Box, Button, Text} from "@chakra-ui/react";
 import {ICategory} from "../../models/category.model.ts";
+import CategoryAvatar from "./CategoryAvatar.tsx";
 
 type Props = {
     category: ICategory;
@@ -32,12 +33,7 @@ const CategoryButton = (
                 justifyContent="center"
             >
                 <Box>
-                    {category.icon ? (
-                        <img src={category.icon} alt={category.name}
-                             style={{width: "30px", height: "30px", borderRadius: "50%"}}/>
-                    ) : (
-                        <Text fontSize="lg">{category.name.charAt(0)}</Text>
-                    )}
+                    <CategoryAvatar category={category}/>
                 </Box>
             </Button>
             <Text fontSize="sm" mt={1} maxWidth="60px" mx="auto" textAlign="center">

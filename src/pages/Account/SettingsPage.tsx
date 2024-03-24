@@ -10,6 +10,7 @@ import UpdatePasswordModal from "../../widgets/modals/UpdatePasswordModal.tsx";
 import {useMutateWithFormik} from "../../hooks/useMutateWithFormik.ts";
 import useUserState from "../../hooks/useUserState.ts";
 import i18next from "../../tools/language/language.ts";
+import {Link} from "react-router-dom";
 
 export interface ISettingsForm {
     name: string;
@@ -147,6 +148,7 @@ function SettingsPage() {
                         </FormControl>
                         <Button isLoading={isPending} type="submit">{t('form.submit')}</Button>
                         <Button onClick={onOpen}>{t('button.update_password')}</Button>
+                        <Button as={Link} to={'/account/settings/categories'}>{t('button.update_categories')}</Button>
                         <UpdatePasswordModal isOpen={isOpen} onClose={onClose}/>
                     </Stack>
                 </form>

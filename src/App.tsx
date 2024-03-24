@@ -8,6 +8,7 @@ import SettingsPage from "./pages/Account/SettingsPage.tsx";
 import AuthLayout from "./layouts/AuthLayout.tsx";
 import ErrorComponent from "./ErrorComponent.tsx";
 import TransfersPage from "./pages/Account/TransfersPage.tsx";
+import CategoriesPage from "./pages/Account/CategoriesPage.tsx";
 
 const router = createBrowserRouter([
     {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
             {
                 path: 'settings',
                 element: <SettingsPage/>
+            },
+            {
+                path: 'settings/categories',
+                element: <CategoriesPage/>
             },
             {
                 path: 'transfers',
