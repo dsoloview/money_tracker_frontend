@@ -20,15 +20,14 @@ import * as yup from "yup";
 import {useMutateWithFormik} from "../../hooks/useMutateWithFormik.ts";
 import i18next from '../../tools/language/language.ts';
 import {CategoryTransactionType, ICategory, ICategoryRequest} from "../../models/category.model.ts";
-import {useCreateUserCategory} from "../../api/endpoints/user/category/userCategory.api.ts";
 import CategoryTransactionTypeRadio from "../radio/CategoryTransactionTypeRadio.tsx";
-import useUserState from "../../hooks/useUserState.ts";
 import IconSelect from "../selects/IconSelect.tsx";
+import {useUpdateCategory} from "../../api/endpoints/category/category.api.ts";
 
 type Props = {
     isOpen: boolean;
     onClose: () => void;
-    parentCategory?: ICategory;
+    category: ICategory;
 }
 
 const validationSchema = yup.object({
@@ -43,32 +42,32 @@ const validationSchema = yup.object({
         .transform((value, originalValue) => originalValue === '' ? null : value),
 });
 
-const CreateCategoryModal = ({isOpen, onClose, parentCategory}: Props) => {
-    const user = useUserState();
+const UpdateCategoryModal = ({isOpen, onClose, category}: Props) => {
     const {t} = useTranslation()
     const {formik, isPending} = useMutateWithFormik<ICategoryRequest>({
-        mutation: useCreateUserCategory,
+        mutation: useUpdateCategory,
         validationSchema: validationSchema,
         initialValues: {
-            name: '',
-            icon_id: undefined,
-            type: parentCategory?.type || CategoryTransactionType.EXPENSE,
-            description: '',
-            parent_category_id: parentCategory?.id
+            name: category.name,
+            icon_id: category?.icon?.id || undefined,
+            type: category.type || CategoryTransactionType.EXPENSE,
+            description: category.description || '',
+            parent_category_id: category?.parent_category?.id
         },
         onSuccess: onClose,
         prepareSubmitData: (values) => {
             return {
-                id: user.id,
+                id: category.id,
                 data: values
             }
         }
     })
 
+    console.log(formik.values)
     const handleChangeType = (nextValue: string) => {
         formik.setFieldValue('type', nextValue);
     }
-    
+
     return (
         <Modal
             isOpen={isOpen}
@@ -82,7 +81,7 @@ const CreateCategoryModal = ({isOpen, onClose, parentCategory}: Props) => {
                         <Heading as="h2" size="lg">{t('title.createCategory')}</Heading>
                     </ModalHeader>
                     <ModalBody>
-                        <form id="createCategoryForm" onSubmit={formik.handleSubmit}>
+                        <form id="updateCategoryForm" onSubmit={formik.handleSubmit}>
                             <Stack spacing={3}>
                                 <FormControl
                                     isRequired
@@ -102,7 +101,7 @@ const CreateCategoryModal = ({isOpen, onClose, parentCategory}: Props) => {
                                 <FormControl
                                     isRequired
                                     isInvalid={formik.touched.type && Boolean(formik.errors.type)}
-                                    isDisabled={Boolean(parentCategory)}
+                                    isDisabled={Boolean(category.parent_category)}
                                 >
                                     <FormLabel htmlFor="type">{t('form.label.type')}</FormLabel>
                                     <CategoryTransactionTypeRadio
@@ -137,6 +136,7 @@ const CreateCategoryModal = ({isOpen, onClose, parentCategory}: Props) => {
                                         name="icon_id"
                                         onBlur={formik.handleBlur}
                                         setFieldValue={formik.setFieldValue}
+                                        defaultValue={category?.icon?.id}
                                     />
                                     <FormErrorMessage>{formik.errors.icon_id}</FormErrorMessage>
                                 </FormControl>
@@ -145,7 +145,7 @@ const CreateCategoryModal = ({isOpen, onClose, parentCategory}: Props) => {
                     </ModalBody>
                     <ModalFooter>
                         <Flex gap="3">
-                            <Button isLoading={isPending} colorScheme="blue" type="submit" form="createCategoryForm">
+                            <Button isLoading={isPending} colorScheme="blue" type="submit" form="updateCategoryForm">
                                 {t('form.submit')}
                             </Button>
                             <Button onClick={onClose}>{t('form.cancel')}</Button>
@@ -157,4 +157,4 @@ const CreateCategoryModal = ({isOpen, onClose, parentCategory}: Props) => {
     );
 }
 
-export default CreateCategoryModal;
+export default UpdateCategoryModal;

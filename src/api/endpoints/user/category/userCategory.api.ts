@@ -1,7 +1,7 @@
 import {useMutation, useSuspenseQuery} from "@tanstack/react-query";
 import {IResponse} from "../../../../models/response.model.ts";
 import api from "../../../api.ts";
-import {ICategory, ICategoryCreateRequest} from "../../../../models/category.model.ts";
+import {ICategory, ICategoryRequest} from "../../../../models/category.model.ts";
 import {IError} from "../../../../models/error.model.ts";
 import {IParamRequest} from "../../../../models/request.model.ts";
 import {toast} from "react-toastify";
@@ -18,7 +18,7 @@ const useGetUserCategories = (userId: number) => {
 }
 
 const useCreateUserCategory = () => {
-    return useMutation<ICategory, IError<ICategoryCreateRequest>, IParamRequest<ICategoryCreateRequest>, unknown>({
+    return useMutation<ICategory, IError<ICategoryRequest>, IParamRequest<ICategoryRequest>, unknown>({
         mutationFn: async (request) => {
             const response = await api().post(`users/${request.id}/categories`, request.data);
             return response.data.data;

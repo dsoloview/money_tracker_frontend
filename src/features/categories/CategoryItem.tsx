@@ -1,25 +1,11 @@
 import React from "react";
 import {ICategory} from "../../models/category.model.ts";
-import {
-    AccordionButton,
-    AccordionIcon,
-    AccordionItem,
-    AccordionPanel,
-    Button,
-    Flex,
-    useDisclosure
-} from "@chakra-ui/react";
+import {AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Flex} from "@chakra-ui/react";
 import CategoriesList from "./CategoriesList.tsx";
 import CategoryAvatar from "../../widgets/category/CategoryAvatar.tsx";
-import CreateCategoryModal from "../../widgets/modals/CreateCategoryModal.tsx";
+import CategoryActions from "./CategoryActions.tsx";
 
 const CategoryItem: React.FC<{ category: ICategory }> = ({category}) => {
-    const {onOpen, isOpen, onClose} = useDisclosure();
-    const handleAddSubcategory = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.stopPropagation();
-        onOpen();
-    }
-
     return (
         <AccordionItem>
             <AccordionButton as="div">
@@ -28,15 +14,14 @@ const CategoryItem: React.FC<{ category: ICategory }> = ({category}) => {
                     alignItems='center'
                     gap={4}
                 >
-                    <CategoryAvatar category={category} showBorder/>
+                    <CategoryAvatar name={category.name} icon={category.icon?.path}/>
                     {category.name}
                 </Flex>
                 <Flex
                     align="center"
                     gap={4}
                 >
-                    <Button onClick={handleAddSubcategory}>Add Subcategory</Button>
-                    <CreateCategoryModal isOpen={isOpen} onClose={onClose} parentCategory={category}/>
+                    <CategoryActions category={category}/>
                     <AccordionIcon/>
                 </Flex>
             </AccordionButton>

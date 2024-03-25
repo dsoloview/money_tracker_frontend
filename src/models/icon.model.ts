@@ -1,5 +1,5 @@
 export interface IIcon {
-    id: string;
+    id: number;
     name: string;
     path: string;
 }

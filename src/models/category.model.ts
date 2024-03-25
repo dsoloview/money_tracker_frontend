@@ -19,7 +19,7 @@ export enum CategoryTransactionType {
     EXPENSE = 'expense',
 }
 
-export interface ICategoryCreateRequest {
+export interface ICategoryRequest {
     name: string;
     type: CategoryTransactionType;
     icon_id?: number;

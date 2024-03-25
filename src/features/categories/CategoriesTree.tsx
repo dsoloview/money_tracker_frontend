@@ -1,8 +1,8 @@
 import useUserState from "../../hooks/useUserState.ts";
 import {useGetUserCategories} from "../../api/endpoints/user/category/userCategory.api.ts";
-import {Box, Button, Flex, Text, useDisclosure} from "@chakra-ui/react";
-import TreeView from "./TreeView.tsx";
+import {Accordion, Box, Button, Flex, Text, useDisclosure} from "@chakra-ui/react";
 import CreateCategoryModal from "../../widgets/modals/CreateCategoryModal.tsx";
+import CategoriesList from "./CategoriesList.tsx";
 
 const CategoriesTree = () => {
     const user = useUserState();
@@ -19,7 +19,9 @@ const CategoriesTree = () => {
                 borderRadius="lg"
             >
                 <Text>Income</Text>
-                <TreeView data={data.data.filter((category) => category.type === 'income')}/>
+                <Accordion allowMultiple>
+                    <CategoriesList categories={data.data.filter((category) => category.type === 'income')}/>
+                </Accordion>
             </Box>
             <Box
                 p={4}
@@ -27,7 +29,9 @@ const CategoriesTree = () => {
                 borderRadius="lg"
             >
                 <Text>Expense</Text>
-                <TreeView data={data.data.filter((category) => category.type === 'expense')}/>
+                <Accordion allowMultiple>
+                    <CategoriesList categories={data.data.filter((category) => category.type === 'expense')}/>
+                </Accordion>
             </Box>
             <Button mt={4} onClick={onOpen}>Add Category</Button>
             <CreateCategoryModal isOpen={isOpen} onClose={onClose}/>

@@ -33,7 +33,7 @@ const CategoryButton = (
                 justifyContent="center"
             >
                 <Box>
-                    <CategoryAvatar category={category}/>
+                    <CategoryAvatar name={category.name} icon={category.icon?.path}/>
                 </Box>
             </Button>
             <Text fontSize="sm" mt={1} maxWidth="60px" mx="auto" textAlign="center">

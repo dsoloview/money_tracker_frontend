@@ -1,12 +1,11 @@
 import {Avatar} from "@chakra-ui/react";
-import {ICategory} from "../../models/category.model.ts";
 
 type Props = {
-    category: ICategory;
+    name: string;
+    icon?: string;
     showBorder?: boolean;
 };
-const CategoryAvatar = ({category, showBorder = false}: Props) => {
-    console.log(category)
+const CategoryAvatar = ({name, icon, showBorder = false}: Props) => {
     return (
         <Avatar
             bg="transparent"
@@ -14,8 +13,8 @@ const CategoryAvatar = ({category, showBorder = false}: Props) => {
             borderColor="gray.300"
             color="black"
             size={"md"}
-            name={category.name}
-            src={category.icon?.path}
+            name={name}
+            src={icon}
         />
     )
 }
