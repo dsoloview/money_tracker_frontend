@@ -40,6 +40,7 @@ export default {
                 comment: "Comment",
                 date: "Date",
                 description: "Description",
+                icon: "Icon",
             },
             validation: {
                 required: "This field is required",

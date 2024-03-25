@@ -6,14 +6,16 @@ type Props = {
     showBorder?: boolean;
 };
 const CategoryAvatar = ({category, showBorder = false}: Props) => {
+    console.log(category)
     return (
         <Avatar
             bg="transparent"
             showBorder={showBorder}
             borderColor="gray.300"
             color="black"
+            size={"md"}
             name={category.name}
-            src={category.icon}
+            src={category.icon?.path}
         />
     )
 }

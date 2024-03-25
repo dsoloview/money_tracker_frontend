@@ -23,6 +23,7 @@ import {CategoryTransactionType, ICategory, ICategoryCreateRequest} from "../../
 import {useCreateUserCategory} from "../../api/endpoints/user/category/userCategory.api.ts";
 import CategoryTransactionTypeRadio from "../radio/CategoryTransactionTypeRadio.tsx";
 import useUserState from "../../hooks/useUserState.ts";
+import IconSelect from "../selects/IconSelect.tsx";
 
 type Props = {
     isOpen: boolean;
@@ -36,6 +37,7 @@ const validationSchema = yup.object({
     type: yup.string()
         .required(i18next.t('form.validation.required')),
     description: yup.string(),
+    icon_id: yup.number().nullable(),
     parent_category_id: yup.number()
         .nullable()
         .transform((value, originalValue) => originalValue === '' ? null : value),
@@ -49,9 +51,9 @@ const CreateCategoryModal = ({isOpen, onClose, parentCategory}: Props) => {
         validationSchema: validationSchema,
         initialValues: {
             name: '',
-            icon: '',
+            icon_id: undefined,
             type: parentCategory?.type || CategoryTransactionType.EXPENSE,
-            description: '',
+            description: undefined,
             parent_category_id: parentCategory?.id
         },
         onSuccess: onClose,
@@ -66,8 +68,6 @@ const CreateCategoryModal = ({isOpen, onClose, parentCategory}: Props) => {
     const handleChangeType = (nextValue: string) => {
         formik.setFieldValue('type', nextValue);
     }
-
-    console.log(formik.values)
 
     return (
         <Modal
@@ -127,6 +127,18 @@ const CreateCategoryModal = ({isOpen, onClose, parentCategory}: Props) => {
                                         onBlur={formik.handleBlur}
                                     />
                                     <FormErrorMessage>{formik.errors.description}</FormErrorMessage>
+                                </FormControl>
+                                <FormControl
+                                    isInvalid={formik.touched.description && Boolean(formik.errors.description)}
+                                >
+                                    <FormLabel htmlFor="type">{t('form.label.icon')}</FormLabel>
+                                    <IconSelect
+                                        id="icon_id"
+                                        name="icon_id"
+                                        onBlur={formik.handleBlur}
+                                        setFieldValue={formik.setFieldValue}
+                                    />
+                                    <FormErrorMessage>{formik.errors.icon_id}</FormErrorMessage>
                                 </FormControl>
                             </Stack>
                         </form>

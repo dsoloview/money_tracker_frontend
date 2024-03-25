@@ -1,11 +1,12 @@
 import {IUser} from "./user.model.ts";
+import {IIcon} from "./icon.model.ts";
 
 export interface ICategory {
     id: number;
     parent_category?: ICategory;
     children?: ICategory[];
     user?: IUser;
-    icon: string;
+    icon?: IIcon;
     name: string;
     type: CategoryTransactionType;
     description: string;
@@ -21,7 +22,7 @@ export enum CategoryTransactionType {
 export interface ICategoryCreateRequest {
     name: string;
     type: CategoryTransactionType;
-    icon: string;
-    description: string;
+    icon_id?: number;
+    description?: string;
     parent_category_id?: number;
 }
