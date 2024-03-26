@@ -7,6 +7,16 @@ import {IParamRequest} from "../../../../models/request.model.ts";
 import {toast} from "react-toastify";
 import queryClient from "../../../queryClient.api.ts";
 
+const useGetUserCategoriesTree = (userId: number) => {
+    return useSuspenseQuery<IResponse<ICategory[]>>({
+        queryKey: ['userCategoriesTree', userId],
+        queryFn: async () => {
+            const response = await api().get(`users/${userId}/categories/tree`);
+            return response.data;
+        },
+    })
+}
+
 const useGetUserCategories = (userId: number) => {
     return useSuspenseQuery<IResponse<ICategory[]>>({
         queryKey: ['userCategories', userId],
@@ -26,6 +36,7 @@ const useCreateUserCategory = () => {
         onSuccess: (_, request) => {
             toast.success('Category was created successfully')
             queryClient.invalidateQueries({queryKey: ['userCategories', request.id]})
+            queryClient.invalidateQueries({queryKey: ['userCategoriesTree', request.id]})
         },
         onError: (error) => {
             toast.error(error.data.message)
@@ -33,4 +44,4 @@ const useCreateUserCategory = () => {
     })
 }
 
-export {useGetUserCategories, useCreateUserCategory};
+export {useGetUserCategories, useCreateUserCategory, useGetUserCategoriesTree};

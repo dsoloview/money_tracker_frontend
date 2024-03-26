@@ -1,12 +1,12 @@
 import useUserState from "../../hooks/useUserState.ts";
-import {useGetUserCategories} from "../../api/endpoints/user/category/userCategory.api.ts";
 import {Accordion, Box, Button, Flex, Text, useDisclosure} from "@chakra-ui/react";
 import CreateCategoryModal from "../../widgets/modals/CreateCategoryModal.tsx";
 import CategoriesList from "./CategoriesList.tsx";
+import {useGetUserCategoriesTree} from "../../api/endpoints/user/category/userCategory.api.ts";
 
 const CategoriesTree = () => {
     const user = useUserState();
-    const {data} = useGetUserCategories(user.id)
+    const {data} = useGetUserCategoriesTree(user.id)
     const {onOpen, isOpen, onClose} = useDisclosure();
     return (
         <Flex

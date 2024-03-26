@@ -24,7 +24,7 @@ const IconSelect = (
     }: Props) => {
     const {data, isLoading} = useGetIcons();
 
-    let options: { value: string, filterValue: string, label: JSX.Element }[] = [];
+    let options: { value: number, filterValue: string, label: JSX.Element }[] = [];
 
     if (data) {
         options = data.data.map((icon) => {
@@ -73,16 +73,6 @@ const IconSelect = (
             isClearable={true}
             placeholder={placeholder}
             defaultValue={options.find((option) => option.value == defaultValue)}
-            // className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
-            // styles={{
-            //     menu: base => ({...base, zIndex: 9999}),
-            //     option: base => ({
-            //         ...base,
-            //         height: "50px",
-            //         display: "flex",
-            //         alignItems: "center"
-            //     })
-            // }}
         />
     );
 }

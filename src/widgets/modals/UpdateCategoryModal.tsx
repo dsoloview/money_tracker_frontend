@@ -78,7 +78,7 @@ const UpdateCategoryModal = ({isOpen, onClose, category}: Props) => {
             <ModalContent>
                 <Box p={5}>
                     <ModalHeader>
-                        <Heading as="h2" size="lg">{t('title.createCategory')}</Heading>
+                        <Heading as="h2" size="lg">{t('title.updateCategory')}</Heading>
                     </ModalHeader>
                     <ModalBody>
                         <form id="updateCategoryForm" onSubmit={formik.handleSubmit}>

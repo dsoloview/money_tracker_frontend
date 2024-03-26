@@ -19,6 +19,7 @@ const useDeleteCategory = () => {
             const userId = useAuthStore.getState().authData?.user.id
             if (userId) {
                 queryClient.invalidateQueries({queryKey: ['userCategories', userId]})
+                queryClient.invalidateQueries({queryKey: ['userCategoriesTree', userId]})
             }
         },
         onError: (error) => {
@@ -38,6 +39,7 @@ const useUpdateCategory = () => {
             const userId = useAuthStore.getState().authData?.user.id
             if (userId) {
                 queryClient.invalidateQueries({queryKey: ['userCategories', userId]})
+                queryClient.invalidateQueries({queryKey: ['userCategoriesTree', userId]})
             }
 
         },
