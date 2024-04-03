@@ -6,6 +6,7 @@ export default {
             settings: "Settings",
             account: "Account",
             transactions: "Transactions",
+            transfers: "Transfers"
         },
         auth: {
             login: "Login",
@@ -29,12 +30,17 @@ export default {
                 currency: "Currency",
                 language: "Language",
                 account: "Account",
+                accountFrom: "Account From",
+                accountTo: "Account To",
                 categories: "Categories",
                 type: "Type",
                 amount: "Amount",
+                amountFrom: "Amount From",
+                amountTo: "Amount To",
                 comment: "Comment",
                 date: "Date",
-                tools: "Tools",
+                description: "Description",
+                icon: "Icon",
             },
             validation: {
                 required: "This field is required",
@@ -55,12 +61,18 @@ export default {
                 password: "Enter your password",
                 current_password: "Enter your current password",
                 password_confirmation: "Confirm your password",
-                amount: "Enter the amount",
                 comment: "Enter a comment",
                 date: "Select the date",
+                amount: "Enter the amount",
                 minAmount: "Min amount",
                 maxAmount: "Max amount",
+                amountFrom: "Amount from",
+                amountTo: "Amount to",
                 account: "Select an account",
+                accountFrom: "Select an account from",
+                accountTo: "Select an account to",
+                icon: "Enter an icon",
+                description: "Enter a description",
             }
         },
         model: {
@@ -86,10 +98,17 @@ export default {
             register: "Register",
             createAccount: "Create Account",
             updateAccount: "Update Account",
+            createTransaction: "Create Transaction",
+            updateTransaction: "Update Transaction",
+            createTransfer: "Create Transfer",
+            updateTransfer: "Update Transfer",
+            createCategory: "Create Category",
+            updateCategory: "Update Category",
         },
         button: {
             close: "Close",
-            update_password: "Update Password"
+            update_password: "Update Password",
+            update_categories: "Update Categories",
         },
     }
 }
