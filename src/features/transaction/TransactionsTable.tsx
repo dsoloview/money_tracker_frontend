@@ -13,6 +13,7 @@ import TransactionTableFilters from "./TransactionTableFilters.tsx";
 import useUserState from "../../hooks/useUserState.ts";
 import i18next from "../../tools/language/language.ts";
 import TransactionTableStatistics from "./TransactionTableStatistics.tsx";
+import TransactionTableTools from "./TransactionTableTools.tsx";
 
 const columns = [
     {
@@ -66,6 +67,16 @@ const columns = [
             return formatDateTimeString(row.date);
         },
         enableSorting: true,
+    },
+    {
+        header: i18next.t('form.label.tools'),
+        accessor: 'column',
+        cell: (row: ITransaction) => {
+            return <TransactionTableTools
+                transactionId = {row.id}
+            />
+        },
+        enableSorting: false,
     },
 ];
 

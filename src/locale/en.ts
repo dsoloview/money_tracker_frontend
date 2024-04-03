@@ -34,6 +34,7 @@ export default {
                 amount: "Amount",
                 comment: "Comment",
                 date: "Date",
+                tools: "Tools",
             },
             validation: {
                 required: "This field is required",

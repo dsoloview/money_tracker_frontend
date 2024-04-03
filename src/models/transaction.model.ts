@@ -36,3 +36,7 @@ export interface ITransactionsInfo {
 export interface ITransactionWithInfoResponse<T> extends IPaginationResponse<T> {
     info: ITransactionsInfo;
 }
+
+export interface IIdRequest {
+    id: number;
+}
