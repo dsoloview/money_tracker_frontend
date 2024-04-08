@@ -3,11 +3,10 @@ import api from "../../api.ts";
 import {IError} from "../../../models/error.model.ts";
 import {toast} from "react-toastify";
 import queryClient from "../../queryClient.api.ts";
-import {IIdRequest} from "../../../models/request.model.ts";
 import useAuthStore from "../../../stores/authStore.ts";
 
 const useDeleteTransaction = () => {
-    return useMutation<IIdRequest, IError<unknown>, number, unknown>({
+    return useMutation<number, IError<unknown>, number, unknown>({
         mutationFn: async (transactionId) => {
             const response = await api().delete(`transactions/${transactionId}`);
             return response.data.data;
@@ -17,6 +16,10 @@ const useDeleteTransaction = () => {
             const user = useAuthStore.getState().authData?.user
             if (user) {
                 queryClient.invalidateQueries({queryKey: ['userTransactions', user.id]})
+                if (user) {
+                    queryClient.invalidateQueries({queryKey: ['userAccounts', user.id]})
+                    queryClient.invalidateQueries({queryKey: ['user']})
+                }
             }
 
         },
