@@ -12,7 +12,7 @@ const useDeleteTransaction = () => {
             const response = await api().delete(`transactions/${transactionId}`);
             return response.data.data;
         },
-        onSuccess: (_, request) => {
+        onSuccess: () => {
             toast.success('Transaction was deleted successfully');
             const user = useAuthStore.getState().authData?.user
             if (user) {
