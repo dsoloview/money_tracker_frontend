@@ -16,7 +16,7 @@ export default function TransactionTableTools({
   return (
     <>
       <Button
-        disabled={isPending}
+        isLoading={isPending}
         colorScheme="red"
         size="xs"
         onClick={handleTransactionDelete}
