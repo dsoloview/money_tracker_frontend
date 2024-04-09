@@ -40,3 +40,8 @@ export interface ITransactionWithInfoResponse<T> extends IPaginationResponse<T> 
 export interface IIdRequest {
     id: number;
 }
+
+export interface ITransactionId {
+    id: number;
+}
+  
