@@ -1,7 +1,7 @@
 import { Button } from "@chakra-ui/react";
 import { useDeleteTransaction } from "../../api/endpoints/transactions/transactions.api.ts";
 import { useState } from "react";
-
+import i18next from "../../tools/language/language.ts";
 type Props = {
   transactionId: number;
 };
@@ -26,7 +26,7 @@ export default function TransactionTableTools({
   return (
     <>
       <Button colorScheme="red" size="xs" onClick={handleTransactionDelete}>
-        Delete
+        {i18next.t('button.delete')}
       </Button>
     </>
   );
