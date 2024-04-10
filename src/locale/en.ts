@@ -41,6 +41,7 @@ export default {
                 date: "Date",
                 description: "Description",
                 icon: "Icon",
+                tools: "Tools",
             },
             validation: {
                 required: "This field is required",
@@ -107,6 +108,7 @@ export default {
         },
         button: {
             close: "Close",
+            delete: "Delete",
             update_password: "Update Password",
             update_categories: "Update Categories",
         },
