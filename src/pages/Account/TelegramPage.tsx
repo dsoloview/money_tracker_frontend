@@ -11,8 +11,11 @@ function TelegramPage() {
     <AccountLayout>
       <Link to="/telegram">Telegram</Link>
       <div className="grid grid-cols-1 gap-4">
-        {(isPending || isRefetching) ? (<Spinner />) : (<div>{data?.data.token}</div>)}
-        
+        {isPending || isRefetching ? (
+          <Spinner />
+        ) : (
+          <div>{data?.data.token}</div>
+        )}
       </div>
     </AccountLayout>
   );
