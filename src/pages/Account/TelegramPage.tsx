@@ -1,7 +1,7 @@
 import AccountLayout from "../../layouts/AccountLayout.tsx";
 import { Link } from "react-router-dom";
 import useUserState from "../../hooks/useUserState.ts";
-import { useGetUserTelegramToken } from "../../../src/api/endpoints/account/accountTelegram/accountTelegram.ts";
+import { useGetUserTelegramToken } from "../../api/endpoints/user/telegram/accountTelegram.ts";
 import { Spinner } from "@chakra-ui/react";
 
 function TelegramPage() {
