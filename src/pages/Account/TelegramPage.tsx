@@ -6,12 +6,12 @@ import { Spinner } from "@chakra-ui/react";
 
 function TelegramPage() {
   const user = useUserState();
-  const { data, isPending, isRefetching } = useGetUserTelegramToken(user.id);
+  const { data, isPending} = useGetUserTelegramToken(user.id);
   return (
     <AccountLayout>
       <Link to="/telegram">Telegram</Link>
       <div className="grid grid-cols-1 gap-4">
-        {isPending || isRefetching ? (
+        {isPending ? (
           <Spinner />
         ) : (
           <div>{data?.data.token}</div>

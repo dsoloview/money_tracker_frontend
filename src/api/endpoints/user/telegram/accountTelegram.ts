@@ -11,6 +11,8 @@ const useGetUserTelegramToken = (userId: number) => {
       const response = await api().get(`users/${userId}/telegram/token`);
       return response.data;
     },
+    gcTime: 0,
+    
   });
 };
 export { useGetUserTelegramToken };
