@@ -109,6 +109,7 @@ export default {
     },
     button: {
       close: "Close",
+      edit: "Edit",
       delete: "Delete",
       update_password: "Update Password",
       update_categories: "Update Categories",

@@ -13,6 +13,10 @@ export default function TransactionTableTools({
     mutate(transactionId);
   };
 
+  const handleTransactionEdit = () => {
+
+  };
+
   return (
     <>
       <Button
@@ -22,6 +26,15 @@ export default function TransactionTableTools({
         onClick={handleTransactionDelete}
       >
         {i18next.t("button.delete")}
+      </Button>
+
+      <Button
+        isLoading={false}
+        colorScheme="blue"
+        size="xs"
+        onClick={handleTransactionEdit}
+      >
+        {i18next.t("button.edit")}
       </Button>
     </>
   );
