@@ -1,5 +1,5 @@
 import { Button } from "@chakra-ui/react";
-import { useDeleteTransaction } from "../../api/endpoints/transactions/transactions.api.ts";
+import { useDeleteTransaction } from "../../api/endpoints/transaction/transactions.api.ts";
 import i18next from "../../tools/language/language.ts";
 type Props = {
   transactionId: number;
