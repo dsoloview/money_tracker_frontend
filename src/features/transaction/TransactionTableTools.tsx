@@ -1,6 +1,9 @@
 import { Button } from "@chakra-ui/react";
 import { useDeleteTransaction } from "../../api/endpoints/transaction/transactions.api.ts";
 import i18next from "../../tools/language/language.ts";
+import {useGetUserTransactionInfo} from "../../api/endpoints/user/transaction/userTransaction.api.ts";
+import useTransactionEditDrawer from "../../stores/drawerStore.ts";
+
 type Props = {
   transactionId: number;
 };
@@ -13,8 +16,9 @@ export default function TransactionTableTools({
     mutate(transactionId);
   };
 
+  const {onOpen} = useTransactionEditDrawer()
   const handleTransactionEdit = () => {
-
+    onOpen(transactionId);
   };
 
   return (

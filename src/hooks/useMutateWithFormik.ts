@@ -28,6 +28,7 @@ const useMutateWithFormik = <T extends FormikValues>(
     const formik = useFormik<T>({
         initialValues: initialValues,
         validationSchema: validationSchema,
+        enableReinitialize: true,
         onSubmit: async (values) => {
             mutate(prepareSubmitData ? prepareSubmitData(values) : values)
         }
