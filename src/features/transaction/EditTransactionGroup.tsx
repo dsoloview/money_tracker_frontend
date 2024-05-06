@@ -24,7 +24,7 @@ import { useMutateWithFormik } from "../../hooks/useMutateWithFormik.ts";
 import {
   useGetUserTransactionInfo,
   useUpdateUserTransaction,
-} from "../../api/endpoints/user/transaction/userTransaction.api";
+} from "../../api/endpoints/transaction/transactions.api.ts";
 import { Suspense } from "react";
 import i18next from "../../tools/language/language.ts";
 import AccountSelect from "../../widgets/selects/AccountSelect.tsx";

@@ -1,10 +1,13 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import api from "../../api.ts";
 import { IError } from "../../../models/error.model.ts";
 import { toast } from "react-toastify";
 import queryClient from "../../queryClient.api.ts";
 import useAuthStore from "../../../stores/authStore.ts";
-import {ITransactionId} from "../../../models/transaction.model.ts";
+import {ITransactionId, ITransaction} from "../../../models/transaction.model.ts";
+import { IParamRequest } from "../../../models/request.model.ts";
+import {IResponse} from "../../../models/response.model.ts";
+
 
 const useDeleteTransaction = () => {
   return useMutation<ITransactionId, IError<unknown>, number, unknown>({
@@ -33,4 +36,30 @@ const useDeleteTransaction = () => {
   });
 };
 
-export { useDeleteTransaction };
+const useGetUserTransactionInfo = (transactionId: number) => {
+  return useQuery<IResponse<ITransaction>>({
+      queryKey: ["transactionId", transactionId],
+      queryFn: async () => {
+          const response = await api().get(`transactions/${transactionId}`);
+          return response.data;
+
+      },
+      gcTime: 0,
+    });
+}
+
+const useUpdateUserTransaction = () => {
+  return useMutation<ITransaction, IError<ITransaction>, IParamRequest<ITransaction>, unknown> ({
+      mutationFn: async (request) => {
+          const response = await api().patch(`transactions/${request.id}`, request.data);
+          return response.data;
+      },
+      onSuccess: (_, request) => {
+          toast.success("Transaction was updated successfully");
+          queryClient.invalidateQueries({queryKey: ['transactionId', request.id]})
+
+      }
+  })
+}
+
+export { useDeleteTransaction, useGetUserTransactionInfo, useUpdateUserTransaction };
