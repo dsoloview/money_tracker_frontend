@@ -1,6 +1,5 @@
 import React from "react";
 import {ICategory} from "@/models/category.model.ts";
-import {Flex} from "@chakra-ui/react";
 import CategoriesList from "./CategoriesList.tsx";
 import CategoryAvatar from "../../widgets/category/CategoryAvatar.tsx";
 import CategoryActions from "./CategoryActions.tsx";
@@ -10,20 +9,13 @@ const CategoryItem: React.FC<{ category: ICategory }> = ({category}) => {
     return (
         <AccordionItem value={category.id.toString()}>
             <AccordionTrigger>
-                <Flex
-                    flex='1'
-                    alignItems='center'
-                    gap={4}
-                >
+                <div className="flex items-center gap-4">
                     <CategoryAvatar name={category.name} icon={category.icon?.path}/>
                     {category.name}
-                </Flex>
-                <Flex
-                    align="center"
-                    gap={4}
-                >
+                </div>
+                <div className="flex items-center gap-4">
                     <CategoryActions category={category}/>
-                </Flex>
+                </div>
             </AccordionTrigger>
             <AccordionContent>
                 {category.children && category.children.length > 0 ? (<CategoriesList categories={category.children}/>

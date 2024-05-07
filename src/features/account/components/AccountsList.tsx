@@ -1,4 +1,3 @@
-import {Box, List, ListItem, Stack, Text, useDisclosure} from "@chakra-ui/react";
 import {useSuspenseGetUserAccounts} from "@/api/endpoints/user/account/userAccount.api.ts";
 import {useDeleteAccount} from "@/api/endpoints/account/account.api.ts";
 import {useState} from "react";
@@ -9,6 +8,7 @@ import {useNavigate} from "react-router-dom";
 import qs from "qs";
 import {Button} from "@/ui/button.tsx";
 import {PanelLeftOpen, Pencil, Trash2} from "lucide-react";
+import {useDisclosure} from "@chakra-ui/react";
 
 const AccountsList = () => {
     const user = useUserState();
@@ -43,33 +43,31 @@ const AccountsList = () => {
     }
 
     return (
-        <Box>
-            <List spacing={3}>
+        <div>
+            <ul className="space-y-2">
                 {data.data.map((account) => (
-                    <ListItem key={account.id}>
-                        <Box shadow="md" p={5} rounded="md" bg="white">
-                            <Stack direction="row" align="center" justify="space-between">
-                                <Stack direction="column">
-                                    <Text fontSize="lg" fontWeight="bold">{account.name}</Text>
-                                    <Text color="gray.500">{account.bank}</Text>
-                                    <Text>{account.balance} {account.currency.symbol}</Text>
-                                </Stack>
-                                <Stack direction="row" spacing={2}>
-                                    <Button variant="red" onClick={() => handleDelete(account.id)}>
-                                        <Trash2/>
-                                    </Button>
-                                    <Button variant="yellow" onClick={() => handleEdit(account)}>
-                                        <Pencil/>
-                                    </Button>
-                                    <Button onClick={() => handleSelectAccount(account)} variant="green">
-                                        <PanelLeftOpen/>
-                                    </Button>
-                                </Stack>
-                            </Stack>
-                        </Box>
-                    </ListItem>
+                    <li className="rounded-md shadow-md bg-white p-5" key={account.id}>
+                        <div className="flex justify-between">
+                            <div className="flex flex-col">
+                                <span className="text-lg font-bold">{account.name}</span>
+                                <span className="text-gray-500">{account.bank}</span>
+                                <span>{account.balance} {account.currency.symbol}</span>
+                            </div>
+                            <div className="flex items-center justify-center space-x-2">
+                                <Button variant="red" onClick={() => handleDelete(account.id)}>
+                                    <Trash2/>
+                                </Button>
+                                <Button variant="yellow" onClick={() => handleEdit(account)}>
+                                    <Pencil/>
+                                </Button>
+                                <Button onClick={() => handleSelectAccount(account)} variant="green">
+                                    <PanelLeftOpen/>
+                                </Button>
+                            </div>
+                        </div>
+                    </li>
                 ))}
-            </List>
+            </ul>
             {selectedAccount
                 && <UpdateAccountModal
                     key={`${selectedAccount.id}-${selectedAccount.balance}`}
@@ -77,7 +75,7 @@ const AccountsList = () => {
                     onClose={onModalClose}
                     account={selectedAccount}/>
             }
-        </Box>
+        </div>
     )
 }
 

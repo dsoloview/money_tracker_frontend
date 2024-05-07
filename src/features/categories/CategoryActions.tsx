@@ -1,5 +1,5 @@
 import {ICategory} from "@/models/category.model.ts";
-import {Flex, useDisclosure} from "@chakra-ui/react";
+import {useDisclosure} from "@chakra-ui/react";
 import React from "react";
 import {useDeleteCategory} from "@/api/endpoints/category/category.api.ts";
 import CreateCategoryModal from "@/widgets/modals/CreateCategoryModal.tsx";
@@ -33,17 +33,14 @@ const CategoryActions = ({category}: Props) => {
 
     }
     return (
-        <Flex
-            gap={2}
-            mr={2}
-        >
+        <div className="flex gap-2 mr-2">
             <Button variant="outline" disabled={isPending} onClick={handleEdit}><Pencil/></Button>
             <Button variant="outline" disabled={isPending} onClick={handleDelete}><Trash2/></Button>
             <Button variant="outline" disabled={isPending} onClick={handleCreate}>Add Subcategory</Button>
             <CreateCategoryModal isOpen={isOpenCreate} onClose={onCloseCreate}
                                  parentCategory={category}/>
             <UpdateCategoryModal isOpen={isOpenUpdate} onClose={onCloseUpdate} category={category}/>
-        </Flex>
+        </div>
     );
 }
 

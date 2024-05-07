@@ -1,4 +1,4 @@
-import {ILink} from "../../models/navigation.model.ts";
+import {ILink} from "@/models/navigation.model.ts";
 import {Link} from "react-router-dom";
 
 type Props = {

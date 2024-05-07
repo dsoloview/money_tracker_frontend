@@ -1,6 +1,6 @@
 'use client'
 
-import {Box, Container, Flex, useColorModeValue, useDisclosure} from '@chakra-ui/react'
+import {useDisclosure} from '@chakra-ui/react'
 import useAuthStore from "@/stores/authStore.ts";
 import {useTranslation} from "react-i18next";
 import LogoutButton from "@/widgets/buttons/LogoutButton.tsx";
@@ -8,6 +8,7 @@ import LoginModal from "@/widgets/modals/LoginModal.tsx";
 import SignupModal from "@/widgets/modals/SignupModal.tsx";
 import {Link} from "react-router-dom";
 import {Button} from "@/ui/button.tsx";
+import Container from "@/layouts/Container.tsx";
 
 
 export default function IndexTopBar() {
@@ -18,14 +19,12 @@ export default function IndexTopBar() {
     const {t} = useTranslation();
 
     const authContent = (
-        <Flex
-            gap={3}
-        >
+        <div className="flex gap-3">
             <Button asChild>
                 <Link to="/account">{t('menu.account')}</Link>
             </Button>
             <LogoutButton/>
-        </Flex>
+        </div>
     )
 
     const notAuthContent = (
@@ -43,15 +42,15 @@ export default function IndexTopBar() {
         </>
     )
     return (
-        <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
-            <Container maxW="container.xl">
-                <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-                    <Box><a href="/">Money Tracker</a></Box>
-                    <Flex alignItems={'center'}>
+        <div className="bg-gray-100 px-4">
+            <Container>
+                <div className="flex h-16 items-center justify-between">
+                    <div>Money Tracker</div>
+                    <div className="flex items-center">
                         {user ? authContent : notAuthContent}
-                    </Flex>
-                </Flex>
+                    </div>
+                </div>
             </Container>
-        </Box>
+        </div>
     )
 }
