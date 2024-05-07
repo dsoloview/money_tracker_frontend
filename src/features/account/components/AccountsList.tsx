@@ -1,13 +1,14 @@
-import {Box, Button, List, ListItem, Stack, Text, useDisclosure} from "@chakra-ui/react";
-import {ArrowRightIcon, DeleteIcon, EditIcon} from "@chakra-ui/icons";
-import {useSuspenseGetUserAccounts} from "../../../api/endpoints/user/account/userAccount.api.ts";
-import {useDeleteAccount} from "../../../api/endpoints/account/account.api.ts";
+import {Box, List, ListItem, Stack, Text, useDisclosure} from "@chakra-ui/react";
+import {useSuspenseGetUserAccounts} from "@/api/endpoints/user/account/userAccount.api.ts";
+import {useDeleteAccount} from "@/api/endpoints/account/account.api.ts";
 import {useState} from "react";
-import UpdateAccountModal from "../../../widgets/modals/UpdateAccountModal.tsx";
-import {IAccount} from "../../../models/account.model.ts";
-import useUserState from "../../../hooks/useUserState.ts";
+import UpdateAccountModal from "@/widgets/modals/UpdateAccountModal.tsx";
+import {IAccount} from "@/models/account.model.ts";
+import useUserState from "@/hooks/useUserState.ts";
 import {useNavigate} from "react-router-dom";
 import qs from "qs";
+import {Button} from "@/ui/button.tsx";
+import {PanelLeftOpen, Pencil, Trash2} from "lucide-react";
 
 const AccountsList = () => {
     const user = useUserState();
@@ -54,14 +55,14 @@ const AccountsList = () => {
                                     <Text>{account.balance} {account.currency.symbol}</Text>
                                 </Stack>
                                 <Stack direction="row" spacing={2}>
-                                    <Button colorScheme="red" onClick={() => handleDelete(account.id)}>
-                                        <DeleteIcon/>
+                                    <Button variant="red" onClick={() => handleDelete(account.id)}>
+                                        <Trash2/>
                                     </Button>
-                                    <Button colorScheme="yellow" onClick={() => handleEdit(account)}>
-                                        <EditIcon/>
+                                    <Button variant="yellow" onClick={() => handleEdit(account)}>
+                                        <Pencil/>
                                     </Button>
-                                    <Button onClick={() => handleSelectAccount(account)} colorScheme="green">
-                                        <ArrowRightIcon/>
+                                    <Button onClick={() => handleSelectAccount(account)} variant="green">
+                                        <PanelLeftOpen/>
                                     </Button>
                                 </Stack>
                             </Stack>

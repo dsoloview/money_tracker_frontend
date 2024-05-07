@@ -1,14 +1,15 @@
 import React from "react";
-import {ICategory} from "../../models/category.model.ts";
-import {AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Flex} from "@chakra-ui/react";
+import {ICategory} from "@/models/category.model.ts";
+import {Flex} from "@chakra-ui/react";
 import CategoriesList from "./CategoriesList.tsx";
 import CategoryAvatar from "../../widgets/category/CategoryAvatar.tsx";
 import CategoryActions from "./CategoryActions.tsx";
+import {AccordionContent, AccordionItem, AccordionTrigger} from "@/ui/accordion.tsx";
 
 const CategoryItem: React.FC<{ category: ICategory }> = ({category}) => {
     return (
-        <AccordionItem>
-            <AccordionButton as="div">
+        <AccordionItem value={category.id.toString()}>
+            <AccordionTrigger>
                 <Flex
                     flex='1'
                     alignItems='center'
@@ -22,15 +23,14 @@ const CategoryItem: React.FC<{ category: ICategory }> = ({category}) => {
                     gap={4}
                 >
                     <CategoryActions category={category}/>
-                    <AccordionIcon/>
                 </Flex>
-            </AccordionButton>
-            <AccordionPanel>
+            </AccordionTrigger>
+            <AccordionContent>
                 {category.children && category.children.length > 0 ? (<CategoriesList categories={category.children}/>
                 ) : (
                     <p>No Subcategories</p>
                 )}
-            </AccordionPanel>
+            </AccordionContent>
         </AccordionItem>
     );
 };

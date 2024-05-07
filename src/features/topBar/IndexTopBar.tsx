@@ -1,12 +1,13 @@
 'use client'
 
-import {Box, Button, Container, Flex, useColorModeValue, useDisclosure,} from '@chakra-ui/react'
-import useAuthStore from "../../stores/authStore.ts";
+import {Box, Container, Flex, useColorModeValue, useDisclosure} from '@chakra-ui/react'
+import useAuthStore from "@/stores/authStore.ts";
 import {useTranslation} from "react-i18next";
-import LogoutButton from "../../widgets/buttons/LogoutButton.tsx";
-import LoginModal from "../../widgets/modals/LoginModal.tsx";
-import SignupModal from "../../widgets/modals/SignupModal.tsx";
+import LogoutButton from "@/widgets/buttons/LogoutButton.tsx";
+import LoginModal from "@/widgets/modals/LoginModal.tsx";
+import SignupModal from "@/widgets/modals/SignupModal.tsx";
 import {Link} from "react-router-dom";
+import {Button} from "@/ui/button.tsx";
 
 
 export default function IndexTopBar() {
@@ -20,7 +21,9 @@ export default function IndexTopBar() {
         <Flex
             gap={3}
         >
-            <Button colorScheme="blue" as={Link} to="/account">{t('menu.account')}</Button>
+            <Button asChild>
+                <Link to="/account">{t('menu.account')}</Link>
+            </Button>
             <LogoutButton/>
         </Flex>
     )

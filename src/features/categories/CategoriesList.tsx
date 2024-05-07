@@ -1,5 +1,5 @@
 import React from "react";
-import {ICategory} from "../../models/category.model.ts";
+import {ICategory} from "@/models/category.model.ts";
 import CategoryItem from "./CategoryItem.tsx";
 
 const CategoriesList: React.FC<{ categories: ICategory[] }> = ({categories}) => {

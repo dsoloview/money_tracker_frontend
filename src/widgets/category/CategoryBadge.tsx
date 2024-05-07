@@ -1,5 +1,5 @@
-import {Badge, Text} from "@chakra-ui/react";
-import {CategoryTransactionType, ICategory} from "../../models/category.model.ts";
+import {CategoryTransactionType, ICategory} from "@/models/category.model.ts";
+import {Badge} from "@/ui/badge.tsx";
 
 type Props = {
     category: ICategory;
@@ -10,10 +10,8 @@ const CategoryBadge = (
     }: Props
 ) => {
     return (
-        <Badge colorScheme={category.type === CategoryTransactionType.EXPENSE ? "yellow" : "green"}>
-            <Text>
-                {category.name}
-            </Text>
+        <Badge variant={category.type === CategoryTransactionType.EXPENSE ? "yellow" : "green"}>
+            {category.name}
         </Badge>
     )
 }

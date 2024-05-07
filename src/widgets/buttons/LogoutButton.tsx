@@ -1,9 +1,9 @@
-import useAuthStore from "../../stores/authStore.ts";
+import useAuthStore from "@/stores/authStore.ts";
 import {useTranslation} from "react-i18next";
-import {Button} from '@chakra-ui/react'
 import {useNavigate} from "react-router-dom";
-import {useLogout} from "../../api/endpoints/auth/auth.api.ts";
+import {useLogout} from "@/api/endpoints/auth/auth.api.ts";
 import {useEffect} from "react";
+import {Button} from "@/ui/button.tsx";
 
 const LogoutButton = () => {
     const removeAuthData = useAuthStore((state) => state.removeData)
@@ -22,7 +22,7 @@ const LogoutButton = () => {
     }, [isSuccess]);
 
     return (
-        <Button colorScheme="blue" onClick={handleLogout}>
+        <Button onClick={handleLogout}>
             {t('auth.logout')}
         </Button>
     );
