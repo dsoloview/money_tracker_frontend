@@ -1,6 +1,6 @@
 import {Select} from "chakra-react-select";
 import {Avatar, Flex} from "@chakra-ui/react";
-import {useGetIcons} from "../../api/endpoints/icons.api.ts";
+import {useGetIcons} from "@/api/endpoints/icons.api.ts";
 
 type Props = {
     id: string,

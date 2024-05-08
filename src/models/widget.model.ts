@@ -1,11 +1,9 @@
-import {ChangeEvent} from "react";
-
 export interface ISelectProps {
     placeholder?: string
     id?: string
     name?: string
-    value: number
-    onChange: (event: ChangeEvent<HTMLSelectElement>) => void
+    value: string
+    onChange: (value: string) => void
     hasError?: boolean
     errorMessage?: string
     required?: boolean

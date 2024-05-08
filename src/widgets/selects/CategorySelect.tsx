@@ -1,10 +1,10 @@
 import {Box, Button, Collapse, Flex} from "@chakra-ui/react";
 import {useState} from "react";
 import {ChevronDownIcon, ChevronUpIcon} from "@chakra-ui/icons";
-import {CategoryTransactionType} from "../../models/category.model.ts";
+import {CategoryTransactionType} from "@/models/category.model.ts";
 import CategoryButton from "../category/CategoryButton.tsx";
-import useUserState from "../../hooks/useUserState.ts";
-import {useGetUserCategories} from "../../api/endpoints/user/category/userCategory.api.ts";
+import useUserState from "@/hooks/useUserState.ts";
+import {useGetUserCategories} from "@/api/endpoints/user/category/userCategory.api.ts";
 
 type Props = {
     id: string;

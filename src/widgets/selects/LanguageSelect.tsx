@@ -1,33 +1,20 @@
-import {Select, Spinner} from '@chakra-ui/react'
-import {ISelectProps} from "../../models/widget.model.ts";
+import {ISelectProps} from "@/models/widget.model.ts";
 import {Suspense} from "react";
-import {useLanguages} from "../../api/endpoints/languages.api.ts";
+import {useLanguages} from "@/api/endpoints/languages.api.ts";
+import {Spinner} from "@/ui/spinner.tsx";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/ui/select.tsx";
 
 const LanguageSelect = (
     {
-        placeholder,
-        id,
-        name,
         value,
         onChange,
-        hasError,
-        required,
-        onBlur,
-        className
     }: ISelectProps) => {
 
     return (
         <Suspense fallback={<Spinner/>}>
             <SuspenseLanguageSelect
                 value={value}
-                placeholder={placeholder}
-                className={className}
-                id={id}
-                name={name}
                 onChange={onChange}
-                required={required}
-                hasError={hasError}
-                onBlur={onBlur}
             />
         </Suspense>
     )
@@ -35,37 +22,24 @@ const LanguageSelect = (
 
 const SuspenseLanguageSelect = (
     {
-        placeholder,
-        id,
-        name,
         onChange,
-        hasError,
-        required,
-        onBlur,
-        className,
         value
 
     }: ISelectProps) => {
     const {data} = useLanguages();
-    
+
     return (
-        <Select
-            value={value}
-            placeholder={placeholder}
-            className={className}
-            id={id}
-            name={name}
-            onChange={onChange}
-            isRequired={required}
-            isInvalid={hasError}
-            onBlur={onBlur}
-        >
-            <option value={0} disabled>Select language</option>
-            {data?.data.map((language) => (
-                <option key={language.id} value={language.id}>
-                    {language.name} ({language.code})
-                </option>
-            ))}
+        <Select onValueChange={onChange} defaultValue={value.toString()}>
+            <SelectTrigger>
+                <SelectValue placeholder="Select language"/>
+            </SelectTrigger>
+            <SelectContent>
+                {data?.data.map((language) => (
+                    <SelectItem key={language.id} value={language.id.toString()}>
+                        {language.name} ({language.code})
+                    </SelectItem>
+                ))}
+            </SelectContent>
         </Select>
     )
 }

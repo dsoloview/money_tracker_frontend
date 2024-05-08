@@ -9,8 +9,8 @@ export interface IRegisterData {
     password: string;
     password_confirmation: string;
     settings: {
-        main_currency_id: number;
-        language_id: number;
+        main_currency_id: string;
+        language_id: string;
     };
 }
 

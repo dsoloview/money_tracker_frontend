@@ -57,12 +57,12 @@ const RegisterModal = () => {
             password: "",
             password_confirmation: "",
             settings: {
-                main_currency_id: 0,
-                language_id: 0
+                main_currency_id: "",
+                language_id: ""
             }
         },
     });
-    
+
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -147,11 +147,8 @@ const RegisterModal = () => {
                                             <FormLabel>{t('form.label.currency')}</FormLabel>
                                             <FormControl>
                                                 <CurrencySelect
-                                                    id="main_currency_id"
-                                                    name="settings.main_currency_id"
                                                     value={field.value}
                                                     onChange={field.onChange}
-                                                    onBlur={field.onBlur}
                                                 />
                                             </FormControl>
                                             <FormMessage/>
@@ -165,11 +162,8 @@ const RegisterModal = () => {
                                             <FormLabel>{t('form.label.language')}</FormLabel>
                                             <FormControl>
                                                 <LanguageSelect
-                                                    id="language_id"
-                                                    name="settings.language_id"
                                                     value={field.value}
                                                     onChange={field.onChange}
-                                                    onBlur={field.onBlur}
                                                 />
                                             </FormControl>
                                             <FormMessage/>
