@@ -62,10 +62,7 @@ const RegisterModal = () => {
             }
         },
     });
-
-    console.log(form.getValues())
-
-
+    
     return (
         <Dialog>
             <DialogTrigger asChild>
