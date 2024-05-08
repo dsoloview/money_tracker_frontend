@@ -1,11 +1,10 @@
 'use client'
 
-import {useDisclosure} from '@chakra-ui/react'
 import useAuthStore from "@/stores/authStore.ts";
 import {useTranslation} from "react-i18next";
 import LogoutButton from "@/widgets/buttons/LogoutButton.tsx";
 import LoginModal from "@/widgets/modals/LoginModal.tsx";
-import SignupModal from "@/widgets/modals/SignupModal.tsx";
+import RegisterModal from "@/widgets/modals/RegisterModal.tsx";
 import {Link} from "react-router-dom";
 import {Button} from "@/ui/button.tsx";
 import Container from "@/layouts/Container.tsx";
@@ -14,8 +13,6 @@ import Container from "@/layouts/Container.tsx";
 export default function IndexTopBar() {
 
     const user = useAuthStore(state => state.authData?.user);
-    const {isOpen: isOpenLoginModal, onOpen: onOpenLoginModal, onClose: onCloseLoginModal} = useDisclosure()
-    const {isOpen: isOpenSignupModal, onOpen: onOpenSignupModal, onClose: onCloseSignupModal} = useDisclosure()
     const {t} = useTranslation();
 
     const authContent = (
@@ -28,18 +25,10 @@ export default function IndexTopBar() {
     )
 
     const notAuthContent = (
-        <>
-            <Button onClick={onOpenLoginModal}>{t('auth.login')}</Button>
-            <LoginModal
-                isOpen={isOpenLoginModal}
-                onClose={onCloseLoginModal}
-            />
-            <Button onClick={onOpenSignupModal}>{t('auth.register')}</Button>
-            <SignupModal
-                isOpen={isOpenSignupModal}
-                onClose={onCloseSignupModal}
-            />
-        </>
+        <div className="flex items-center gap-3">
+            <LoginModal/>
+            <RegisterModal/>
+        </div>
     )
     return (
         <div className="bg-gray-100 px-4">
