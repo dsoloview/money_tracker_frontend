@@ -1,10 +1,11 @@
-import {ICategory} from "../../models/category.model.ts";
-import {Button, Flex, useDisclosure} from "@chakra-ui/react";
-import {DeleteIcon, EditIcon} from "@chakra-ui/icons";
+import {ICategory} from "@/models/category.model.ts";
+import {useDisclosure} from "@chakra-ui/react";
 import React from "react";
-import {useDeleteCategory} from "../../api/endpoints/category/category.api.ts";
-import CreateCategoryModal from "../../widgets/modals/CreateCategoryModal.tsx";
-import UpdateCategoryModal from "../../widgets/modals/UpdateCategoryModal.tsx";
+import {useDeleteCategory} from "@/api/endpoints/category/category.api.ts";
+import CreateCategoryModal from "@/widgets/modals/CreateCategoryModal.tsx";
+import UpdateCategoryModal from "@/widgets/modals/UpdateCategoryModal.tsx";
+import {Button} from "@/ui/button.tsx";
+import {Pencil, Trash2} from "lucide-react";
 
 type Props = {
     category: ICategory;
@@ -32,16 +33,14 @@ const CategoryActions = ({category}: Props) => {
 
     }
     return (
-        <Flex
-            gap={2}
-        >
-            <Button disabled={isPending} onClick={handleEdit}><EditIcon/></Button>
-            <Button disabled={isPending} onClick={handleDelete}><DeleteIcon/></Button>
-            <Button disabled={isPending} onClick={handleCreate}>Add Subcategory</Button>
+        <div className="flex gap-2 mr-2">
+            <Button variant="outline" disabled={isPending} onClick={handleEdit}><Pencil/></Button>
+            <Button variant="outline" disabled={isPending} onClick={handleDelete}><Trash2/></Button>
+            <Button variant="outline" disabled={isPending} onClick={handleCreate}>Add Subcategory</Button>
             <CreateCategoryModal isOpen={isOpenCreate} onClose={onCloseCreate}
                                  parentCategory={category}/>
             <UpdateCategoryModal isOpen={isOpenUpdate} onClose={onCloseUpdate} category={category}/>
-        </Flex>
+        </div>
     );
 }
 

@@ -1,21 +1,16 @@
-import {Avatar} from "@chakra-ui/react";
+import {Avatar, AvatarFallback, AvatarImage} from "@/ui/avatar.tsx";
 
 type Props = {
     name: string;
     icon?: string;
     showBorder?: boolean;
 };
-const CategoryAvatar = ({name, icon, showBorder = false}: Props) => {
+const CategoryAvatar = ({name, icon}: Props) => {
     return (
-        <Avatar
-            bg="transparent"
-            showBorder={showBorder}
-            borderColor="gray.300"
-            color="black"
-            size={"md"}
-            name={name}
-            src={icon}
-        />
+        <Avatar>
+            <AvatarImage src={icon} alt={name}/>
+            <AvatarFallback>{name}</AvatarFallback>
+        </Avatar>
     )
 }
 

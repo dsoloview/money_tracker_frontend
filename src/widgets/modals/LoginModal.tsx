@@ -1,33 +1,22 @@
-import {
-    Box,
-    Button,
-    Flex,
-    FormControl,
-    FormErrorMessage,
-    Heading,
-    Input,
-    InputGroup,
-    InputRightElement,
-    Modal,
-    ModalBody,
-    ModalContent,
-    ModalFooter,
-    ModalHeader,
-    ModalOverlay,
-    Stack
-} from '@chakra-ui/react'
 import {useTranslation} from "react-i18next";
 import * as yup from "yup";
-import {useLogin} from "../../api/endpoints/auth/auth.api.ts";
-import {ILoginData} from "../../models/request.model.ts";
-import {useMutateWithFormik} from "../../hooks/useMutateWithFormik.ts";
+import {useLogin} from "@/api/endpoints/auth/auth.api.ts";
+import {ILoginData} from "@/models/request.model.ts";
 import {useState} from "react";
-import i18next from '../../tools/language/language.ts';
-
-type Props = {
-    isOpen: boolean;
-    onClose: () => void;
-}
+import i18next from '@/tools/language/language.ts';
+import {Button} from '@/ui/button.tsx';
+import {useMutateWithForm} from "@/hooks/useMutateWithForm.ts";
+import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/ui/form.tsx";
+import {Input} from "@/ui/input.tsx";
+import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger
+} from "@/ui/dialog.tsx";
 
 const validationSchema = yup.object({
     email: yup.string()
@@ -38,90 +27,92 @@ const validationSchema = yup.object({
         .required(i18next.t('form.validation.required')),
 });
 
-const LoginModal = ({isOpen, onClose}: Props) => {
+const LoginModal = () => {
     const {t} = useTranslation()
     const [showPassword, setShowPassword] = useState(false)
 
-    const {formik, isPending} = useMutateWithFormik<ILoginData>({
+    const {form, onSubmit, isPending} = useMutateWithForm<ILoginData>({
         mutation: useLogin,
+        validationSchema: validationSchema,
         initialValues: {
             email: "",
             password: ""
         },
-        validationSchema: validationSchema,
-        onSuccess: onClose,
-    });
+
+    })
 
 
     return (
-        <Modal
-            isOpen={isOpen}
-            onClose={onClose}
-            isCentered
-        >
-            <ModalOverlay/>
-            <ModalContent>
-                <Box p={5}>
-                    <ModalHeader>
-                        <Heading as="h2" size="lg">{t('auth.login')}</Heading>
-                    </ModalHeader>
-                    <ModalBody>
-                        <form id="loginForm" onSubmit={formik.handleSubmit}>
-                            <Stack spacing={3}>
-                                <FormControl
-                                    isRequired
-                                    isInvalid={formik.touched.email && Boolean(formik.errors.email)}
-                                >
-                                    <Input
-                                        autoFocus
-                                        placeholder={t('form.placeholder.email')}
-                                        id="email"
-                                        name="email"
-                                        value={formik.values.email}
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                    />
-                                    <FormErrorMessage>{formik.errors.email}</FormErrorMessage>
-                                </FormControl>
-                                <FormControl
-                                    isRequired
-                                    isInvalid={formik.touched.password && Boolean(formik.errors.password)}
-                                >
-                                    <InputGroup>
-                                        <Input
-                                            placeholder={t('form.placeholder.password')}
-                                            id="password"
-                                            name="password"
-                                            type={showPassword ? "text" : "password"}
-                                            value={formik.values.password}
-                                            onChange={formik.handleChange}
-                                            onBlur={formik.handleBlur}
-                                        />
-                                        <InputRightElement width="4.5rem">
-                                            <Button h="1.75rem" size="sm"
-                                                    onClick={() => setShowPassword(!showPassword)}>
-                                                {showPassword ? "Hide" : "Show"}
-                                            </Button>
-                                        </InputRightElement>
-                                    </InputGroup>
-                                    <FormErrorMessage>{formik.errors.password}</FormErrorMessage>
-                                </FormControl>
-                            </Stack>
+        <Dialog>
+            <DialogTrigger asChild>
+                <Button>{t('auth.login')}</Button>
+            </DialogTrigger>
+            <DialogContent>
+                <div className="p-5">
+                    <DialogHeader>
+                        <DialogTitle>{t('auth.login')}</DialogTitle>
+                    </DialogHeader>
+                    <Form {...form}>
+                        <form className="mt-5 mb-5" id="loginForm" onSubmit={form.handleSubmit(onSubmit)}>
+                            <div className="flex flex-col space-y-3">
+                                <FormField
+                                    control={form.control}
+                                    name="email"
+                                    render={({field}) => (
+                                        <FormItem>
+                                            <FormLabel>{t('form.label.email')}</FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    autoFocus
+                                                    placeholder={t('form.placeholder.email')}
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormMessage/>
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="password"
+                                    render={({field}) => (
+                                        <FormItem>
+                                            <FormLabel>{t('form.label.password')}</FormLabel>
+                                            <FormControl>
+                                                <div className="flex w-full items-center space-x-2">
+                                                    <Input
+                                                        type={showPassword ? "text" : "password"}
+                                                        placeholder={t('form.placeholder.password')}
+                                                        {...field}
+                                                    />
+                                                    <Button type="button"
+                                                            onClick={() => setShowPassword(!showPassword)}>
+                                                        {showPassword ? t('button.hide') : t('button.show')}
+                                                    </Button>
+                                                </div>
+                                            </FormControl>
+                                            <FormMessage/>
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
                         </form>
-                    </ModalBody>
-                    <ModalFooter>
-                        <Flex gap="3">
-                            <Button isLoading={isPending} colorScheme="blue" type="submit" form="loginForm">
+                    </Form>
+                    <DialogFooter>
+                        <div className="flex gap-3">
+                            <Button isLoading={isPending} type="submit" form="loginForm">
                                 {t('form.submit')}
                             </Button>
-                            <Button onClick={onClose} colorScheme="red">
-                                {t('button.close')}
-                            </Button>
-                        </Flex>
-                    </ModalFooter>
-                </Box>
-            </ModalContent>
-        </Modal>
+                            <DialogClose asChild>
+                                <Button variant="red">
+                                    {t('button.close')}
+                                </Button>
+                            </DialogClose>
+                        </div>
+                    </DialogFooter>
+                </div>
+            </DialogContent>
+        </Dialog>
     );
 }
 

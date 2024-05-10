@@ -1,6 +1,6 @@
-import {Box, Button, Text} from "@chakra-ui/react";
-import {ICategory} from "../../models/category.model.ts";
+import {ICategory} from "@/models/category.model.ts";
 import CategoryAvatar from "./CategoryAvatar.tsx";
+import {Button} from "@/ui/button.tsx";
 
 type Props = {
     category: ICategory;
@@ -14,32 +14,23 @@ const CategoryButton = (
         values
     }: Props
 ) => {
+    const buttonBackground = values.includes(category.id) ? "bg-blue-100" : "transparent";
     return (
-        <Box key={category.id} textAlign="center" mx={2}>
+        <div key={category.id} className="text-center mx-2">
             <Button
+                className={"rounded-full p-1 mb-1 border-2 border-gray-300 hover:bg-blue-100 w-15 h-15 flex items-center justify-center " + buttonBackground}
                 onClick={() => handleCategoryClick(category.id)}
-                borderRadius="full"
-                p={1}
-                mb={1} // Margin below the button
-                variant={values.includes(category.id) ? "solid" : "outline"}
-                borderWidth={1}
-                borderColor="gray.300"
-                bg={values.includes(category.id) ? "blue.200" : "transparent"}
-                _hover={{bg: "blue.100"}}
-                w="60px" // Fixed width
-                h="60px" // Fixed height
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
+                variant={"outline"}
+                type="button"
             >
-                <Box>
+                <div>
                     <CategoryAvatar name={category.name} icon={category.icon?.path}/>
-                </Box>
+                </div>
             </Button>
-            <Text fontSize="sm" mt={1} maxWidth="60px" mx="auto" textAlign="center">
+            <div className="text-sm mt-1 max-w-16 mx-auto text-center">
                 {category.name}
-            </Text>
-        </Box>
+            </div>
+        </div>
     )
 }
 
