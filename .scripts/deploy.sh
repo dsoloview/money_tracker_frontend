@@ -8,9 +8,6 @@ source /var/www/soloview/data/.nvm/nvm.sh
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/money_tracker
 
-# Navigate to the project directory
-cd ~/www/pubtest.okoloblog.ru
-
 # Pull the latest changes from the repository
 echo "Pulling latest changes..."
 git pull origin master

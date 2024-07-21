@@ -1,5 +1,3 @@
-'use client'
-
 import useAuthStore from "@/stores/authStore.ts";
 import {useTranslation} from "react-i18next";
 import LogoutButton from "@/widgets/buttons/LogoutButton.tsx";
