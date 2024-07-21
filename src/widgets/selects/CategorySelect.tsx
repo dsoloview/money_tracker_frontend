@@ -1,10 +1,11 @@
-import {Box, Button, Collapse, Flex} from "@chakra-ui/react";
 import {useState} from "react";
 import {ChevronDownIcon, ChevronUpIcon} from "@chakra-ui/icons";
 import {CategoryTransactionType} from "@/models/category.model.ts";
 import CategoryButton from "../category/CategoryButton.tsx";
 import useUserState from "@/hooks/useUserState.ts";
 import {useGetUserCategories} from "@/api/endpoints/user/category/userCategory.api.ts";
+import {Button} from "@/ui/button.tsx";
+import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/ui/collapsible.tsx";
 
 type Props = {
     id: string;
@@ -49,26 +50,29 @@ const CategorySelect = ({setFieldValue, values, name, type}: Props) => {
     const hiddenOptions = rows.slice(1);
 
     return (
-        <Box textAlign="center" boxShadow="md" p="4" borderRadius="md">
-            <Flex justifyContent="center" mt={0}>
+        <div className="text-center shadow-md p-4 rounded-md">
+            <div className="flex justify-center mt-0">
                 {visibleOptions}
-            </Flex>
-            <Collapse in={showAll}>
-                {hiddenOptions.map((row, index) => (
-                    <Flex key={index} justifyContent="center" mt={4}>
-                        {row}
-                    </Flex>
-                ))}
-            </Collapse>
-            <Button
-                mt="3"
-                variant="unstyled"
-                onClick={() => setShowAll(!showAll)}
-                aria-label={showAll ? "Hide options" : "Show more options"}
-            >
-                {showAll ? <ChevronUpIcon boxSize={6}/> : <ChevronDownIcon boxSize={6}/>}
-            </Button>
-        </Box>
+            </div>
+            <Collapsible>
+                <CollapsibleContent>
+                    {hiddenOptions.map((row, index) => (
+                        <div className="flex justify-center mt-4" key={index}>
+                            {row}
+                        </div>
+                    ))}
+                </CollapsibleContent>
+                <CollapsibleTrigger asChild>
+                    <Button
+                        className="mt-3"
+                        variant="ghost"
+                        onClick={() => setShowAll(!showAll)}
+                    >
+                        {showAll ? <ChevronUpIcon boxSize={6}/> : <ChevronDownIcon boxSize={6}/>}
+                    </Button>
+                </CollapsibleTrigger>
+            </Collapsible>
+        </div>
     );
 };
 

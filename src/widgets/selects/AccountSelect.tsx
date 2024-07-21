@@ -1,4 +1,4 @@
-import {useGetUserAccounts} from "../../api/endpoints/user/account/userAccount.api.ts";
+import {useGetUserAccounts} from "@/api/endpoints/user/account/userAccount.api.ts";
 import {Select} from "chakra-react-select";
 import {Badge, Box, Flex, Text} from "@chakra-ui/react";
 import useUserState from "../../hooks/useUserState.ts";
