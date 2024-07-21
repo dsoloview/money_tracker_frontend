@@ -20,5 +20,4 @@ echo "Installing dependencies..."
 echo "Building the project..."
 /var/www/soloview/data/.nvm/versions/node/v20.15.1/bin/npm run build
 
-
 echo "Frontend deployment finished!"
