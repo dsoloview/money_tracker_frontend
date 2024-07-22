@@ -11,6 +11,7 @@ import Container from "@/layouts/Container.tsx";
 import logo from "@/assets/logo.svg";
 
 
+
 export default function IndexTopBar() {
 
     const user = useAuthStore(state => state.authData?.user);
@@ -36,6 +37,7 @@ export default function IndexTopBar() {
             <Container>
                 <div className="flex h-8 items-center justify-between">
                     <Link to="/"><img src={logo} alt="money tracker" className="max-h-6"/></Link>
+                    
                     <div className="flex items-center">
                         {user ? authContent : notAuthContent}
                     </div>
