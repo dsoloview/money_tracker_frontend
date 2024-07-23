@@ -9,6 +9,10 @@ import {Button} from "@/ui/button.tsx";
 import {Spinner} from "@/ui/spinner.tsx";
 import {Menu, X} from "lucide-react";
 import Container from "@/layouts/Container.tsx";
+import logo from "@/assets/logo.svg";
+import { Link } from "react-router-dom";
+import { NavigationMenu } from "@/ui/navigation-menu";
+
 
 const AccountTopBar = () => {
     const {t} = useTranslation();
@@ -26,6 +30,7 @@ const AccountTopBar = () => {
     return (
         <div className="bg-gray-100">
             <Container>
+                
                 <div className="flex items-center justify-between h-16">
                     <Button
                         className={"md:hidden"}
@@ -34,8 +39,9 @@ const AccountTopBar = () => {
                     >
                         {isOpen ? <X/> : <Menu/>}
                     </Button>
-                    <div className="flex justify-center items-center space-x-8">
-                        <div>Money Tracker</div>
+                    <div className="border border-zinc-400 border-t-0 border-l-0 border-r-0 border-b-1 px-4">
+                        <Link to="/"><img src={logo} alt="money tracker" className="max-h-6"/></Link>
+                        
                         <nav className="space-x-4 hidden md:flex">
                             {menuItems.map((link) => (
                                 <NavLink link={link} key={link.href}/>
