@@ -35,5 +35,6 @@
     {
       "path": "./tsconfig.node.json"
     }
-  ]
+  ],
+  
 }

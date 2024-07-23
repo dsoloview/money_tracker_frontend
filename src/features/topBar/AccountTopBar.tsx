@@ -9,11 +9,9 @@ import {Button} from "@/ui/button.tsx";
 import {Spinner} from "@/ui/spinner.tsx";
 import {Menu, X} from "lucide-react";
 import Container from "@/layouts/Container.tsx";
-import logo from "@/assets/logo.svg";
+import { NavigationMenu, NavigationMenuLink, NavigationMenuList, navigationMenuTriggerStyle } from "@/ui/navigation-menu.tsx";
 import { Link } from "react-router-dom";
-import { NavigationMenu } from "@/ui/navigation-menu";
-
-
+import logo from "@/assets/logo.svg";
 const AccountTopBar = () => {
     const {t} = useTranslation();
     const {isOpen, onOpen, onClose} = useDisclosure();
@@ -28,10 +26,13 @@ const AccountTopBar = () => {
     ];
 
     return (
-        <div className="bg-gray-100">
+        <div className="border border-zinc-400 border-t-0 border-l-0 border-r-0 border-b-1 px-4">
+           
+
+
+
             <Container>
-                
-                <div className="flex items-center justify-between h-16">
+                <div className="flex items-center justify-between h-8">
                     <Button
                         className={"md:hidden"}
                         variant="ghost"
@@ -39,14 +40,24 @@ const AccountTopBar = () => {
                     >
                         {isOpen ? <X/> : <Menu/>}
                     </Button>
-                    <div className="border border-zinc-400 border-t-0 border-l-0 border-r-0 border-b-1 px-4">
+                    <div className="flex justify-center items-center space-x-8">
                         <Link to="/"><img src={logo} alt="money tracker" className="max-h-6"/></Link>
-                        
-                        <nav className="space-x-4 hidden md:flex">
-                            {menuItems.map((link) => (
-                                <NavLink link={link} key={link.href}/>
-                            ))}
-                        </nav>
+                        <div  className="space-x-4 hidden md:flex">
+                            <NavigationMenu>
+                                <NavigationMenuList>
+                                    {menuItems.map((link) => (
+                                        <Link to={link.href}>
+                                            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                                            {link.name}
+                                            </NavigationMenuLink>
+                                        </Link>
+                                    ))}
+                                </NavigationMenuList>
+                            </NavigationMenu>
+                        </div>
+
+
+                       
                     </div>
                     <div className="flex items-center">
                         <Suspense fallback={<Spinner/>}>

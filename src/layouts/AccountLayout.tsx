@@ -4,6 +4,7 @@ import CustomContainer from "./CustomContainer.tsx";
 import CreateTransactionGroup from "../features/transaction/CreateTransactionGroup.tsx";
 import CreateTransferGroup from "../features/transfer/CreateTransferGroup.tsx";
 import EditTransactionGroup from "../features/transaction/EditTransactionGroup.tsx";
+import Footer from "@/widgets/footer/Footer.tsx";
 
 type Props = {
     children: ReactNode
@@ -20,6 +21,7 @@ const AccountLayout = ({children}: Props) => {
                 <CreateTransferGroup/>
                 <EditTransactionGroup/>
             </main>
+            <Footer/>
         </div>
     );
 }
