@@ -14,15 +14,14 @@ const usePagination = () => {
         updateQueryParams({page: 1});
     }
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     const onPaginationChange = (stateUpdater) => {
         const vars = stateUpdater(pagination)
         setPagination(vars)
         updateQueryParams({page: vars.pageIndex + 1})
     }
-
-    // useEffect(() => {
-    //     updateQueryParams({page: pagination.pageIndex + 1});
-    // }, [pagination]);
+    
     return {
         onPaginationChange,
         resetPagination,

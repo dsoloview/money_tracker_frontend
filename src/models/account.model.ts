@@ -14,5 +14,5 @@ export interface IAccountCreateUpdateRequest {
     name: string;
     bank: string;
     balance: number;
-    currency_id: number;
+    currency_id: string;
 }
