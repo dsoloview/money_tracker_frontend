@@ -18,4 +18,4 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
           password: ${{ secrets.PASSWORD }}
-          script: cd ~/www/pubtest.okoloblog.ru && sh ./.scripts/deploy.sh
+          script: cd ~/www/apitest.okoloblog.ru && sh ./.scripts/deploy.sh
