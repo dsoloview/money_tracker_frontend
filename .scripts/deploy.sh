@@ -3,8 +3,6 @@ set -e
 
 echo "Frontend deployment started ..."
 
-source /var/www/soloview/data/.nvm/nvm.sh
-
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/money_tracker
 
