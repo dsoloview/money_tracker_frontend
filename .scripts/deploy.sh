@@ -10,6 +10,8 @@ ssh-add ~/.ssh/money_tracker
 echo "Pulling latest changes..."
 git pull origin master
 
+source /var/www/soloview/data/.nvm/nvm.sh
+
 # Install dependencies
 echo "Installing dependencies..."
 /var/www/soloview/data/.nvm/versions/node/v20.15.1/bin/npm install
