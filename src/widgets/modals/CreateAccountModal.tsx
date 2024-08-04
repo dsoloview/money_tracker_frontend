@@ -1,10 +1,10 @@
 import {useTranslation} from "react-i18next";
 import * as yup from "yup";
-import useAuthStore from "../../stores/authStore.ts";
+import useAuthStore from "@/stores/authStore.ts";
 import {IAccountCreateUpdateRequest} from "@/models/account.model.ts";
 import {useCreateUserAccount} from "@/api/endpoints/user/account/userAccount.api.ts";
-import CurrencySelect from "../selects/CurrencySelect.tsx";
-import i18next from '../../tools/language/language.ts';
+import CurrencySelect from "@/widgets/selects/CurrencySelect.tsx";
+import i18next from '@/tools/language/language.ts';
 import {
     Dialog,
     DialogClose,

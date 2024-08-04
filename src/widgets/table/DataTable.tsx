@@ -9,7 +9,7 @@ import {
     useReactTable
 } from "@tanstack/react-table";
 import {Dispatch, SetStateAction} from "react";
-import PaginationNew from "./PaginationNew.tsx";
+import Pagination from "./Pagination.tsx";
 
 export type DataTableProps<Data extends object> = {
     data: Data[];
@@ -131,7 +131,7 @@ export function DataTable<Data extends object>(
                     {content}
                 </Tbody>
             </Table>
-            <PaginationNew tableInfo={table}/>
+            <Pagination tableInfo={table}/>
         </Box>
     );
 }

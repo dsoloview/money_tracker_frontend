@@ -17,7 +17,7 @@ export interface ITransaction {
 }
 
 export interface ITransactionRequest {
-    account_id: number;
+    account_id: string;
     comment: string;
     amount: number;
     categories_ids: number[];

@@ -1,9 +1,9 @@
 import {Flex, FormControl, FormLabel, Spinner} from "@chakra-ui/react";
-import AccountSelect from "../../widgets/selects/AccountSelect.tsx";
-import CategoryTransactionTypeRadio from "../../widgets/radio/CategoryTransactionTypeRadio.tsx";
+import AccountSelect from "@/widgets/selects/AccountSelect.tsx";
+import CategoryTransactionTypeRadio from "@/widgets/radio/CategoryTransactionTypeRadio.tsx";
 import {TransactionTableFiltersType} from "./TransactionsTable.tsx";
 import {Suspense} from "react";
-import AmountRangeFilter from "../../widgets/filters/AmountRangeFilter.tsx";
+import AmountRangeFilter from "@/widgets/filters/AmountRangeFilter.tsx";
 import {useTranslation} from "react-i18next";
 
 type Props = {

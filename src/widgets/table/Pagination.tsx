@@ -1,47 +1,55 @@
-import {Button, Flex, Text} from "@chakra-ui/react";
+import {Table} from "@tanstack/react-table";
 
-type Props = {
-    pageIndex: number;
-    pageCount: number;
-    gotoPage: (updater: ((pageIndex: number) => number) | number) => void;
-    nextPage: () => void;
-    previousPage: () => void;
-    canNextPage: boolean;
-    canPreviousPage: boolean;
+type Props<Data> = {
+    tableInfo: Table<Data>
 };
 
-const Pagination = (
+const Pagination = <Data extends object>(
     {
-        pageIndex,
-        pageCount,
-        gotoPage,
-        nextPage,
-        previousPage,
-        canNextPage,
-        canPreviousPage
-    }: Props
+        tableInfo
+    }: Props<Data>
 ) => {
     return (
-        <Flex justifyContent="center" alignItems="center" mt="4">
-            <Button onClick={() => gotoPage(0)} isDisabled={!canPreviousPage} mr="2">
+        <div className="flex justify-center items-center mt-4">
+            <Button
+                onClick={() => {
+                    tableInfo.setPageIndex(0)
+                }
+                }
+                disabled={!tableInfo.getCanPreviousPage()}
+                className="mr-2"
+            >
                 {"<<"}
             </Button>
-            <Button onClick={() => previousPage()} isDisabled={!canPreviousPage} mr="2">
+            <Button
+                onClick={tableInfo.previousPage}
+                disabled={!tableInfo.getCanPreviousPage()}
+                className="mr-2"
+            >
                 {"<"}
             </Button>
-            <Text mr="2">
+            <Text className="mr-2">
                 Page{" "}
                 <strong>
-                    {pageIndex} of {pageCount}
+                    {tableInfo.getState().pagination.pageIndex + 1} of {tableInfo.getPageCount()}
                 </strong>{" "}
             </Text>
-            <Button onClick={() => nextPage()} isDisabled={!canNextPage} mr="2">
+            <Button
+                onClick={tableInfo.nextPage}
+                disabled={!tableInfo.getCanNextPage()}
+                className="mr-2"
+            >
                 {">"}
             </Button>
-            <Button onClick={() => gotoPage(pageCount)} isDisabled={!canNextPage}>
+            <Button
+                onClick={() => {
+                    tableInfo.setPageIndex(tableInfo.getPageCount() - 1)
+                }}
+                disabled={!tableInfo.getCanNextPage()}
+            >
                 {">>"}
             </Button>
-        </Flex>
+        </div>
     );
 };
 

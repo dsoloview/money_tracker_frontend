@@ -19,14 +19,14 @@ import {
 import {UpDownIcon} from "@chakra-ui/icons";
 import * as yup from "yup";
 import {useTranslation} from "react-i18next";
-import {ITransferRequest} from "../../models/transfer.model.ts";
-import AccountSelect from "../../widgets/selects/AccountSelect.tsx";
-import {useMutateWithFormik} from "../../hooks/useMutateWithFormik.ts";
+import {ITransferRequest} from "@/models/transfer.model.ts";
+import AccountSelect from "@/widgets/selects/AccountSelect.tsx";
+import {useMutateWithFormik} from "@/hooks/useMutateWithFormik.ts";
 import {Suspense} from "react";
-import PrecisionFloatInput from "../../widgets/inputs/PrecisionFloatInput.tsx";
-import i18next from "../../tools/language/language.ts";
-import {useCreateAccountTransfer} from "../../api/endpoints/account/accountTransfer/accountTransfer.api.ts";
-import {getCurrenctDateTimeForInput} from "../../tools/date/date.helper.ts";
+import PrecisionFloatInput from "@/widgets/inputs/PrecisionFloatInput.tsx";
+import i18next from "@/tools/language/language.ts";
+import {useCreateAccountTransfer} from "@/api/endpoints/account/accountTransfer/accountTransfer.api.ts";
+import {getCurrenctDateTimeForInput} from "@/tools/date/date.helper.ts";
 
 const validationSchema = yup.object({
     comment: yup.string()

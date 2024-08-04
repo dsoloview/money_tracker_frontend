@@ -8,22 +8,21 @@ import {useNavigate} from "react-router-dom";
 import qs from "qs";
 import {Button} from "@/ui/button.tsx";
 import {PanelLeftOpen, Pencil, Trash2} from "lucide-react";
-import {useDisclosure} from "@chakra-ui/react";
 
 const AccountsList = () => {
     const user = useUserState();
     const {data} = useSuspenseGetUserAccounts(user.id);
     const {mutate} = useDeleteAccount();
-    const {onOpen, isOpen, onClose} = useDisclosure();
     const [selectedAccount, setSelectedAccount] = useState<IAccount | null>(null);
     const navigate = useNavigate();
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const handleDelete = (accountId: number) => {
         mutate(accountId)
     }
 
     const handleEdit = (account: IAccount) => {
         setSelectedAccount(account);
-        onOpen();
+        setIsEditModalOpen(true);
     }
 
     const handleSelectAccount = (account: IAccount) => {
@@ -39,7 +38,7 @@ const AccountsList = () => {
 
     const onModalClose = () => {
         setSelectedAccount(null);
-        onClose();
+        setIsEditModalOpen(false);
     }
 
     return (
@@ -71,8 +70,9 @@ const AccountsList = () => {
             {selectedAccount
                 && <UpdateAccountModal
                     key={`${selectedAccount.id}-${selectedAccount.balance}`}
-                    isOpen={isOpen}
+                    isOpen={isEditModalOpen}
                     onClose={onModalClose}
+                    setIsOpen={setIsEditModalOpen}
                     account={selectedAccount}/>
             }
         </div>

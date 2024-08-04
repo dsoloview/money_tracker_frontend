@@ -1,7 +1,7 @@
 import AccountLayout from "../../layouts/AccountLayout.tsx";
 import {Heading, Skeleton} from "@chakra-ui/react";
 import CreateAccountModal from "../../widgets/modals/CreateAccountModal.tsx";
-import AccountsList from "../../features/account/components/AccountsList.tsx";
+import AccountsList from "../../features/account/AccountsList.tsx";
 import {Suspense} from "react";
 
 export function AccountPage() {

@@ -1,6 +1,6 @@
 import {Select} from "chakra-react-select";
-import {Avatar, Flex} from "@chakra-ui/react";
 import {useGetIcons} from "@/api/endpoints/icons.api.ts";
+import {Avatar} from "@/ui/avatar.tsx";
 
 type Props = {
     id: string,
@@ -32,10 +32,7 @@ const IconSelect = (
                 value: icon.id,
                 filterValue: icon.name,
                 label: (
-                    <Flex
-                        alignItems="center"
-                        justifyContent="center"
-                    >
+                    <div className="flex items-center justify-center">
                         <Avatar
                             bg="transparent"
                             borderColor="gray.300"
@@ -44,7 +41,7 @@ const IconSelect = (
                             name={icon.name}
                             src={icon.path}
                         />
-                    </Flex>
+                    </div>
                 )
             };
         });

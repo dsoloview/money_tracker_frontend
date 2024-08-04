@@ -1,5 +1,5 @@
 import {HStack, useRadioGroup} from "@chakra-ui/react";
-import {CategoryTransactionType} from "../../models/category.model.ts";
+import {CategoryTransactionType} from "@/models/category.model.ts";
 import {useMemo} from "react";
 import RadioCard from "./RadioCard.tsx";
 

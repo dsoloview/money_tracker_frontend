@@ -1,5 +1,5 @@
 import {Card, CardBody, Flex, Stat, StatArrow, StatLabel, StatNumber} from "@chakra-ui/react";
-import {ITransactionsInfo} from "../../models/transaction.model.ts";
+import {ITransactionsInfo} from "@/models/transaction.model.ts";
 
 type Props = {
     data?: ITransactionsInfo
