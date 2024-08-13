@@ -1,33 +1,20 @@
-import {
-    Box,
-    Button,
-    Flex,
-    FormControl,
-    FormErrorMessage,
-    FormLabel,
-    Heading,
-    Input,
-    Modal,
-    ModalBody,
-    ModalContent,
-    ModalFooter,
-    ModalHeader,
-    ModalOverlay,
-    Stack
-} from '@chakra-ui/react'
 import {useTranslation} from "react-i18next";
 import * as yup from "yup";
-import {useMutateWithFormik} from "../../hooks/useMutateWithFormik.ts";
 import i18next from '../../tools/language/language.ts';
-import {CategoryTransactionType, ICategory, ICategoryRequest} from "../../models/category.model.ts";
-import {useCreateUserCategory} from "../../api/endpoints/user/category/userCategory.api.ts";
-import CategoryTransactionTypeRadio from "../radio/CategoryTransactionTypeRadio.tsx";
-import useUserState from "../../hooks/useUserState.ts";
-import IconSelect from "../selects/IconSelect.tsx";
+import {CategoryTransactionType, ICategory, ICategoryRequest} from "@/models/category.model.ts";
+import {useCreateUserCategory} from "@/api/endpoints/user/category/userCategory.api.ts";
+import CategoryTransactionTypeRadio from "@/widgets/radio/CategoryTransactionTypeRadio.tsx";
+import useUserState from "@/hooks/useUserState.ts";
+import IconSelect from "@/widgets/selects/IconSelect.tsx";
+import {Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle} from "@/ui/dialog.tsx";
+import {Button} from "@/ui/button.tsx";
+import {useMutateWithForm} from "@/hooks/useMutateWithForm.ts";
+import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/ui/form.tsx";
+import {Input} from "@/ui/input.tsx";
 
 type Props = {
     isOpen: boolean;
-    onClose: () => void;
+    setIsOpen: (isOpen: boolean) => void;
     parentCategory?: ICategory;
 }
 
@@ -43,10 +30,10 @@ const validationSchema = yup.object({
         .transform((value, originalValue) => originalValue === '' ? null : value),
 });
 
-const CreateCategoryModal = ({isOpen, onClose, parentCategory}: Props) => {
+const CreateCategoryModal = ({isOpen, setIsOpen, parentCategory}: Props) => {
     const user = useUserState();
     const {t} = useTranslation()
-    const {formik, isPending} = useMutateWithFormik<ICategoryRequest>({
+    const {form, onSubmit, isPending} = useMutateWithForm<ICategoryRequest>({
         mutation: useCreateUserCategory,
         validationSchema: validationSchema,
         initialValues: {
@@ -56,7 +43,9 @@ const CreateCategoryModal = ({isOpen, onClose, parentCategory}: Props) => {
             description: '',
             parent_category_id: parentCategory?.id
         },
-        onSuccess: onClose,
+        onSuccess: () => {
+            setIsOpen(false)
+        },
         prepareSubmitData: (values) => {
             return {
                 id: user.id,
@@ -66,94 +55,105 @@ const CreateCategoryModal = ({isOpen, onClose, parentCategory}: Props) => {
     })
 
     const handleChangeType = (nextValue: string) => {
-        formik.setFieldValue('type', nextValue);
+        const value = nextValue as CategoryTransactionType;
+        form.setValue('type', value);
     }
-    
+
     return (
-        <Modal
-            isOpen={isOpen}
-            onClose={onClose}
-            isCentered
-        >
-            <ModalOverlay/>
-            <ModalContent>
-                <Box p={5}>
-                    <ModalHeader>
-                        <Heading as="h2" size="lg">{t('title.createCategory')}</Heading>
-                    </ModalHeader>
-                    <ModalBody>
-                        <form id="createCategoryForm" onSubmit={formik.handleSubmit}>
-                            <Stack spacing={3}>
-                                <FormControl
-                                    isRequired
-                                    isInvalid={formik.touched.name && Boolean(formik.errors.name)}
-                                >
-                                    <FormLabel htmlFor="type">{t('form.label.name')}</FormLabel>
-                                    <Input
-                                        placeholder={t('form.placeholder.name')}
-                                        id="name"
-                                        name="name"
-                                        value={formik.values.name}
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                    />
-                                    <FormErrorMessage>{formik.errors.name}</FormErrorMessage>
-                                </FormControl>
-                                <FormControl
-                                    isRequired
-                                    isInvalid={formik.touched.type && Boolean(formik.errors.type)}
-                                    isDisabled={Boolean(parentCategory)}
-                                >
-                                    <FormLabel htmlFor="type">{t('form.label.type')}</FormLabel>
-                                    <CategoryTransactionTypeRadio
-                                        id="type"
-                                        name="type"
-                                        value={formik.values.type}
-                                        onChange={handleChangeType}
-                                        defaultValue={formik.values.type}
-                                    />
-                                    <FormErrorMessage>{formik.errors.type}</FormErrorMessage>
-                                </FormControl>
-                                <FormControl
-                                    isInvalid={formik.touched.description && Boolean(formik.errors.description)}
-                                >
-                                    <FormLabel htmlFor="type">{t('form.label.description')}</FormLabel>
-                                    <Input
-                                        placeholder={t('form.placeholder.description')}
-                                        id="description"
-                                        name="description"
-                                        value={formik.values.description}
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                    />
-                                    <FormErrorMessage>{formik.errors.description}</FormErrorMessage>
-                                </FormControl>
-                                <FormControl
-                                    isInvalid={formik.touched.description && Boolean(formik.errors.description)}
-                                >
-                                    <FormLabel htmlFor="type">{t('form.label.icon')}</FormLabel>
-                                    <IconSelect
-                                        id="icon_id"
-                                        name="icon_id"
-                                        onBlur={formik.handleBlur}
-                                        setFieldValue={formik.setFieldValue}
-                                    />
-                                    <FormErrorMessage>{formik.errors.icon_id}</FormErrorMessage>
-                                </FormControl>
-                            </Stack>
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
+            <DialogContent>
+                <div onClick={(e) => {
+                    e.stopPropagation()
+                }} className="p-5">
+                    <DialogHeader>
+                        <DialogTitle>{t('title.createCategory')}</DialogTitle>
+                    </DialogHeader>
+                    <Form {...form}>
+                        <form id="createCategoryForm" onSubmit={form.handleSubmit(onSubmit)}>
+                            <div className="flex flex-col space-y-3">
+                                <FormField
+                                    control={form.control}
+                                    name="name"
+                                    render={({field}) => (
+                                        <FormItem>
+                                            <FormLabel>{t('form.label.name')}</FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    autoFocus
+                                                    placeholder={t('form.placeholder.name')}
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormMessage/>
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="type"
+                                    render={({field}) => (
+                                        <FormItem>
+                                            <FormLabel>{t('form.label.type')}</FormLabel>
+                                            <FormControl>
+                                                <CategoryTransactionTypeRadio
+                                                    value={field.value}
+                                                    onChange={handleChangeType}
+                                                    defaultValue={CategoryTransactionType.EXPENSE}
+                                                />
+                                            </FormControl>
+                                            <FormMessage/>
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="description"
+                                    render={({field}) => (
+                                        <FormItem>
+                                            <FormLabel>{t('form.label.description')}</FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    placeholder={t('form.placeholder.description')}
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormMessage/>
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="icon_id"
+                                    render={({field}) => (
+                                        <FormItem>
+                                            <FormLabel>{t('form.label.icon')}</FormLabel>
+                                            <FormControl>
+                                                <IconSelect
+                                                    id="icon_id"
+                                                    name="icon_id"
+                                                    onChange={field.onChange}
+                                                />
+                                            </FormControl>
+                                            <FormMessage/>
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
                         </form>
-                    </ModalBody>
-                    <ModalFooter>
-                        <Flex gap="3">
-                            <Button isLoading={isPending} colorScheme="blue" type="submit" form="createCategoryForm">
+                    </Form>
+                    <DialogFooter>
+                        <div className="flex gap-3 mt-5">
+                            <Button isLoading={isPending} type="submit" form="createCategoryForm">
                                 {t('form.submit')}
                             </Button>
-                            <Button onClick={onClose}>{t('form.cancel')}</Button>
-                        </Flex>
-                    </ModalFooter>
-                </Box>
-            </ModalContent>
-        </Modal>
+                            <DialogClose>
+                                <Button variant="red">{t('button.close')}</Button>
+                            </DialogClose>
+                        </div>
+                    </DialogFooter>
+                </div>
+            </DialogContent>
+        </Dialog>
     );
 }
 

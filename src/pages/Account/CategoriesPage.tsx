@@ -1,17 +1,17 @@
 import AccountLayout from "../../layouts/AccountLayout.tsx";
-import {Box, Heading, Spinner} from "@chakra-ui/react";
 import {Suspense} from "react";
 import CategoriesTree from "../../features/categories/CategoriesTree.tsx";
+import {Spinner} from "@/ui/spinner.tsx";
 
 const CategoriesPage = () => {
     return (
         <AccountLayout>
-            <Heading>Categories</Heading>
-            <Box>
+            <h1>Categories</h1>
+            <div>
                 <Suspense fallback={<Spinner/>}>
                     <CategoriesTree/>
                 </Suspense>
-            </Box>
+            </div>
 
         </AccountLayout>
     )

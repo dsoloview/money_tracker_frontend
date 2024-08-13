@@ -1,10 +1,9 @@
 import {useTranslation} from "react-i18next";
-import {useDisclosure} from "@chakra-ui/react";
 import LogoutButton from "@/widgets/buttons/LogoutButton.tsx";
 import {ILink} from "@/models/navigation.model.ts";
 import {NavLink} from "@/widgets/navigation/NavLink.tsx";
 import UserInfo from "@/widgets/user/UserInfo.tsx";
-import {Suspense} from "react";
+import {Suspense, useState} from "react";
 import {Button} from "@/ui/button.tsx";
 import {Spinner} from "@/ui/spinner.tsx";
 import {Menu, X} from "lucide-react";
@@ -12,7 +11,11 @@ import Container from "@/layouts/Container.tsx";
 
 const AccountTopBar = () => {
     const {t} = useTranslation();
-    const {isOpen, onOpen, onClose} = useDisclosure();
+    const [isOpen, setIsOpen] = useState(false);
+
+    const handleOpen = () => {
+        setIsOpen((state) => !state);
+    }
 
     const menuItems: ILink[] = [
         {name: t("menu.home"), href: "/"},
@@ -30,7 +33,7 @@ const AccountTopBar = () => {
                     <Button
                         className={"md:hidden"}
                         variant="ghost"
-                        onClick={isOpen ? onClose : onOpen}
+                        onClick={handleOpen}
                     >
                         {isOpen ? <X/> : <Menu/>}
                     </Button>

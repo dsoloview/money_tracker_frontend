@@ -1,15 +1,15 @@
 import useUserState from "@/hooks/useUserState.ts";
-import {useDisclosure} from "@chakra-ui/react";
 import CreateCategoryModal from "@/widgets/modals/CreateCategoryModal.tsx";
 import CategoriesList from "./CategoriesList.tsx";
 import {useGetUserCategoriesTree} from "@/api/endpoints/user/category/userCategory.api.ts";
-import {Button} from "@/ui/button.tsx";
 import {Accordion} from "@/ui/accordion.tsx";
+import {useState} from "react";
+import {Button} from "@/ui/button.tsx";
 
 const CategoriesTree = () => {
+    const [isCreateOpen, setIsCreateOpen] = useState(false);
     const user = useUserState();
     const {data} = useGetUserCategoriesTree(user.id)
-    const {onOpen, isOpen, onClose} = useDisclosure();
     return (
         <div className="flex flex-col gap-4">
             <div className="p-4 border-2 rounded-lg">
@@ -24,8 +24,8 @@ const CategoriesTree = () => {
                     <CategoriesList categories={data.data.filter((category) => category.type === 'expense')}/>
                 </Accordion>
             </div>
-            <Button className="mt-4" onClick={onOpen}>Add Category</Button>
-            <CreateCategoryModal isOpen={isOpen} onClose={onClose}/>
+            <Button onClick={() => setIsCreateOpen(true)}>Create Category</Button>
+            <CreateCategoryModal isOpen={isCreateOpen} setIsOpen={setIsCreateOpen}/>
         </div>
     );
 }
