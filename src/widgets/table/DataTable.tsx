@@ -1,5 +1,3 @@
-import {Box, chakra, Skeleton, Table, Tbody, Td, Th, Thead, Tr} from "@chakra-ui/react";
-import {TriangleDownIcon, TriangleUpIcon} from "@chakra-ui/icons";
 import {
     createColumnHelper,
     flexRender,
@@ -10,6 +8,9 @@ import {
 } from "@tanstack/react-table";
 import {Dispatch, SetStateAction} from "react";
 import Pagination from "./Pagination.tsx";
+import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/ui/table.tsx";
+import {ChevronDown, ChevronUp} from "lucide-react";
+import {Skeleton} from "@/ui/skeleton.tsx";
 
 export type DataTableProps<Data extends object> = {
     data: Data[];
@@ -64,15 +65,15 @@ export function DataTable<Data extends object>(
     });
 
     const skeleton = Array.from({length: 10}, (_, index) => (
-        (<Tr key={index}>
+        (<TableRow key={index}>
             {table.getHeaderGroups().map((headerGroup) => (
                 headerGroup.headers.map((header) => (
-                    <Td key={header.id}>
-                        <Skeleton height="20px"/>
-                    </Td>
+                    <TableCell key={header.id}>
+                        <Skeleton className="h-[25px]"/>
+                    </TableCell>
                 ))
             ))}
-        </Tr>)
+        </TableRow>)
     ));
 
     let content = null;
@@ -80,58 +81,58 @@ export function DataTable<Data extends object>(
         content = skeleton;
     } else {
         content = table.getRowModel().rows.map((row) => (
-            <Tr key={row.id}>
+            <TableRow key={row.id}>
                 {row.getVisibleCells().map((cell) => {
-                    const meta: any = cell.column.columnDef.meta;
                     return (
-                        <Td key={cell.id} isNumeric={meta?.isNumeric}>
+                        <TableCell key={cell.id}>
                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                        </Td>
+                        </TableCell>
                     );
                 })}
-            </Tr>
+            </TableRow>
         ));
     }
 
     return (
-        <Box>
+        <div>
             <Table>
-                <Thead>
+                <TableHeader>
                     {table.getHeaderGroups().map((headerGroup) => (
-                        <Tr key={headerGroup.id}>
+                        <TableRow key={headerGroup.id}>
                             {headerGroup.headers.map((header) => {
-                                const meta: any = header.column.columnDef.meta;
                                 return (
-                                    <Th
+                                    <TableHead
                                         key={header.id}
                                         onClick={header.column.getToggleSortingHandler()}
-                                        isNumeric={meta?.isNumeric}
                                     >
-                                        {flexRender(
-                                            header.column.columnDef.header,
-                                            header.getContext()
-                                        )}
+                                        <div className="flex items-center cursor-pointer">
+                                            {flexRender(
+                                                header.column.columnDef.header,
+                                                header.getContext()
+                                            )}
 
-                                        <chakra.span pl="4">
-                                            {header.column.getIsSorted() ? (
-                                                header.column.getIsSorted() === "desc" ? (
-                                                    <TriangleDownIcon aria-label="sorted descending"/>
-                                                ) : (
-                                                    <TriangleUpIcon aria-label="sorted ascending"/>
-                                                )
-                                            ) : null}
-                                        </chakra.span>
-                                    </Th>
+                                            <div className="pl-4">
+                                                {header.column.getIsSorted() ? (
+                                                    header.column.getIsSorted() === "desc" ? (
+                                                        <ChevronDown/>
+                                                    ) : (
+                                                        <ChevronUp/>
+                                                    )
+                                                ) : null}
+                                            </div>
+                                        </div>
+
+                                    </TableHead>
                                 );
                             })}
-                        </Tr>
+                        </TableRow>
                     ))}
-                </Thead>
-                <Tbody>
+                </TableHeader>
+                <TableBody>
                     {content}
-                </Tbody>
+                </TableBody>
             </Table>
             <Pagination tableInfo={table}/>
-        </Box>
+        </div>
     );
 }

@@ -5,7 +5,6 @@ import usePagination from "@/hooks/usePagination.ts";
 import {useSorting} from "@/hooks/useSort.ts";
 import {ITransaction} from "@/models/transaction.model.ts";
 import CategoryBadge from "@/widgets/category/CategoryBadge.tsx";
-import {Badge, HStack} from "@chakra-ui/react";
 import {formatDateTimeString} from "@/tools/date/date.helper.ts";
 import {CategoryTransactionType} from "@/models/category.model.ts";
 import useFilters from "@/hooks/useFilters.ts";
@@ -14,6 +13,7 @@ import useUserState from "@/hooks/useUserState.ts";
 import i18next from "@/tools/language/language.ts";
 import TransactionTableStatistics from "./TransactionTableStatistics.tsx";
 import TransactionTableTools from "./TransactionTableTools.tsx";
+import {Badge} from "@/ui/badge.tsx";
 
 const columns = [
     {
@@ -29,7 +29,7 @@ const columns = [
         accessor: 'amount',
         cell(row: ITransaction) {
             return (
-                <Badge colorScheme={row.type === CategoryTransactionType.EXPENSE ? "red" : "green"}>
+                <Badge variant={row.type === CategoryTransactionType.EXPENSE ? "red" : "green"}>
                     {row.amount} {row.account.currency.symbol}
                 </Badge>
             )
@@ -41,11 +41,11 @@ const columns = [
         accessor: 'categories',
         cell: (row: ITransaction) => {
             return (
-                <HStack>
+                <div className="flex flex-row flex-wrap gap-3 items-center">
                     {row.categories.map((category) => (
                         <CategoryBadge key={category.id} category={category}/>
                     ))}
-                </HStack>
+                </div>
             )
         },
         enableSorting: false,
@@ -54,7 +54,7 @@ const columns = [
         header: i18next.t('form.label.type'),
         accessor: 'type',
         cell: (row: ITransaction) => {
-            return <Badge colorScheme={row.type === CategoryTransactionType.EXPENSE ? "red" : "green"}>
+            return <Badge variant={row.type === CategoryTransactionType.EXPENSE ? "red" : "green"}>
                 {row.type}
             </Badge>
         },

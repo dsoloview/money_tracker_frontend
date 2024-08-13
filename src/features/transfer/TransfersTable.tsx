@@ -2,7 +2,6 @@ import {DataTable} from "@/widgets/table/DataTable.tsx";
 import {IParamTableGetRequest} from "@/models/request.model.ts";
 import usePagination from "@/hooks/usePagination.ts";
 import {useSorting} from "@/hooks/useSort.ts";
-import {Badge} from "@chakra-ui/react";
 import {formatDateTimeString} from "@/tools/date/date.helper.ts";
 import useFilters from "@/hooks/useFilters.ts";
 import useUserState from "@/hooks/useUserState.ts";
@@ -10,6 +9,7 @@ import i18next from "@/tools/language/language.ts";
 import {ITransfer} from "@/models/transfer.model.ts";
 import {useGetUserTransfers} from "@/api/endpoints/user/transfer/userTransaction.api.ts";
 import TransferTableFilters from "./TransferTableFilters.tsx";
+import {Badge} from "@/ui/badge.tsx";
 
 const columns = [
     {
@@ -33,7 +33,7 @@ const columns = [
         accessor: 'amount_from',
         cell(row: ITransfer) {
             return (
-                <Badge colorScheme="red">
+                <Badge variant="red">
                     {row.amount_from} {row.account_from.currency.symbol}
                 </Badge>
             )
@@ -45,7 +45,7 @@ const columns = [
         accessor: 'amount_to',
         cell(row: ITransfer) {
             return (
-                <Badge colorScheme="green">
+                <Badge variant="green">
                     {row.amount_to} {row.account_to.currency.symbol}
                 </Badge>
             )

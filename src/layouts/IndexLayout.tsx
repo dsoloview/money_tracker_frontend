@@ -1,6 +1,6 @@
 import {ReactNode} from "react";
 import IndexTopBar from "../features/topBar/IndexTopBar.tsx";
-import CustomContainer from "./CustomContainer.tsx";
+import Container from "@/layouts/Container.tsx";
 
 type Props = {
     children: ReactNode
@@ -10,9 +10,9 @@ const IndexLayout = ({children}: Props) => {
         <div>
             <IndexTopBar/>
             <main>
-                <CustomContainer>
+                <Container>
                     {children}
-                </CustomContainer>
+                </Container>
             </main>
         </div>
     );

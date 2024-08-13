@@ -1,7 +1,7 @@
 import {Navigate, Outlet} from "react-router-dom";
 import useUserState from "../hooks/useUserState.ts";
 import {Suspense} from "react";
-import {Spinner} from "@chakra-ui/react";
+import {Spinner} from "@/ui/spinner.tsx";
 
 const AuthLayout = () => {
     return (

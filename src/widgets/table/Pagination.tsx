@@ -1,4 +1,5 @@
 import {Table} from "@tanstack/react-table";
+import {Button} from "@/ui/button.tsx";
 
 type Props<Data> = {
     tableInfo: Table<Data>
@@ -28,12 +29,12 @@ const Pagination = <Data extends object>(
             >
                 {"<"}
             </Button>
-            <Text className="mr-2">
+            <span className="mr-2">
                 Page{" "}
                 <strong>
                     {tableInfo.getState().pagination.pageIndex + 1} of {tableInfo.getPageCount()}
                 </strong>{" "}
-            </Text>
+            </span>
             <Button
                 onClick={tableInfo.nextPage}
                 disabled={!tableInfo.getCanNextPage()}
