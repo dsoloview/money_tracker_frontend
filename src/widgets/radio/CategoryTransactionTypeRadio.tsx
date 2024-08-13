@@ -1,7 +1,7 @@
-import {HStack, useRadioGroup} from "@chakra-ui/react";
 import {CategoryTransactionType} from "@/models/category.model.ts";
 import {useMemo} from "react";
 import RadioCard from "./RadioCard.tsx";
+import {ButtonGroup} from "@/ui/button-group.tsx";
 
 type Props = {
     id?: string;
@@ -11,14 +11,7 @@ type Props = {
     defaultValue?: CategoryTransactionType | undefined;
     haveEmpty?: boolean;
 }
-const CategoryTransactionTypeRadio = ({onChange, name, defaultValue, haveEmpty}: Props) => {
-    const {getRootProps, getRadioProps} = useRadioGroup({
-        name: name,
-        onChange: onChange,
-        defaultValue: defaultValue,
-    })
-
-    const group = getRootProps()
+const CategoryTransactionTypeRadio = ({onChange, value, haveEmpty}: Props) => {
 
     const options = useMemo(() => {
         return Object.values(CategoryTransactionType).map((type) => {
@@ -27,26 +20,20 @@ const CategoryTransactionTypeRadio = ({onChange, name, defaultValue, haveEmpty}:
     }, []);
 
     return (
-        <HStack
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            {...group}
+        <ButtonGroup
+            className="flex justify-center items-center"
+            defaultValue={value}
+            onValueChange={onChange}
         >
             {haveEmpty && (
-                <RadioCard {...getRadioProps({value: ""})}>
-                    All
-                </RadioCard>
+                <RadioCard value="all" label="All"/>
             )}
             {options.map((value) => {
-                const radio = getRadioProps({value})
                 return (
-                    <RadioCard key={value} {...radio}>
-                        {value}
-                    </RadioCard>
+                    <RadioCard key={value} value={value} label={value}/>
                 )
             })}
-        </HStack>
+        </ButtonGroup>
     )
 }
 

@@ -1,72 +1,63 @@
-import {Select} from "chakra-react-select";
 import {useGetIcons} from "@/api/endpoints/icons.api.ts";
 import {Avatar, AvatarFallback, AvatarImage} from "@/ui/avatar.tsx";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/ui/select.tsx";
 
 type Props = {
     id: string,
     name: string,
-    onBlur?: (e: unknown) => void
-    setFieldValue?: (field: string, value: any, shouldValidate?: boolean) => void
-    onChange?: (option: any) => void
+    onChange: (option: any) => void
     placeholder?: string,
-    defaultValue?: number
-
+    defaultValue?: string
 }
+
 const IconSelect = (
     {
-        onBlur,
-        setFieldValue,
-        id,
-        name,
         onChange,
         placeholder,
         defaultValue
     }: Props) => {
-    const {data, isLoading} = useGetIcons();
+    const {data} = useGetIcons();
 
-    let options: { value: number, filterValue: string, label: JSX.Element }[] = [];
+    let options: { value: string, label: JSX.Element }[] = [];
 
     if (data) {
         options = data.data.map((icon) => {
             return {
                 value: icon.id,
-                filterValue: icon.name,
                 label: (
-                    <div className="flex items-center justify-center">
-                        <Avatar>
-                            <AvatarImage src={icon.path} alt={icon.name}/>
-                            <AvatarFallback>{icon.name}</AvatarFallback>
-                        </Avatar>
-                    </div>
+                    <Avatar>
+                        <AvatarImage src={icon.path} alt={icon.name}/>
+                        <AvatarFallback>{icon.name}</AvatarFallback>
+                    </Avatar>
                 )
-            };
-        });
+            }
+        })
     }
 
-    const handleChange = (option: any) => {
-        if (setFieldValue) {
-            setFieldValue(name, option?.value);
-            return;
-        }
-
-        if (onChange) {
-            onChange(option?.value);
-            return;
-        }
+    const handleChange = (iconId: string) => {
+        onChange(iconId);
+        return;
     }
 
     return (
-        <Select
-            isLoading={isLoading}
-            id={id}
-            name={name}
-            options={options}
-            onBlur={onBlur}
-            onChange={handleChange}
-            isClearable={true}
-            placeholder={placeholder}
-            defaultValue={options.find((option) => option.value == defaultValue)}
-        />
+        <Select value={defaultValue} onValueChange={handleChange}>
+            <SelectTrigger>
+                <SelectValue aria-label={defaultValue}>
+                    <div>
+                        {options.find((option) => option.value == defaultValue)?.label || placeholder}
+                    </div>
+                </SelectValue>
+            </SelectTrigger>
+            <SelectContent>
+                {options.map((option) => {
+                    return (
+                        <SelectItem value={option.value} className="flex items-center justify-center">
+                            {option.label}
+                        </SelectItem>
+                    )
+                })}
+            </SelectContent>
+        </Select>
     );
 }
 

@@ -28,6 +28,7 @@ export default {
                 email: "Email",
                 password: "Password",
                 confirmPassword: "Confirm Password",
+                current_password: "Current Password",
                 currency: "Currency",
                 language: "Language",
                 account: "Account",

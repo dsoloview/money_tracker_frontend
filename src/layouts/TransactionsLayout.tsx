@@ -1,7 +1,7 @@
 import {ReactNode} from "react";
 import AccountTopBar from "../features/topBar/AccountTopBar.tsx";
 import CreateTransactionGroup from "../features/transaction/CreateTransactionGroup.tsx";
-import {Container} from "@chakra-ui/react";
+import Container from "@/layouts/Container.tsx";
 
 type Props = {
     children: ReactNode
@@ -11,7 +11,7 @@ const AccountLayout = ({children}: Props) => {
         <div>
             <AccountTopBar/>
             <main>
-                <Container padding="4" maxW="95%">
+                <Container>
                     {children}
                     <CreateTransactionGroup/>
                 </Container>

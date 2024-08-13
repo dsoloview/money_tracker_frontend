@@ -1,32 +1,19 @@
-import {
-    Button,
-    Drawer,
-    DrawerBody,
-    DrawerCloseButton,
-    DrawerContent,
-    DrawerFooter,
-    DrawerHeader,
-    DrawerOverlay,
-    FormControl,
-    FormErrorMessage,
-    FormLabel,
-    Input,
-    InputGroup,
-    Spinner,
-    Stack,
-    useDisclosure
-} from "@chakra-ui/react";
-import {UpDownIcon} from "@chakra-ui/icons";
 import * as yup from "yup";
 import {useTranslation} from "react-i18next";
 import {ITransferRequest} from "@/models/transfer.model.ts";
 import AccountSelect from "@/widgets/selects/AccountSelect.tsx";
-import {useMutateWithFormik} from "@/hooks/useMutateWithFormik.ts";
-import {Suspense} from "react";
-import PrecisionFloatInput from "@/widgets/inputs/PrecisionFloatInput.tsx";
+import {useState} from "react";
 import i18next from "@/tools/language/language.ts";
 import {useCreateAccountTransfer} from "@/api/endpoints/account/accountTransfer/accountTransfer.api.ts";
 import {getCurrenctDateTimeForInput} from "@/tools/date/date.helper.ts";
+import {useMutateWithForm} from "@/hooks/useMutateWithForm.ts";
+import {ArrowUpDown} from "lucide-react";
+import {Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle} from "@/ui/drawer.tsx";
+import {ScrollArea} from "@/ui/scroll-area";
+import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/ui/form.tsx";
+import {Input} from "@/ui/input.tsx";
+import {DatePicker} from "@/ui/datePicker.tsx";
+import {Button} from "@/ui/button.tsx";
 
 const validationSchema = yup.object({
     comment: yup.string()
@@ -45,9 +32,9 @@ const validationSchema = yup.object({
 
 
 const CreateTransferGroup = () => {
-    const {isOpen, onOpen, onClose} = useDisclosure();
+    const [isOpen, setIsOpen] = useState(false);
     const {t} = useTranslation();
-    const {formik, isPending} = useMutateWithFormik<ITransferRequest>({
+    const {form, isPending, onSubmit} = useMutateWithForm<ITransferRequest>({
         mutation: useCreateAccountTransfer,
         initialValues: {
             comment: "",
@@ -58,7 +45,9 @@ const CreateTransferGroup = () => {
             date: getCurrenctDateTimeForInput()
         },
         validationSchema: validationSchema,
-        onSuccess: onClose,
+        onSuccess: () => {
+            setIsOpen(false)
+        },
         prepareSubmitData: (values) => {
             return {
                 id: values.account_from_id,
@@ -70,144 +59,145 @@ const CreateTransferGroup = () => {
     return (
         <>
             <Button
-                position="fixed"
-                bottom="100px"
-                right="50px"
-                onClick={onOpen}
-                size="lg"
-                colorScheme="teal"
-                rounded="full"
+                className="fixed bottom-28 right-14"
+                onClick={() => setIsOpen(true)}
+                variant="blue"
             >
-                <UpDownIcon/>
+                <ArrowUpDown/>
             </Button>
             <Drawer
-                isOpen={isOpen}
-                placement="right"
-                onClose={onClose}
-                size="md"
+                direction="right"
+                open={isOpen}
+                onOpenChange={setIsOpen}
             >
-                <DrawerOverlay>
-                    <DrawerContent>
-                        <DrawerCloseButton/>
-                        <DrawerHeader>{t('title.createTransfer')}</DrawerHeader>
-                        <DrawerBody>
-                            <form id="createTransferForm" onSubmit={formik.handleSubmit}>
-                                <Stack spacing={3}>
-                                    <FormControl
-                                        isInvalid={formik.touched.comment && Boolean(formik.errors.comment)}
-                                    >
-                                        <FormLabel htmlFor="comment">{t('form.label.comment')}</FormLabel>
-                                        <Input
-                                            placeholder={t('form.placeholder.comment')}
-                                            id="comment"
+                <DrawerContent className='h-screen top-0 right-0 left-auto mt-0 w-[600px] rounded-none'>
+                    <ScrollArea>
+                        <div className='mx-auto w-full p-10'>
+                            <DrawerHeader>
+                                <DrawerTitle>{t('title.createTransfer')}</DrawerTitle>
+                            </DrawerHeader>
+                            <Form {...form}>
+                                <form id="createTransferForm" onSubmit={form.handleSubmit(onSubmit)}>
+                                    <div className="flex flex-col space-y-3">
+                                        <FormField
+                                            control={form.control}
                                             name="comment"
-                                            value={formik.values.comment}
-                                            onChange={formik.handleChange}
-                                            onBlur={formik.handleBlur}
+                                            render={({field}) => (
+                                                <FormItem>
+                                                    <FormLabel>{t('form.label.comment')}</FormLabel>
+                                                    <FormControl>
+                                                        <Input
+                                                            autoFocus
+                                                            placeholder={t('form.placeholder.comment')}
+                                                            {...field}
+                                                        />
+                                                    </FormControl>
+                                                    <FormMessage/>
+                                                </FormItem>
+                                            )}
                                         />
-                                        <FormErrorMessage>{formik.errors.comment}</FormErrorMessage>
-                                    </FormControl>
-                                    <FormControl
-                                        isRequired
-                                        isInvalid={formik.touched.account_from_id && Boolean(formik.errors.account_from_id)}
-                                    >
-                                        <FormLabel htmlFor="account_from_id">{t('form.label.accountFrom')}</FormLabel>
-                                        <Suspense fallback={<Spinner/>}>
-                                            <AccountSelect
-                                                id="account_from_id"
-                                                name="account_from_id"
-                                                onBlur={formik.handleBlur}
-                                                setFieldValue={formik.setFieldValue}
-                                            />
-                                        </Suspense>
-                                        <FormErrorMessage>{formik.errors.account_from_id}</FormErrorMessage>
-                                    </FormControl>
-                                    <FormControl
-                                        isRequired
-                                        isInvalid={formik.touched.amount_from && Boolean(formik.errors.amount_from)}
-                                    >
-                                        <FormLabel htmlFor="amount_from">{t('form.label.amountFrom')}</FormLabel>
-                                        <InputGroup>
-                                            <PrecisionFloatInput
-                                                placeholder={t('form.placeholder.amountFrom')}
-                                                id="amount_from"
-                                                name="amount_from"
-                                                value={formik.values.amount_from}
-                                                setFieldValue={formik.setFieldValue}
-                                                onBlur={formik.handleBlur}
-                                                precision={2}
-                                            />
-                                        </InputGroup>
-                                        <FormErrorMessage>{formik.errors.amount_from}</FormErrorMessage>
-                                    </FormControl>
-                                    <FormControl
-                                        isRequired
-                                        isInvalid={formik.touched.account_to_id && Boolean(formik.errors.account_to_id)}
-                                    >
-                                        <FormLabel htmlFor="account_to_id">{t('form.label.accountTo')}</FormLabel>
-                                        <Suspense fallback={<Spinner/>}>
-                                            <AccountSelect
-                                                id="account_to_id"
-                                                name="account_to_id"
-                                                onBlur={formik.handleBlur}
-                                                setFieldValue={formik.setFieldValue}
-                                            />
-                                        </Suspense>
-                                        <FormErrorMessage>{formik.errors.account_to_id}</FormErrorMessage>
-                                    </FormControl>
-                                    <FormControl
-                                        isRequired
-                                        isInvalid={formik.touched.amount_to && Boolean(formik.errors.amount_to)}
-                                    >
-                                        <FormLabel htmlFor="amount_to">{t('form.label.amountTo')}</FormLabel>
-                                        <InputGroup>
-                                            <PrecisionFloatInput
-                                                placeholder={t('form.placeholder.amountTo')}
-                                                id="amount_to"
-                                                name="amount_to"
-                                                value={formik.values.amount_to}
-                                                setFieldValue={formik.setFieldValue}
-                                                onBlur={formik.handleBlur}
-                                                precision={2}
-                                            />
-                                        </InputGroup>
-                                        <FormErrorMessage>{formik.errors.amount_to}</FormErrorMessage>
-                                    </FormControl>
-                                    <FormControl
-                                        isRequired
-                                        isInvalid={formik.touched.date && Boolean(formik.errors.date)}
-                                    >
-                                        <FormLabel htmlFor="date">{t('form.label.date')}</FormLabel>
-                                        <InputGroup>
-                                            <Input
-                                                placeholder={t('form.placeholder.date')}
-                                                id="date"
-                                                name="date"
-                                                type="datetime-local"
-                                                value={formik.values.date}
-                                                onChange={formik.handleChange}
-                                                onBlur={formik.handleBlur}
-                                            />
-                                        </InputGroup>
-                                        <FormErrorMessage>{formik.errors.date}</FormErrorMessage>
-                                    </FormControl>
-                                </Stack>
-                            </form>
-                        </DrawerBody>
-                        <DrawerFooter>
-                            <Button
-                                isLoading={isPending}
-                                type="submit"
-                                form="createTransferForm"
-                                colorScheme="blue"
-                                mr={3}
-                            >
-                                Save
-                            </Button>
-                            <Button onClick={onClose}>Cancel</Button>
-                        </DrawerFooter>
-                    </DrawerContent>
-                </DrawerOverlay>
+                                        <FormField
+                                            control={form.control}
+                                            name="account_from_id"
+                                            render={({field}) => (
+                                                <FormItem>
+                                                    <FormLabel>{t('form.label.accountFrom')}</FormLabel>
+                                                    <FormControl>
+                                                        <AccountSelect
+                                                            defaultValue={field.value}
+                                                            onChange={(value) => {
+                                                                form.setValue('account_from_id', value)
+                                                            }}
+                                                        />
+                                                    </FormControl>
+                                                    <FormMessage/>
+                                                </FormItem>
+                                            )}
+                                        />
+                                        <FormField
+                                            control={form.control}
+                                            name="amount_from"
+                                            render={({field}) => (
+                                                <FormItem>
+                                                    <FormLabel>{t('form.label.amountFrom')}</FormLabel>
+                                                    <FormControl>
+                                                        <Input
+                                                            placeholder={t('form.placeholder.amountFrom')}
+                                                            {...field}
+                                                        />
+                                                    </FormControl>
+                                                    <FormMessage/>
+                                                </FormItem>
+                                            )}
+                                        />
+                                        <FormField
+                                            control={form.control}
+                                            name="account_to_id"
+                                            render={({field}) => (
+                                                <FormItem>
+                                                    <FormLabel>{t('form.label.accountTo')}</FormLabel>
+                                                    <FormControl>
+                                                        <AccountSelect
+                                                            defaultValue={field.value}
+                                                            onChange={(value) => {
+                                                                form.setValue('account_to_id', value)
+                                                            }}
+                                                        />
+                                                    </FormControl>
+                                                    <FormMessage/>
+                                                </FormItem>
+                                            )}
+                                        />
+                                        <FormField
+                                            control={form.control}
+                                            name="amount_to"
+                                            render={({field}) => (
+                                                <FormItem>
+                                                    <FormLabel>{t('form.label.amountTo')}</FormLabel>
+                                                    <FormControl>
+                                                        <Input
+                                                            placeholder={t('form.placeholder.amountTo')}
+                                                            {...field}
+                                                        />
+                                                    </FormControl>
+                                                    <FormMessage/>
+                                                </FormItem>
+                                            )}
+                                        />
+                                        <FormField
+                                            control={form.control}
+                                            name="date"
+                                            render={({field}) => (
+                                                <FormItem>
+                                                    <FormLabel>{t('form.label.date')}</FormLabel>
+                                                    <FormControl>
+                                                        <DatePicker
+                                                            value={new Date(field.value)}
+                                                            onChange={(value) => form.setValue('date', value.toISOString())}
+                                                        />
+                                                    </FormControl>
+                                                    <FormMessage/>
+                                                </FormItem>
+                                            )}
+                                        />
+                                    </div>
+                                </form>
+                            </Form>
+                            <DrawerFooter>
+                                <Button
+                                    isLoading={isPending}
+                                    type="submit"
+                                    form="createTransferForm"
+                                >
+                                    Save
+                                </Button>
+                                <DrawerClose asChild>
+                                    <Button>Cancel</Button>
+                                </DrawerClose>
+                            </DrawerFooter>
+                        </div>
+                    </ScrollArea>
+                </DrawerContent>
             </Drawer>
         </>
     )

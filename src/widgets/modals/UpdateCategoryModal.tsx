@@ -129,7 +129,8 @@ const UpdateCategoryModal = ({category, isOpen, setIsOpen}: Props) => {
                                                 <IconSelect
                                                     id="icon_id"
                                                     name="icon_id"
-                                                    onChange={field.onChange}
+                                                    onChange={(iconId) => form.setValue('icon_id', iconId)}
+                                                    defaultValue={field.value}
                                                 />
                                             </FormControl>
                                             <FormMessage/>
