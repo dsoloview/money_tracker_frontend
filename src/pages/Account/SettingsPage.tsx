@@ -154,8 +154,9 @@ function SettingsPage() {
                                     </FormItem>
                                 )}/>
                             <Button isLoading={isPending} type="submit">{t('form.submit')}</Button>
-                            <Button onClick={() => setIsUpdatePasswordOpen(true)}>{t('button.update_password')}</Button>
-                            <Button asChild>
+                            <Button type="button"
+                                    onClick={() => setIsUpdatePasswordOpen(true)}>{t('button.update_password')}</Button>
+                            <Button type="button" asChild>
                                 <Link to={'/account/settings/categories'}>{t('button.update_categories')}</Link>
                             </Button>
                             <UpdatePasswordModal isOpen={isUpdatePasswordOpen} setIsOpen={setIsUpdatePasswordOpen}/>
