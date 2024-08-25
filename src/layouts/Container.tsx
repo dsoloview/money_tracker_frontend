@@ -6,7 +6,7 @@ type Props = {
 }
 export default function Container({children}: Props) {
     return (
-        <div className="p-4 container">
+        <div className="p-4 container h-[100%]">
             {children}
         </div>
     )

@@ -27,9 +27,9 @@ const AccountTopBar = () => {
     ];
 
     return (
-        <div className="bg-gray-100">
+        <header className="bg-gray-100">
             <Container>
-                <div className="flex items-center justify-between h-16">
+                <div className="flex items-center justify-between h-[64px]">
                     <Button
                         className={"md:hidden"}
                         variant="ghost"
@@ -63,7 +63,7 @@ const AccountTopBar = () => {
                     </div>
                 ) : null}
             </Container>
-        </div>
+        </header>
     );
 };
 

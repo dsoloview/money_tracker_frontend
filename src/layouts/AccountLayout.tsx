@@ -9,9 +9,9 @@ type Props = {
 }
 const AccountLayout = ({children}: Props) => {
     return (
-        <div>
+        <div className="grid grid-rows-[96px,auto]">
             <AccountTopBar/>
-            <main>
+            <main className="min-h-[calc(100vh-96px)]">
                 <Container>
                     {children}
                 </Container>

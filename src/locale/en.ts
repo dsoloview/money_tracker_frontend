@@ -1,6 +1,5 @@
 export default {
     translation: {
-        hello: "Welcome to React and react-i18next",
         menu: {
             home: "Home",
             settings: "Settings",
@@ -116,5 +115,26 @@ export default {
             hide: "Hide",
             show: "Show",
         },
+        telegram: {
+            telegramToken: {
+                title: "Telegram Token",
+                description: "Here is your token to connect to Telegram",
+                steps: [
+                    "Open Telegram",
+                    "Search for the bot",
+                    "Send the command /authorize",
+                    "Enter your email",
+                    "Enter the token",
+                    "You are now connected",
+                ],
+                checkAuthorization: "Check authorization",
+            }
+        },
+        service: {
+            copy: {
+                copied: "Copied",
+                copy: "Copy",
+            }
+        }
     },
 };
