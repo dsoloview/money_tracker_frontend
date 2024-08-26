@@ -1,8 +1,11 @@
-import {IResponse} from "@/models/response.model.ts";
+import {IResponse, ISuccessResponse} from "@/models/response.model.ts";
 
 import api from "../../../api.ts";
 import {ITelegramToken, ITelegramUser} from "@/models/telegram.model.ts";
-import {useQuery} from "@tanstack/react-query";
+import {useMutation, useQuery} from "@tanstack/react-query";
+import {toast} from "react-toastify";
+import queryClient from "@/api/queryClient.api.ts";
+import {IError} from "@/models/error.model.ts";
 
 const useGetUserTelegramToken = (userId: number) => {
     return useQuery<IResponse<ITelegramToken>>({
@@ -27,4 +30,21 @@ const useGetTelegramUser = (userId: number, enabled: boolean = true) => {
         enabled: enabled,
     });
 }
-export {useGetUserTelegramToken, useGetTelegramUser};
+
+const useLogoutTelegramUser = (userId: number) => {
+    return useMutation<ISuccessResponse, IError<unknown>>({
+        mutationFn: async () => {
+            const response = await api().post(`users/${userId}/telegram/logout`);
+            return response.data.data;
+        },
+        onSuccess: () => {
+            toast.success('Successfully logged out from Telegram')
+            queryClient.invalidateQueries({queryKey: ['userTelegram', userId]})
+            queryClient.invalidateQueries({queryKey: ['userTelegramToken', userId]})
+        },
+        onError: (error) => {
+            toast.error(error.data.message)
+        },
+    })
+}
+export {useGetUserTelegramToken, useGetTelegramUser, useLogoutTelegramUser};

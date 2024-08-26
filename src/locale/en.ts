@@ -116,6 +116,7 @@ export default {
             show: "Show",
         },
         telegram: {
+            title: "Telegram",
             telegramToken: {
                 title: "Telegram Token",
                 description: "Here is your token to connect to Telegram",
@@ -128,7 +129,17 @@ export default {
                     "You are now connected",
                 ],
                 checkAuthorization: "Check authorization",
-            }
+            },
+            telegramUser: {
+                title: "Telegram user data",
+                description: "Here is your Telegram user data",
+                id: "Telegram ID",
+                username: "Username",
+            },
+            telegramNotifications: {
+                title: "Notifications",
+                description: "Manage your Telegram notifications",
+            },
         },
         service: {
             copy: {
