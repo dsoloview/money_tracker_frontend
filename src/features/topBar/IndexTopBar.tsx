@@ -6,7 +6,7 @@ import RegisterModal from "@/widgets/modals/RegisterModal.tsx";
 import {Link} from "react-router-dom";
 import {Button} from "@/ui/button.tsx";
 import Container from "@/layouts/Container.tsx";
-
+import logo from "@/assets/logo.svg";
 
 export default function IndexTopBar() {
 
@@ -29,10 +29,11 @@ export default function IndexTopBar() {
         </div>
     )
     return (
-        <div className="bg-gray-100 px-4">
+        <div className="border border-zinc-400 border-t-0 border-l-0 border-r-0 border-b-1 px-4">
             <Container>
-                <div className="flex h-16 items-center justify-between">
-                    <div>Money Tracker</div>
+                <div className="flex h-8 items-center justify-between">
+                    <Link to="/"><img src={logo} alt="money tracker" className="max-h-6"/></Link>
+                    
                     <div className="flex items-center">
                         {user ? authContent : notAuthContent}
                     </div>
