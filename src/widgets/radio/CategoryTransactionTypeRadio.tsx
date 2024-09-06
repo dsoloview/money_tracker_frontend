@@ -2,6 +2,7 @@ import {CategoryTransactionType} from "@/models/category.model.ts";
 import {useMemo} from "react";
 import RadioCard from "./RadioCard.tsx";
 import {ButtonGroup} from "@/ui/button-group.tsx";
+import {cn} from "@/lib/utils.ts";
 
 type Props = {
     id?: string;
@@ -10,8 +11,9 @@ type Props = {
     onChange: (nextValue: string) => void;
     defaultValue?: CategoryTransactionType | undefined;
     haveEmpty?: boolean;
+    className?: string;
 }
-const CategoryTransactionTypeRadio = ({onChange, value, haveEmpty}: Props) => {
+const CategoryTransactionTypeRadio = ({onChange, value, haveEmpty, className}: Props) => {
 
     const options = useMemo(() => {
         return Object.values(CategoryTransactionType).map((type) => {
@@ -19,9 +21,10 @@ const CategoryTransactionTypeRadio = ({onChange, value, haveEmpty}: Props) => {
         })
     }, []);
 
+    const styles = cn("flex justify-center items-center", className);
     return (
         <ButtonGroup
-            className="flex justify-center items-center"
+            className={styles}
             defaultValue={value}
             onValueChange={onChange}
         >

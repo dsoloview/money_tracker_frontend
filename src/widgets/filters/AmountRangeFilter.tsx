@@ -6,17 +6,22 @@ import useUserState from "@/hooks/useUserState.ts";
 import {useTranslation} from "react-i18next";
 import {ITransactionsInfo} from "@/models/transaction.model.ts";
 import {Input} from "@/ui/input.tsx";
+import {cn} from "@/lib/utils.ts";
 
 type Props = {
     filters: TransactionTableFiltersType;
     onFiltersChange: (key: string, value: any) => void;
     transactionsInfo?: ITransactionsInfo;
+    className?: string;
+    id?: string;
 
 }
 const AmountRangeFilter = (
     {
         filters,
         onFiltersChange,
+        className,
+        id
     }: Props
 ) => {
     const {t} = useTranslation();
@@ -77,8 +82,9 @@ const AmountRangeFilter = (
 
     }
 
+    const containerStyles = cn("flex items-center gap-4", className);
     return (
-        <div className="flex items-center gap-4">
+        <div className={containerStyles} id={id}>
             <Input
                 disabled={isLoading}
                 value={minAmount}

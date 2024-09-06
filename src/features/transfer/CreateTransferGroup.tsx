@@ -59,7 +59,6 @@ const CreateTransferGroup = () => {
     return (
         <>
             <Button
-                className="fixed bottom-28 right-14"
                 onClick={() => setIsOpen(true)}
                 variant="blue"
             >

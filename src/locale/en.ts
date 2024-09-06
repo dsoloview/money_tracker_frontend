@@ -43,6 +43,7 @@ export default {
                 description: "Description",
                 icon: "Icon",
                 tools: "Tools",
+                filters: "Filters",
             },
             validation: {
                 required: "This field is required",
@@ -114,6 +115,10 @@ export default {
             update_categories: "Update Categories",
             hide: "Hide",
             show: "Show",
+            actions: "Actions",
+            create: "Create",
+            update: "Update",
+            reset: "Reset",
         },
         telegram: {
             title: "Telegram",

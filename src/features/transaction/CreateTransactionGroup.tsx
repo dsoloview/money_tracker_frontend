@@ -69,7 +69,6 @@ const CreateTransactionGroup = () => {
     return (
         <>
             <Button
-                className="fixed bottom-14 right-14"
                 onClick={() => setIsOpen(true)}
                 variant="blue"
             >

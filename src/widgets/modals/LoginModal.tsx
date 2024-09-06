@@ -2,7 +2,6 @@ import {useTranslation} from "react-i18next";
 import * as yup from "yup";
 import {useLogin} from "@/api/endpoints/auth/auth.api.ts";
 import {ILoginData} from "@/models/request.model.ts";
-import {useState} from "react";
 import i18next from '@/tools/language/language.ts';
 import {Button} from '@/ui/button.tsx';
 import {useMutateWithForm} from "@/hooks/useMutateWithForm.ts";
@@ -17,6 +16,7 @@ import {
     DialogTitle,
     DialogTrigger
 } from "@/ui/dialog.tsx";
+import PasswordInput from "@/widgets/inputs/PasswordInput.tsx";
 
 const validationSchema = yup.object({
     email: yup.string()
@@ -29,7 +29,6 @@ const validationSchema = yup.object({
 
 const LoginModal = () => {
     const {t} = useTranslation()
-    const [showPassword, setShowPassword] = useState(false)
 
     const {form, onSubmit, isPending} = useMutateWithForm<ILoginData>({
         mutation: useLogin,
@@ -79,17 +78,10 @@ const LoginModal = () => {
                                         <FormItem>
                                             <FormLabel>{t('form.label.password')}</FormLabel>
                                             <FormControl>
-                                                <div className="flex w-full items-center space-x-2">
-                                                    <Input
-                                                        type={showPassword ? "text" : "password"}
-                                                        placeholder={t('form.placeholder.password')}
-                                                        {...field}
-                                                    />
-                                                    <Button type="button"
-                                                            onClick={() => setShowPassword(!showPassword)}>
-                                                        {showPassword ? t('button.hide') : t('button.show')}
-                                                    </Button>
-                                                </div>
+                                                <PasswordInput
+                                                    placeholder={t('form.placeholder.password')}
+                                                    {...field}
+                                                />
                                             </FormControl>
                                             <FormMessage/>
                                         </FormItem>

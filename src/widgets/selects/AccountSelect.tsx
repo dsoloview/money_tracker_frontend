@@ -4,14 +4,16 @@ import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/u
 
 type Props = {
     onChange: (option: string) => void
-    placeholder?: string,
+    placeholder?: string
     defaultValue?: string
+    className?: string
 
 }
 const AccountSelect = (
     {
         onChange,
-        defaultValue
+        defaultValue,
+        className
     }: Props) => {
     const user = useUserState();
     const {data} = useGetUserAccounts(user.id);
@@ -25,7 +27,7 @@ const AccountSelect = (
             <SelectTrigger>
                 <SelectValue placeholder="Select account"/>
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className={className}>
                 {data?.data.map((account) => (
                     <SelectItem key={account.id} value={account.id.toString()}>
                         {account.name}

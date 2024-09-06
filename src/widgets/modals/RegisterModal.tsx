@@ -19,6 +19,7 @@ import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/
 import {Input} from "@/ui/input.tsx";
 import CurrencySelect from "@/widgets/selects/CurrencySelect.tsx";
 import LanguageSelect from "@/widgets/selects/LanguageSelect.tsx";
+import PasswordInput from "@/widgets/inputs/PasswordInput.tsx";
 
 const validationSchema = yup.object({
     name: yup.string()
@@ -116,7 +117,7 @@ const RegisterModal = () => {
                                         <FormItem>
                                             <FormLabel>{t('form.label.password')}</FormLabel>
                                             <FormControl>
-                                                <Input
+                                                <PasswordInput
                                                     placeholder={t('form.placeholder.password')}
                                                     {...field}
                                                 />
@@ -131,7 +132,7 @@ const RegisterModal = () => {
                                         <FormItem>
                                             <FormLabel>{t('form.label.confirmPassword')}</FormLabel>
                                             <FormControl>
-                                                <Input
+                                                <PasswordInput
                                                     placeholder={t('form.placeholder.password_confirmation')}
                                                     {...field}
                                                 />

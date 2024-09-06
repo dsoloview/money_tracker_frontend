@@ -86,7 +86,7 @@ function SettingsPage() {
 
     return (
         <AccountLayout>
-            <div className="max-w-3xl mx-auto px-4">
+            <div className="max-w-3xl mx-auto px-4 flex flex-col gap-3">
                 {userInfoBlock}
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -153,16 +153,18 @@ function SettingsPage() {
                                         <FormMessage/>
                                     </FormItem>
                                 )}/>
-                            <Button isLoading={isPending} type="submit">{t('form.submit')}</Button>
-                            <Button type="button"
-                                    onClick={() => setIsUpdatePasswordOpen(true)}>{t('button.update_password')}</Button>
-                            <Button type="button" asChild>
-                                <Link to={'/account/settings/categories'}>{t('button.update_categories')}</Link>
-                            </Button>
+                            <Button variant="green" isLoading={isPending} type="submit">{t('form.submit')}</Button>
                             <UpdatePasswordModal isOpen={isUpdatePasswordOpen} setIsOpen={setIsUpdatePasswordOpen}/>
                         </div>
                     </form>
                 </Form>
+                <div className="flex items-center gap-4">
+                    <Button className="w-full" variant="outline" type="button"
+                            onClick={() => setIsUpdatePasswordOpen(true)}>{t('button.update_password')}</Button>
+                    <Button className="w-full" variant="outline" type="button" asChild>
+                        <Link to={'/account/settings/categories'}>{t('button.update_categories')}</Link>
+                    </Button>
+                </div>
             </div>
         </AccountLayout>
     );

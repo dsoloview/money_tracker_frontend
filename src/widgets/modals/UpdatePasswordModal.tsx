@@ -9,6 +9,7 @@ import {Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTi
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/ui/form.tsx";
 import {Input} from "@/ui/input.tsx";
 import {Button} from "@/ui/button.tsx";
+import PasswordInput from "@/widgets/inputs/PasswordInput.tsx";
 
 type Props = {
     isOpen: boolean;
@@ -86,7 +87,7 @@ const UpdatePasswordModal = ({isOpen, setIsOpen}: Props) => {
                                         <FormItem>
                                             <FormLabel>{t('form.label.password')}</FormLabel>
                                             <FormControl>
-                                                <Input
+                                                <PasswordInput
                                                     placeholder={t('form.placeholder.password')}
                                                     {...field}
                                                 />
@@ -102,7 +103,7 @@ const UpdatePasswordModal = ({isOpen, setIsOpen}: Props) => {
                                         <FormItem>
                                             <FormLabel>{t('form.label.confirmPassword')}</FormLabel>
                                             <FormControl>
-                                                <Input
+                                                <PasswordInput
                                                     placeholder={t('form.placeholder.password_confirmation')}
                                                     {...field}
                                                 />
