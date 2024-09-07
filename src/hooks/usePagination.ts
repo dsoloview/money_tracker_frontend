@@ -1,17 +1,13 @@
 import {useState} from "react";
-import useQueryParams from "./useQueryParams.ts";
 
 const usePagination = () => {
-    const {params, updateQueryParams} = useQueryParams();
-
     const [pagination, setPagination] = useState({
-        pageIndex: params.page ?? 1,
-        pageSize: 0,
+        pageIndex: 0,
+        pageSize: 10,
     });
 
     const resetPagination = () => {
-        setPagination({pageIndex: 0, pageSize: 0});
-        updateQueryParams({page: 1});
+        setPagination({pageIndex: 0, pageSize: 10});
     }
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -19,9 +15,8 @@ const usePagination = () => {
     const onPaginationChange = (stateUpdater) => {
         const vars = stateUpdater(pagination)
         setPagination(vars)
-        updateQueryParams({page: vars.pageIndex + 1})
     }
-    
+
     return {
         onPaginationChange,
         resetPagination,

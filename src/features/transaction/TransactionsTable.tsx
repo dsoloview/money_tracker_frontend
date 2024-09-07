@@ -11,9 +11,11 @@ import useFilters from "@/hooks/useFilters.ts";
 import TransactionTableFilters from "./TransactionTableFilters.tsx";
 import useUserState from "@/hooks/useUserState.ts";
 import i18next from "@/tools/language/language.ts";
-import TransactionTableStatistics from "./TransactionTableStatistics.tsx";
 import TransactionTableTools from "./TransactionTableTools.tsx";
 import {Badge} from "@/ui/badge.tsx";
+import {Card, CardContent, CardHeader, CardTitle} from "@/ui/card.tsx";
+import {useTranslation} from "react-i18next";
+import {Button} from "@/ui/button.tsx";
 
 const columns = [
     {
@@ -95,42 +97,64 @@ export type TransactionTableFiltersType = {
 
 const TransactionsTable = () => {
     const {pagination, onPaginationChange, resetPagination} = usePagination();
-    const {sort, onSortingChange, field, order} = useSorting("date", "desc");
+    const {sort, onSortingChange, field, order} = useSorting();
     const {filters, onFilterChange, resetFilters} = useFilters<TransactionTableFiltersType>({
         onFiltersChange: resetPagination
     });
+
+    const {t} = useTranslation();
 
     const user = useUserState();
 
     const {data, isLoading} = useGetUserTransactions({
         id: user.id,
         page: pagination.pageIndex + 1,
-        sort: field,
-        direction: order,
+        perPage: pagination.pageSize,
+        sort: field === 'undefined' ? 'id' : field,
+        direction: order === 'undefined' ? 'desc' : order,
         filters: filters
     } as IParamTableGetRequest);
 
     return (
-        <>
-            <TransactionTableFilters
-                filters={filters}
-                onFiltersChange={onFilterChange}
-                resetFilters={resetFilters}
-                isLoading={isLoading}
-
-            />
-            <DataTable<ITransaction>
-                data={data?.data || []}
-                columns={columns}
-                pagination={pagination}
-                onPaginationChange={onPaginationChange}
-                pageCount={data?.meta.last_page || 0}
-                sort={sort}
-                onSortingChange={onSortingChange}
-                isLoading={isLoading}
-            />
-            <TransactionTableStatistics data={data?.info}/>
-        </>
+        <div className="grid grid-cols-[300px_1fr] gap-3 min-h-800px">
+            <Card>
+                <CardHeader>
+                    <CardTitle className="flex items-center justify-between">
+                        {t('form.label.filters')}
+                        <Button onClick={resetFilters}>{t('button.reset')}</Button>
+                    </CardTitle>
+                    <CardContent className="p-0">
+                        <TransactionTableFilters
+                            filters={filters}
+                            onFiltersChange={onFilterChange}
+                            resetFilters={resetFilters}
+                            isLoading={isLoading}
+                        />
+                    </CardContent>
+                </CardHeader>
+            </Card>
+            <div>
+                <Card className="min-h-[700px]">
+                    <CardHeader>
+                        <CardTitle>
+                            {t('menu.transactions')}
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <DataTable<ITransaction>
+                            data={data?.data || []}
+                            columns={columns}
+                            pagination={pagination}
+                            onPaginationChange={onPaginationChange}
+                            pageCount={data?.meta.last_page || 0}
+                            sort={sort}
+                            onSortingChange={onSortingChange}
+                            isLoading={isLoading}
+                        />
+                    </CardContent>
+                </Card>
+            </div>
+        </div>
     )
 }
 

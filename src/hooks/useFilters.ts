@@ -1,33 +1,13 @@
-import {useEffect, useState} from "react";
-import useQueryParams from "./useQueryParams.ts";
+import {useState} from "react";
 
 type Props = {
     onFiltersChange?: () => void;
 }
 
 const useFilters = <T extends object>(props?: Props) => {
-    const {params, updateQueryParams, removeQueryParams} = useQueryParams();
+    const initialFilters: T = {} as T;
 
-    let initialFilters: T = {} as T;
-
-    if (params.filters) {
-        initialFilters = params.filters as T;
-    }
     const [filters, setFilters] = useState(initialFilters);
-
-    useEffect(() => {
-        if (props?.onFiltersChange) {
-            props.onFiltersChange();
-        }
-
-        if (Object.keys(filters).length > 0) {
-            if (params.filters !== filters) {
-                updateQueryParams({filters: filters});
-            }
-        } else {
-            removeQueryParams(["filters"]);
-        }
-    }, [filters]);
 
     const updateFilters = (key: string, value: any) => {
         if (typeof value === "object") {

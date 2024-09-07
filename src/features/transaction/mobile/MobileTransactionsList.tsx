@@ -8,15 +8,19 @@ import SkeletonList from "@/widgets/skeleton/SkeletonList.tsx";
 import MobilePagination from "@/widgets/mobile/MobilePagination.tsx";
 import MobileTransactionFilters from "@/features/transaction/mobile/MobileTransactionFilters.tsx";
 import Title from "@/widgets/texts/Title.tsx";
+import {useSorting} from "@/hooks/useSort.ts";
 
 const MobileTransactionsList = () => {
     const {pagination, onPaginationChange, resetPagination} = usePagination();
+    const {field, order} = useSorting();
     const {filters, onFilterChange, resetFilters} = useFilters({onFiltersChange: resetPagination});
     const user = useUserState();
 
     const {data, isLoading} = useGetUserTransactions({
         id: user.id,
         page: pagination.pageIndex + 1,
+        sort: field === 'undefined' ? 'id' : field,
+        direction: order === 'undefined' ? 'desc' : order,
         filters,
     });
 

@@ -1,6 +1,7 @@
 import {ILink} from "@/models/navigation.model.ts";
 import {
     NavigationMenu,
+    NavigationMenuItem,
     NavigationMenuLink,
     NavigationMenuList,
     navigationMenuTriggerStyle
@@ -22,15 +23,17 @@ const HeaderNavigation = () => {
         <NavigationMenu className="max-md:hidden">
             <NavigationMenuList>
                 {menuItems.map((link) => (
-                    <Link to={link.href} key={link.href}>
+                    <NavigationMenuItem key={link.href}>
                         <NavigationMenuLink
                             className={navigationMenuTriggerStyle()}
+                            asChild
                             active={pathname === link.href}
                         >
-                            {link.name}
+                            <Link to={link.href}>
+                                {link.name}
+                            </Link>
                         </NavigationMenuLink>
-                    </Link>
-
+                    </NavigationMenuItem>
                 ))}
             </NavigationMenuList>
         </NavigationMenu>

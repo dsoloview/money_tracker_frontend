@@ -27,6 +27,7 @@ export interface IParamTableGetRequest extends IIdRequest {
     sort?: string;
     direction?: string;
     filters?: object;
+    perPage?: number;
 }
 
 export interface IUpdateUserRequest {

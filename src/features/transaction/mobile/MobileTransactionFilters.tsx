@@ -43,7 +43,7 @@ const MobileTransactionFilters = ({filters, onFiltersChange, resetFilters}: Prop
                         </Suspense>
                     </div>
 
-                    <div>
+                    <div className="mx-auto">
                         <Label htmlFor="categoryTransactionTypeRadioFilter">{t('form.label.type')}</Label>
                         <Suspense fallback={<Spinner/>}>
                             <CategoryTransactionTypeRadio

@@ -5,6 +5,8 @@ import {Suspense} from "react";
 import AmountRangeFilter from "@/widgets/filters/AmountRangeFilter.tsx";
 import {useTranslation} from "react-i18next";
 import {Spinner} from "@/ui/spinner.tsx";
+import {Label} from "@/ui/label.tsx";
+import {DatePickerWithRange} from "@/widgets/selects/DateRangePicker.tsx";
 
 type Props = {
     filters: TransactionTableFiltersType;
@@ -16,29 +18,41 @@ type Props = {
 function TransactionTableFilters({filters, onFiltersChange}: Props) {
     const {t} = useTranslation();
     return (
-        <div className="flex justify-between items-center mb-4 gap-5">
-            <Suspense fallback={<Spinner/>}>
-                <AccountSelect
-                    id="transactionTableAccountFilter"
-                    name="account_id"
-                    onChange={(accountId) => onFiltersChange("account_id", accountId)}
-                    placeholder={t('form.placeholder.account')}
-                    defaultValue={filters?.account_id?.$eq}
+        <div className="w-full flex flex-col gap-3 justify-start">
+            <div>
+                <Label htmlFor="transactionTableAccountFilter">{t('form.label.account')}</Label>
+                <Suspense fallback={<Spinner/>}>
+                    <AccountSelect
+                        id="transactionTableAccountFilter"
+                        name="account_id"
+                        onChange={(accountId) => onFiltersChange("account_id", accountId)}
+                        placeholder={t('form.placeholder.account')}
+                        defaultValue={filters?.account_id?.$eq}
+                    />
+                </Suspense>
+            </div>
+            <div>
+                <Label htmlFor="transactionTableTypeFilter">{t('form.label.type')}</Label>
+                <CategoryTransactionTypeRadio
+                    id="transactionTableTypeFilter"
+                    name="type"
+                    onChange={(type) => onFiltersChange("type", type)}
+                    defaultValue={filters?.type?.$eq}
                 />
-            </Suspense>
-            <CategoryTransactionTypeRadio
-                value={filters?.type?.$eq}
-                name="type"
-                defaultValue={filters?.type?.$eq}
-                onChange={(type: string) => onFiltersChange("type", type)}
-                haveEmpty
-            />
-            <Suspense fallback={<Spinner/>}>
-                <AmountRangeFilter
-                    filters={filters}
-                    onFiltersChange={onFiltersChange}
-                />
-            </Suspense>
+            </div>
+            <div>
+                <Label htmlFor="transactionTableAmountFilter">{t('form.label.amount')}</Label>
+                <Suspense fallback={<Spinner/>}>
+                    <AmountRangeFilter
+                        filters={filters}
+                        onFiltersChange={onFiltersChange}
+                    />
+                </Suspense>
+            </div>
+            <div>
+                <Label htmlFor="transactionTableDateFilter">{t('form.label.date')}</Label>
+                <DatePickerWithRange/>
+            </div>
         </div>
     );
 }

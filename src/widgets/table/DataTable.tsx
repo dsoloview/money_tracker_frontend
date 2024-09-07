@@ -7,7 +7,7 @@ import {
     useReactTable
 } from "@tanstack/react-table";
 import {Dispatch, SetStateAction} from "react";
-import Pagination from "./Pagination.tsx";
+import CustomPagination from "./CustomPagination.tsx";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/ui/table.tsx";
 import {ChevronDown, ChevronUp} from "lucide-react";
 import {Skeleton} from "@/ui/skeleton.tsx";
@@ -64,7 +64,7 @@ export function DataTable<Data extends object>(
         pageCount
     });
 
-    const skeleton = Array.from({length: 10}, (_, index) => (
+    const skeleton = Array.from({length: pagination.pageSize}, (_, index) => (
         (<TableRow key={index}>
             {table.getHeaderGroups().map((headerGroup) => (
                 headerGroup.headers.map((header) => (
@@ -94,45 +94,51 @@ export function DataTable<Data extends object>(
     }
 
     return (
-        <div>
-            <Table>
-                <TableHeader>
-                    {table.getHeaderGroups().map((headerGroup) => (
-                        <TableRow key={headerGroup.id}>
-                            {headerGroup.headers.map((header) => {
-                                return (
-                                    <TableHead
-                                        key={header.id}
-                                        onClick={header.column.getToggleSortingHandler()}
-                                    >
-                                        <div className="flex items-center cursor-pointer">
-                                            {flexRender(
-                                                header.column.columnDef.header,
-                                                header.getContext()
-                                            )}
+        <div className="flex flex-col h-full">
+            <div className="flex-1 overflow-y-auto min-h-[630px]">
+                <Table>
+                    <TableHeader>
+                        {table.getHeaderGroups().map((headerGroup) => (
+                            <TableRow key={headerGroup.id}>
 
-                                            <div className="pl-4">
-                                                {header.column.getIsSorted() ? (
-                                                    header.column.getIsSorted() === "desc" ? (
-                                                        <ChevronDown/>
-                                                    ) : (
-                                                        <ChevronUp/>
-                                                    )
-                                                ) : null}
+                                {headerGroup.headers.map((header) => {
+                                    return (
+                                        <TableHead
+                                            key={header.id}
+                                            onClick={header.column.getToggleSortingHandler()}
+                                        >
+                                            <div className="flex items-center cursor-pointer">
+                                                {flexRender(
+                                                    header.column.columnDef.header,
+                                                    header.getContext()
+                                                )}
+
+                                                <div className="pl-4">
+                                                    {header.column.getIsSorted() ? (
+                                                        header.column.getIsSorted() === "desc" ? (
+                                                            <ChevronDown/>
+                                                        ) : (
+                                                            <ChevronUp/>
+                                                        )
+                                                    ) : null}
+                                                </div>
                                             </div>
-                                        </div>
 
-                                    </TableHead>
-                                );
-                            })}
-                        </TableRow>
-                    ))}
-                </TableHeader>
-                <TableBody>
-                    {content}
-                </TableBody>
-            </Table>
-            <Pagination tableInfo={table}/>
+                                        </TableHead>
+                                    );
+                                })}
+                            </TableRow>
+                        ))}
+                    </TableHeader>
+                    <TableBody>
+                        {content}
+                    </TableBody>
+                </Table>
+            </div>
+
+            <div className="mt-4">
+                <CustomPagination table={table}/>
+            </div>
         </div>
     );
 }
