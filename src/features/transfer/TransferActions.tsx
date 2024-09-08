@@ -33,7 +33,6 @@ export default function TransferActions({transferId}: Props): JSX.Element {
                         variant="ghost"
                     >
                         <MoreHorizontal className="h-4 w-4"/>
-                        <span className="sr-only">Toggle menu</span>
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">

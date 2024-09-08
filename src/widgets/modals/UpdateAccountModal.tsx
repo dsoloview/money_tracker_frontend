@@ -1,6 +1,6 @@
 import {useTranslation} from "react-i18next";
 import * as yup from "yup";
-import {IAccount, IAccountCreateUpdateRequest} from "@/models/account.model.ts";
+import {IAccountCreateUpdateRequest} from "@/models/account.model.ts";
 import CurrencySelect from "@/widgets/selects/CurrencySelect.tsx";
 import {useUpdateAccount} from "@/api/endpoints/account/account.api.ts";
 import i18next from '@/tools/language/language.ts';
@@ -9,13 +9,8 @@ import {Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTi
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/ui/form.tsx";
 import {Button} from "@/ui/button.tsx";
 import {Input} from "@/ui/input.tsx";
-
-type Props = {
-    isOpen: boolean
-    onClose: () => void
-    setIsOpen: (isOpen: boolean) => void
-    account: IAccount
-}
+import {useUpdateAccountModal} from "@/stores/modal/modalStore.ts";
+import {useEffect} from "react";
 
 const validationSchema = yup.object({
     name: yup.string()
@@ -28,17 +23,18 @@ const validationSchema = yup.object({
         .required(i18next.t('form.validation.required')),
 });
 
-const UpdateAccountModal = ({isOpen, setIsOpen, onClose, account}: Props) => {
+const UpdateAccountModal = () => {
     const {t} = useTranslation()
+    const {isOpen, toggleModal, account, onClose} = useUpdateAccountModal()
 
     const {form, isPending, onSubmit} = useMutateWithForm<IAccountCreateUpdateRequest>({
         mutation: useUpdateAccount,
         validationSchema: validationSchema,
         initialValues: {
-            name: account.name,
-            bank: account.bank,
-            currency_id: account.currency.id.toString(),
-            balance: account.balance
+            name: account && account.name,
+            bank: account && account.bank,
+            currency_id: account && account.currency.id.toString(),
+            balance: account && account.balance
         },
         onSuccess: () => {
             onClose()
@@ -51,8 +47,19 @@ const UpdateAccountModal = ({isOpen, setIsOpen, onClose, account}: Props) => {
         }
     })
 
+    useEffect(() => {
+        if (account !== undefined) {
+            form.reset({
+                name: account.name,
+                bank: account.bank,
+                currency_id: account.currency.id.toString(),
+                balance: account.balance
+            })
+        }
+    }, [account])
+
     return (
-        <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <Dialog open={isOpen} onOpenChange={() => toggleModal(account)}>
             <DialogContent>
                 <div className="p-5">
                     <DialogHeader>

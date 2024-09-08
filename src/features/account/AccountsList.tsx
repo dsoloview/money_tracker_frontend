@@ -1,6 +1,7 @@
 import {useSuspenseGetUserAccounts} from "@/api/endpoints/user/account/userAccount.api.ts";
 import useUserState from "@/hooks/useUserState.ts";
 import AccountListItem from "@/features/account/AccountListItem.tsx";
+import UpdateAccountModal from "@/widgets/modals/UpdateAccountModal.tsx";
 
 const AccountsList = () => {
     const user = useUserState();
@@ -13,6 +14,7 @@ const AccountsList = () => {
                     <AccountListItem account={account} key={account.id}/>
                 ))}
             </ul>
+            <UpdateAccountModal/>
         </div>
     )
 }

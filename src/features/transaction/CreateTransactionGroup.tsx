@@ -194,17 +194,18 @@ const CreateTransactionGroup = () => {
                                 </div>
                             </form>
                         </Form>
-                        <SheetFooter>
+                        <SheetFooter className="mt-5 flex gap-3">
+                            <SheetClose asChild>
+                                <Button variant="red">Cancel</Button>
+                            </SheetClose>
                             <Button
                                 isLoading={isPending}
                                 type="submit"
+                                variant="green"
                                 form="createTransactionForm"
                             >
                                 Save
                             </Button>
-                            <SheetClose asChild>
-                                <Button>Cancel</Button>
-                            </SheetClose>
                         </SheetFooter>
                     </div>
                 </SheetContent>

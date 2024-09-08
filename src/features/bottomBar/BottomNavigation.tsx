@@ -13,7 +13,7 @@ import {ArrowLeftRight, ArrowRightLeft, CreditCard, Send, Settings} from "lucide
 const menuItems: IMobileLink[] = [
     {name: i18next.t("menu.settings"), href: "/account/settings", icon: <Settings/>},
     {name: i18next.t("menu.telegram"), href: "/account/telegram", icon: <Send/>},
-    {name: i18next.t("menu.account"), href: "/account", icon: <CreditCard/>},
+    {name: i18next.t("menu.account"), href: "/account/accounts", icon: <CreditCard/>},
     {name: i18next.t("menu.transactions"), href: "/account/transactions", icon: <ArrowLeftRight/>},
     {name: i18next.t("menu.transfers"), href: "/account/transfers", icon: <ArrowRightLeft/>},
 ];

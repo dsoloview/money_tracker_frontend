@@ -2,7 +2,7 @@ import Providers from "./Providers.tsx";
 import {ToastContainer} from "react-toastify";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import HomePage from "./pages/HomePage.tsx";
-import AccountPage from "./pages/Account/AccountPage.tsx";
+import AccountsPage from "./pages/Account/AccountsPage.tsx";
 import {TransactionsPage} from "./pages/Account/TransactionsPage.tsx";
 import SettingsPage from "./pages/Account/SettingsPage.tsx";
 import TelegramPage from "./pages/Account/TelegramPage.tsx";
@@ -11,6 +11,7 @@ import ErrorComponent from "./ErrorComponent.tsx";
 import TransfersPage from "./pages/Account/TransfersPage.tsx";
 import CategoriesPage from "./pages/Account/CategoriesPage.tsx";
 import TelegramConnectPage from "@/pages/Account/TelegramConnectPage.tsx";
+import AccountPage from "@/pages/Account/AccountPage.tsx";
 
 const router = createBrowserRouter([
     {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
             {
                 index: true,
                 element: <AccountPage/>,
+            },
+            {
+                path: "accounts",
+                element: <AccountsPage/>
             },
             {
                 path: "transactions",

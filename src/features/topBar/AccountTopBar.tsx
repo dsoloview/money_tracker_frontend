@@ -13,7 +13,7 @@ const AccountTopBar = () => {
             <Container>
                 <div className="flex items-center justify-between h-[64px]">
                     <div className="flex justify-center items-center space-x-8">
-                        <Link to="/"><img src={logo} alt="money tracker" className="max-h-6"/></Link>
+                        <Link to="/account"><img src={logo} alt="money tracker" className="max-h-6"/></Link>
                         <HeaderNavigation/>
                     </div>
                     <div className="flex items-center">
