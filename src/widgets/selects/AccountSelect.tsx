@@ -3,6 +3,8 @@ import useUserState from "@/hooks/useUserState.ts";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/ui/select.tsx";
 
 type Props = {
+    id?: string
+    name?: string
     onChange: (option: string) => void
     placeholder?: string
     defaultValue?: string
@@ -11,6 +13,8 @@ type Props = {
 }
 const AccountSelect = (
     {
+        id,
+        name,
         onChange,
         defaultValue,
         className
@@ -23,11 +27,11 @@ const AccountSelect = (
     }
 
     return (
-        <Select onValueChange={handleChange} defaultValue={defaultValue}>
+        <Select name={name} onValueChange={handleChange} defaultValue={defaultValue}>
             <SelectTrigger>
                 <SelectValue placeholder="Select account"/>
             </SelectTrigger>
-            <SelectContent className={className}>
+            <SelectContent id={id} className={className}>
                 {data?.data.map((account) => (
                     <SelectItem key={account.id} value={account.id.toString()}>
                         {account.name}

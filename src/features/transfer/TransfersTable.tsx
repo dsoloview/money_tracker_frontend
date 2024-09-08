@@ -10,6 +10,9 @@ import {ITransfer} from "@/models/transfer.model.ts";
 import {useGetUserTransfers} from "@/api/endpoints/user/transfer/userTransaction.api.ts";
 import TransferTableFilters from "./TransferTableFilters.tsx";
 import {Badge} from "@/ui/badge.tsx";
+import {Card, CardContent, CardHeader, CardTitle} from "@/ui/card.tsx";
+import {useTranslation} from "react-i18next";
+import {Button} from "@/ui/button.tsx";
 
 const columns = [
     {
@@ -64,49 +67,73 @@ const columns = [
 
 export type TransferTableFiltersType = {
     account_from_id?: {
-        '$eq'?: number;
+        '$eq'?: string;
     };
     account_to_id?: {
-        '$eq'?: number;
+        '$eq'?: string;
     };
 }
 
 const TransfersTable = () => {
     const {pagination, onPaginationChange, resetPagination} = usePagination();
-    const {sort, onSortingChange, field, order} = useSorting("date", "desc");
+    const {sort, onSortingChange, field, order} = useSorting();
     const {filters, onFilterChange, resetFilters} = useFilters<TransferTableFiltersType>({
-        onFiltersChange: resetPagination
+        onChange: resetPagination
     });
+    const {t} = useTranslation();
 
     const user = useUserState();
 
     const {data, isLoading} = useGetUserTransfers({
         id: user.id,
         page: pagination.pageIndex + 1,
+        perPage: pagination.pageSize,
         sort: field,
         direction: order,
         filters: filters
     } as IParamTableGetRequest);
 
     return (
-        <>
-            <TransferTableFilters
-                filters={filters}
-                onFiltersChange={onFilterChange}
-                resetFilters={resetFilters}
-                isLoading={isLoading}
-            />
-            <DataTable<ITransfer>
-                data={data?.data || []}
-                columns={columns}
-                pagination={pagination}
-                onPaginationChange={onPaginationChange}
-                pageCount={data?.meta.last_page || 0}
-                sort={sort}
-                onSortingChange={onSortingChange}
-                isLoading={isLoading}
-            />
-        </>
+        <div className="grid grid-cols-[300px_1fr] gap-3 min-h-800px">
+            <Card>
+                <CardHeader>
+                    <CardTitle className="flex items-center justify-between">
+                        {t('form.label.filters')}
+                        <Button onClick={resetFilters}>{t('button.reset')}</Button>
+                    </CardTitle>
+                    <CardContent className="p-0">
+                        <TransferTableFilters
+                            filters={filters}
+                            onFiltersChange={onFilterChange}
+                            resetFilters={resetFilters}
+                            isLoading={isLoading}
+                        />
+                    </CardContent>
+                </CardHeader>
+            </Card>
+            <div>
+                <Card className="min-h-[700px]">
+                    <CardHeader>
+                        <CardTitle>
+                            {t('menu.transfers')}
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <DataTable<ITransfer>
+                            data={data?.data || []}
+                            columns={columns}
+                            pagination={pagination}
+                            onPaginationChange={onPaginationChange}
+                            pageCount={data?.meta.last_page || 0}
+                            rowCount={data?.meta.total || 0}
+                            sort={sort}
+                            onSortingChange={onSortingChange}
+                            isLoading={isLoading}
+                        />
+                    </CardContent>
+                </Card>
+            </div>
+        </div>
     )
 }
 

@@ -11,7 +11,7 @@ import useFilters from "@/hooks/useFilters.ts";
 import TransactionTableFilters from "./TransactionTableFilters.tsx";
 import useUserState from "@/hooks/useUserState.ts";
 import i18next from "@/tools/language/language.ts";
-import TransactionTableTools from "./TransactionTableTools.tsx";
+import TransactionTableActions from "./TransactionTableActions.tsx";
 import {Badge} from "@/ui/badge.tsx";
 import {Card, CardContent, CardHeader, CardTitle} from "@/ui/card.tsx";
 import {useTranslation} from "react-i18next";
@@ -31,9 +31,9 @@ const columns = [
         accessor: 'amount',
         cell(row: ITransaction) {
             return (
-                <Badge variant={row.type === CategoryTransactionType.EXPENSE ? "red" : "green"}>
+                <b>
                     {row.amount} {row.account.currency.symbol}
-                </Badge>
+                </b>
             )
         },
         enableSorting: true,
@@ -71,10 +71,10 @@ const columns = [
         enableSorting: true,
     },
     {
-        header: i18next.t('form.label.tools'),
+        header: i18next.t('form.label.actions'),
         accessor: 'column',
         cell: (row: ITransaction) => {
-            return <TransactionTableTools
+            return <TransactionTableActions
                 transactionId={row.id}
             />
         },
@@ -84,14 +84,18 @@ const columns = [
 
 export type TransactionTableFiltersType = {
     account_id?: {
-        '$eq'?: number;
+        '$eq'?: string;
     };
     type?: {
         '$eq'?: CategoryTransactionType;
     };
     amount?: {
-        '$gte'?: number;
-        '$lte'?: number;
+        '$gte'?: string;
+        '$lte'?: string;
+    };
+    date?: {
+        '$gte'?: Date;
+        '$lte'?: Date;
     };
 }
 
@@ -99,7 +103,7 @@ const TransactionsTable = () => {
     const {pagination, onPaginationChange, resetPagination} = usePagination();
     const {sort, onSortingChange, field, order} = useSorting();
     const {filters, onFilterChange, resetFilters} = useFilters<TransactionTableFiltersType>({
-        onFiltersChange: resetPagination
+        onChange: resetPagination
     });
 
     const {t} = useTranslation();
@@ -147,6 +151,7 @@ const TransactionsTable = () => {
                             pagination={pagination}
                             onPaginationChange={onPaginationChange}
                             pageCount={data?.meta.last_page || 0}
+                            rowCount={data?.meta.total || 0}
                             sort={sort}
                             onSortingChange={onSortingChange}
                             isLoading={isLoading}

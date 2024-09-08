@@ -10,7 +10,7 @@ const CategoryBadge = (
     }: Props
 ) => {
     return (
-        <Badge variant={category.type === CategoryTransactionType.EXPENSE ? "yellow" : "green"}>
+        <Badge variant={category.type === CategoryTransactionType.EXPENSE ? "outline" : "default"}>
             {category.name}
         </Badge>
     )

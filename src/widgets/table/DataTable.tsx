@@ -18,6 +18,7 @@ export type DataTableProps<Data extends object> = {
     onPaginationChange: Dispatch<SetStateAction<PaginationState>>;
     pagination: PaginationState;
     pageCount: number;
+    rowCount: number;
     sort: SortingState,
     onSortingChange: Dispatch<SetStateAction<SortingState>>;
     isLoading?: boolean;
@@ -32,7 +33,8 @@ export function DataTable<Data extends object>(
         pageCount,
         sort,
         onSortingChange,
-        isLoading
+        isLoading,
+        rowCount
 
     }: DataTableProps<Data>) {
 
@@ -61,7 +63,8 @@ export function DataTable<Data extends object>(
         onPaginationChange,
         state: {pagination, sorting: sort},
         onSortingChange,
-        pageCount
+        pageCount,
+        rowCount
     });
 
     const skeleton = Array.from({length: pagination.pageSize}, (_, index) => (
@@ -69,7 +72,7 @@ export function DataTable<Data extends object>(
             {table.getHeaderGroups().map((headerGroup) => (
                 headerGroup.headers.map((header) => (
                     <TableCell key={header.id}>
-                        <Skeleton className="h-[25px]"/>
+                        <Skeleton className="h-[41px]"/>
                     </TableCell>
                 ))
             ))}
@@ -95,7 +98,7 @@ export function DataTable<Data extends object>(
 
     return (
         <div className="flex flex-col h-full">
-            <div className="flex-1 overflow-y-auto min-h-[630px]">
+            <div className="flex-1 overflow-y-auto min-h-[780px]">
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (

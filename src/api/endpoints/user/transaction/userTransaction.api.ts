@@ -9,11 +9,10 @@ const useGetUserTransactions = (request: IParamTableGetRequest) => {
     return useQuery<ITransactionWithInfoResponse<ITransaction[]>>({
         queryKey: ['userTransactions', request.id, request.page, request.perPage, request.sort, request.direction, request.filters],
         queryFn: async () => {
-            console.log(request)
             const query = qs.stringify({
                 page: request.page,
                 sort: [`${request.sort}:${request.direction}`],
-                perPage: request.perPage,
+                per_page: request.perPage,
                 filters: request.filters,
             });
             const response = await api().get(`users/${request.id}/transactions?${query}`);

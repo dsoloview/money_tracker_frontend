@@ -10,7 +10,7 @@ import {DatePickerWithRange} from "@/widgets/selects/DateRangePicker.tsx";
 
 type Props = {
     filters: TransactionTableFiltersType;
-    onFiltersChange: (key: string, value: any) => void;
+    onFiltersChange: (key: keyof TransactionTableFiltersType, value: TransactionTableFiltersType[keyof TransactionTableFiltersType] | string) => void;
     resetFilters?: () => void;
     isLoading: boolean;
 }
@@ -51,7 +51,15 @@ function TransactionTableFilters({filters, onFiltersChange}: Props) {
             </div>
             <div>
                 <Label htmlFor="transactionTableDateFilter">{t('form.label.date')}</Label>
-                <DatePickerWithRange/>
+                <DatePickerWithRange dateRange={{
+                    from: filters.date?.$gte,
+                    to: filters.date?.$lte
+                }}
+                                     onChange={(date) => onFiltersChange("date", {
+                                         $gte: date?.from,
+                                         $lte: date?.to
+                                     })}
+                />
             </div>
         </div>
     );

@@ -13,12 +13,13 @@ import {useSorting} from "@/hooks/useSort.ts";
 const MobileTransactionsList = () => {
     const {pagination, onPaginationChange, resetPagination} = usePagination();
     const {field, order} = useSorting();
-    const {filters, onFilterChange, resetFilters} = useFilters({onFiltersChange: resetPagination});
+    const {filters, onFilterChange, resetFilters} = useFilters({onChange: resetPagination});
     const user = useUserState();
 
     const {data, isLoading} = useGetUserTransactions({
         id: user.id,
         page: pagination.pageIndex + 1,
+        perPage: pagination.pageSize,
         sort: field === 'undefined' ? 'id' : field,
         direction: order === 'undefined' ? 'desc' : order,
         filters,

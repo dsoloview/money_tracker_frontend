@@ -10,7 +10,7 @@ import {cn} from "@/lib/utils.ts";
 
 type Props = {
     filters: TransactionTableFiltersType;
-    onFiltersChange: (key: string, value: any) => void;
+    onFiltersChange: (key: keyof TransactionTableFiltersType, value: TransactionTableFiltersType[keyof TransactionTableFiltersType] | string) => void;
     transactionsInfo?: ITransactionsInfo;
     className?: string;
     id?: string;
@@ -64,8 +64,6 @@ const AmountRangeFilter = (
             minDebounced(value);
 
         }
-
-
     }
 
     const handleMaxAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {

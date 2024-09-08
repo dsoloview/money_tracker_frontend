@@ -42,7 +42,7 @@ export default {
                 date: "Date",
                 description: "Description",
                 icon: "Icon",
-                tools: "Tools",
+                actions: "Actions",
                 filters: "Filters",
             },
             validation: {

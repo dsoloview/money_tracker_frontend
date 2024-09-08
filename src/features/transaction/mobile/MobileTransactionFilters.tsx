@@ -9,10 +9,11 @@ import AccountSelect from "@/widgets/selects/AccountSelect.tsx";
 import CategoryTransactionTypeRadio from "@/widgets/radio/CategoryTransactionTypeRadio.tsx";
 import AmountRangeFilter from "@/widgets/filters/AmountRangeFilter.tsx";
 import {Label} from "@/ui/label.tsx";
+import {DatePickerWithRange} from "@/widgets/selects/DateRangePicker.tsx";
 
 type Props = {
     filters: TransactionTableFiltersType;
-    onFiltersChange: (key: string, value: any) => void;
+    onFiltersChange: (key: keyof TransactionTableFiltersType, value: TransactionTableFiltersType[keyof TransactionTableFiltersType] | string) => void;
     resetFilters?: () => void;
     isLoading: boolean;
 };
@@ -48,7 +49,6 @@ const MobileTransactionFilters = ({filters, onFiltersChange, resetFilters}: Prop
                         <Suspense fallback={<Spinner/>}>
                             <CategoryTransactionTypeRadio
                                 id={"categoryTransactionTypeRadioFilter"}
-                                value={filters?.type?.$eq}
                                 name="type"
                                 defaultValue={filters?.type?.$eq}
                                 onChange={(type: string) => onFiltersChange("type", type)}
@@ -68,6 +68,19 @@ const MobileTransactionFilters = ({filters, onFiltersChange, resetFilters}: Prop
                                 className="mt-3"
                             />
                         </Suspense>
+                    </div>
+
+                    <div>
+                        <Label htmlFor="transactionTableDateFilter">{t('form.label.date')}</Label>
+                        <DatePickerWithRange dateRange={{
+                            from: filters.date?.$gte,
+                            to: filters.date?.$lte
+                        }}
+                                             onChange={(date) => onFiltersChange("date", {
+                                                 $gte: date?.from,
+                                                 $lte: date?.to
+                                             })}
+                        />
                     </div>
 
 

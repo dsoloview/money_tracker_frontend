@@ -9,18 +9,28 @@ import {cn} from "@/lib/utils"
 import {Button} from "@/ui/button"
 import {Calendar} from "@/ui/calendar"
 import {Popover, PopoverContent, PopoverTrigger,} from "@/ui/popover"
+import {useDebouncedCallback} from "use-debounce";
 
 type Props = {
     dateRange?: DateRange
     className?: string
-    onChange?: (date: DateRange) => void
+    onChange?: (date: DateRange | undefined) => void
 }
 
 export function DatePickerWithRange({
                                         dateRange,
                                         className,
+                                        onChange
                                     }: Props) {
     const [date, setDate] = React.useState<DateRange | undefined>(dateRange)
+
+    const dateDebounced = useDebouncedCallback((date: DateRange | undefined) => {
+        onChange && onChange(date)
+    }, 1000);
+
+    React.useEffect(() => {
+        dateDebounced(date)
+    }, [date])
 
     return (
         <div className={cn("grid gap-2", className)}>

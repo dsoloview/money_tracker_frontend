@@ -5,13 +5,12 @@ import {Tabs, TabsList, TabsTrigger} from "@/ui/tabs.tsx";
 type Props = {
     id?: string;
     name?: string;
-    value: CategoryTransactionType | undefined;
     onChange: (nextValue: string) => void;
     defaultValue?: CategoryTransactionType | undefined;
     haveEmpty?: boolean;
     className?: string;
 }
-const CategoryTransactionTypeRadio = ({onChange, value}: Props) => {
+const CategoryTransactionTypeRadio = ({onChange, defaultValue}: Props) => {
 
     const options = useMemo(() => {
         return Object.values(CategoryTransactionType).map((type) => {
@@ -20,7 +19,7 @@ const CategoryTransactionTypeRadio = ({onChange, value}: Props) => {
     }, []);
 
     return (
-        <Tabs onValueChange={onChange} defaultValue={value} className="flex">
+        <Tabs onValueChange={onChange} defaultValue={defaultValue} className="flex">
             <TabsList className="mx-auto">
                 {options.map((type) => {
                     return (

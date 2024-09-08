@@ -1,15 +1,15 @@
 import {useState} from "react";
 
 type Props = {
-    onFiltersChange?: () => void;
+    onChange?: () => void;
 }
 
-const useFilters = <T extends object>(props?: Props) => {
+const useFilters = <T extends object>({onChange}: Props) => {
     const initialFilters: T = {} as T;
 
     const [filters, setFilters] = useState(initialFilters);
 
-    const updateFilters = (key: string, value: any) => {
+    const updateFilters = (key: string, value: unknown) => {
         if (typeof value === "object") {
             setFilters({
                 ...filters, [key]: value,
@@ -40,6 +40,7 @@ const useFilters = <T extends object>(props?: Props) => {
         } else {
             updateFilters(key, value);
         }
+        onChange && onChange();
     }
 
     const resetFilters = () => {
