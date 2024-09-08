@@ -4,6 +4,7 @@ import CreateTransactionGroup from "../features/transaction/CreateTransactionGro
 import CreateTransferGroup from "../features/transfer/CreateTransferGroup.tsx";
 import Container from "@/layouts/Container.tsx";
 import BottomBar from "@/features/bottomBar/BottomBar.tsx";
+import AreYouSure from "@/widgets/alert/AreYouSure.tsx";
 
 type Props = {
     children: ReactNode
@@ -22,6 +23,7 @@ const AccountLayout = ({children}: Props) => {
                 </div>
             </main>
             <BottomBar/>
+            <AreYouSure/>
         </div>
     );
 }

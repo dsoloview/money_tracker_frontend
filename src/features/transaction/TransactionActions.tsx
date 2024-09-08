@@ -8,18 +8,24 @@ import {
 } from "@/ui/dropdown-menu.tsx";
 import {Button} from "@/ui/button.tsx";
 import {MoreHorizontal} from "lucide-react";
+import useAreYouSure from "@/hooks/useAreYouSure.ts";
 
 type Props = {
     transactionId: number;
 };
 
-export default function TransactionTableActions({
-                                                    transactionId,
-                                                }: Props): JSX.Element {
+export default function TransactionActions({
+                                               transactionId,
+                                           }: Props): JSX.Element {
     const {mutate} = useDeleteTransaction();
+    const {openAlert} = useAreYouSure({
+        description: "Are you sure you want to delete this transaction?",
+        onAccept: () => handleTransactionDelete()
+    })
     const handleTransactionDelete = async () => {
         mutate(transactionId);
     };
+
 
     return (
         <DropdownMenu>
@@ -36,18 +42,9 @@ export default function TransactionTableActions({
             <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                 <DropdownMenuItem>Edit</DropdownMenuItem>
-                <DropdownMenuItem onClick={handleTransactionDelete}>Delete</DropdownMenuItem>
+                <DropdownMenuItem onClick={openAlert}>Delete</DropdownMenuItem>
             </DropdownMenuContent>
 
         </DropdownMenu>
-        // <>
-        //     <Button
-        //         isLoading={isPending}
-        //         variant="red"
-        //         onClick={handleTransactionDelete}
-        //     >
-        //         {i18next.t("button.delete")}
-        //     </Button>
-        // </>
     );
 }

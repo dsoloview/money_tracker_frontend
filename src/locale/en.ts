@@ -119,6 +119,8 @@ export default {
             create: "Create",
             update: "Update",
             reset: "Reset",
+            yes: "Yes",
+            no: "No",
         },
         telegram: {
             title: "Telegram",
@@ -151,6 +153,9 @@ export default {
                 copied: "Copied",
                 copy: "Copy",
             }
+        },
+        alert: {
+            are_you_sure: "Are you sure?",
         }
     },
 };

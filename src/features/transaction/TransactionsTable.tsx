@@ -11,7 +11,7 @@ import useFilters from "@/hooks/useFilters.ts";
 import TransactionTableFilters from "./TransactionTableFilters.tsx";
 import useUserState from "@/hooks/useUserState.ts";
 import i18next from "@/tools/language/language.ts";
-import TransactionTableActions from "./TransactionTableActions.tsx";
+import TransactionActions from "./TransactionActions.tsx";
 import {Badge} from "@/ui/badge.tsx";
 import {Card, CardContent, CardHeader, CardTitle} from "@/ui/card.tsx";
 import {useTranslation} from "react-i18next";
@@ -74,7 +74,7 @@ const columns = [
         header: i18next.t('form.label.actions'),
         accessor: 'column',
         cell: (row: ITransaction) => {
-            return <TransactionTableActions
+            return <TransactionActions
                 transactionId={row.id}
             />
         },

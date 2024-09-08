@@ -1,5 +1,9 @@
 import {useState} from "react";
 
+export type Pagination = {
+    pageIndex: number,
+    pageSize: number,
+}
 const usePagination = () => {
     const [pagination, setPagination] = useState({
         pageIndex: 0,
@@ -17,9 +21,14 @@ const usePagination = () => {
         setPagination(vars)
     }
 
+    const onMobilePaginationChange = (update: Pagination) => {
+        setPagination(update)
+    }
+
     return {
         onPaginationChange,
         resetPagination,
+        onMobilePaginationChange,
         pagination,
         page: pagination.pageIndex + 1,
     }

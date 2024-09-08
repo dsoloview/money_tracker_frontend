@@ -1,35 +1,45 @@
 import usePagination from "@/hooks/usePagination.ts";
+import {useSorting} from "@/hooks/useSort.ts";
 import useFilters from "@/hooks/useFilters.ts";
 import useUserState from "@/hooks/useUserState.ts";
-import {useGetUserTransactions} from "@/api/endpoints/user/transaction/userTransaction.api.ts";
-import TransactionListItem from "@/features/transaction/mobile/TransactionListItem.tsx";
-import {ITransaction} from "@/models/transaction.model.ts";
+import Title from "@/widgets/texts/Title.tsx";
 import SkeletonList from "@/widgets/skeleton/SkeletonList.tsx";
 import MobilePagination from "@/widgets/mobile/MobilePagination.tsx";
-import MobileTransactionFilters from "@/features/transaction/mobile/MobileTransactionFilters.tsx";
-import Title from "@/widgets/texts/Title.tsx";
-import {useSorting} from "@/hooks/useSort.ts";
+import {useGetUserTransfers} from "@/api/endpoints/user/transfer/userTransaction.api.ts";
+import {IParamTableGetRequest} from "@/models/request.model.ts";
+import MobileTransfersFilters from "@/features/transfer/mobile/MobileTransfersFilters.tsx";
+import {ITransfer} from "@/models/transfer.model.ts";
+import TransferListItem from "@/features/transfer/mobile/TransferListItem.tsx";
 
-const MobileTransactionsList = () => {
+export type TransferTableFiltersType = {
+    account_from_id?: {
+        '$eq'?: string;
+    };
+    account_to_id?: {
+        '$eq'?: string;
+    };
+}
+
+const MobileTransfersList = () => {
     const {pagination, onMobilePaginationChange, resetPagination} = usePagination();
     const {field, order} = useSorting();
-    const {filters, onFilterChange, resetFilters} = useFilters({onChange: resetPagination});
+    const {filters, onFilterChange, resetFilters} = useFilters<TransferTableFiltersType>({onChange: resetPagination});
     const user = useUserState();
 
-    const {data, isLoading} = useGetUserTransactions({
+    const {data, isLoading} = useGetUserTransfers({
         id: user.id,
         page: pagination.pageIndex + 1,
         perPage: pagination.pageSize,
-        sort: field === 'undefined' ? 'id' : field,
-        direction: order === 'undefined' ? 'desc' : order,
-        filters,
-    });
+        sort: field,
+        direction: order,
+        filters: filters
+    } as IParamTableGetRequest);
 
     return (
         <>
             <div className="flex items-center justify-between mb-4">
-                <Title>Transactions</Title>
-                <MobileTransactionFilters
+                <Title>Transfers</Title>
+                <MobileTransfersFilters
                     filters={filters}
                     onFiltersChange={onFilterChange}
                     resetFilters={resetFilters}
@@ -40,8 +50,8 @@ const MobileTransactionsList = () => {
                 {isLoading ? (
                     <SkeletonList count={10}/>
                 ) : (
-                    data?.data.map((transaction: ITransaction) => (
-                        <TransactionListItem key={transaction.id} transaction={transaction}/>
+                    data?.data.map((transfer: ITransfer) => (
+                        <TransferListItem key={transfer.id} transfer={transfer}/>
                     ))
                 )}
             </div>
@@ -54,4 +64,4 @@ const MobileTransactionsList = () => {
     );
 }
 
-export default MobileTransactionsList;
+export default MobileTransfersList;

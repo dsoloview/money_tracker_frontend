@@ -9,15 +9,14 @@ import i18next from "@/tools/language/language.ts";
 import {useMutateWithForm} from "@/hooks/useMutateWithForm.ts";
 import {Button} from "@/ui/button.tsx";
 import {Plus} from "lucide-react";
-import {Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle} from "@/ui/drawer.tsx";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/ui/form.tsx";
 import {Input} from "@/ui/input.tsx";
 import {DatePicker} from "@/ui/datePicker.tsx";
 import AccountSelect from "@/widgets/selects/AccountSelect.tsx";
 import CategorySelect from "@/widgets/selects/CategorySelect.tsx";
-import {ScrollArea} from "@/ui/scroll-area.tsx";
 import CategoryTransactionTypeRadio from "@/widgets/radio/CategoryTransactionTypeRadio.tsx";
 import {Spinner} from "@/ui/spinner.tsx";
+import {Sheet, SheetClose, SheetContent, SheetFooter, SheetHeader, SheetTitle} from "@/ui/sheet.tsx";
 
 const validationSchema = yup.object({
     comment: yup.string()
@@ -74,145 +73,142 @@ const CreateTransactionGroup = () => {
             >
                 <Plus/>
             </Button>
-            <Drawer
-                direction="right"
+            <Sheet
                 open={isOpen}
                 onOpenChange={setIsOpen}
             >
-                <DrawerContent className='h-screen top-0 right-0 left-auto mt-0 w-[600px] rounded-none'>
-                    <ScrollArea>
-                        <div className='mx-auto w-full p-10'>
-                            <DrawerHeader>
-                                <DrawerTitle>Create Transaction</DrawerTitle>
-                            </DrawerHeader>
-                            <Form {...form}>
-                                <form id="createTransactionForm" onSubmit={form.handleSubmit(onSubmit)}>
-                                    <div className="flex flex-col space-y-3">
-                                        <FormField
-                                            control={form.control}
-                                            name="comment"
-                                            render={({field}) => (
-                                                <FormItem>
-                                                    <FormLabel>{t('form.label.comment')}</FormLabel>
-                                                    <FormControl>
-                                                        <Input
-                                                            autoFocus
-                                                            placeholder={t('form.placeholder.comment')}
-                                                            {...field}
-                                                        />
-                                                    </FormControl>
-                                                    <FormMessage/>
-                                                </FormItem>
-                                            )}
-                                        />
-                                        <FormField
-                                            control={form.control}
-                                            name="amount"
-                                            render={({field}) => (
-                                                <FormItem>
-                                                    <FormLabel>{t('form.label.amount')}</FormLabel>
-                                                    <FormControl>
-                                                        <Input
-                                                            placeholder={t('form.placeholder.amount')}
-                                                            {...field}
-                                                        />
-                                                    </FormControl>
-                                                    <FormMessage/>
-                                                </FormItem>
-                                            )}
-                                        />
-                                        <FormField
-                                            control={form.control}
-                                            name="date"
-                                            render={({field}) => (
-                                                <FormItem>
-                                                    <FormLabel>{t('form.label.date')}</FormLabel>
-                                                    <FormControl>
-                                                        <DatePicker
-                                                            value={new Date(field.value)}
-                                                            onChange={(value) => form.setValue('date', value.toISOString())}
-                                                        />
-                                                    </FormControl>
-                                                    <FormMessage/>
-                                                </FormItem>
-                                            )}
-                                        />
-                                        <FormField
-                                            control={form.control}
-                                            name="account_id"
-                                            render={({field}) => (
-                                                <FormItem>
-                                                    <FormLabel>{t('form.label.account')}</FormLabel>
-                                                    <FormControl>
-                                                        <AccountSelect
-                                                            defaultValue={field.value}
+                
+                <SheetContent side="right" className="">
+                    <div className='mx-auto p-10'>
+                        <SheetHeader>
+                            <SheetTitle>Create Transaction</SheetTitle>
+                        </SheetHeader>
+                        <Form {...form}>
+                            <form id="createTransactionForm" onSubmit={form.handleSubmit(onSubmit)}>
+                                <div className="flex flex-col space-y-3">
+                                    <FormField
+                                        control={form.control}
+                                        name="comment"
+                                        render={({field}) => (
+                                            <FormItem>
+                                                <FormLabel>{t('form.label.comment')}</FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        autoFocus
+                                                        placeholder={t('form.placeholder.comment')}
+                                                        {...field}
+                                                    />
+                                                </FormControl>
+                                                <FormMessage/>
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name="amount"
+                                        render={({field}) => (
+                                            <FormItem>
+                                                <FormLabel>{t('form.label.amount')}</FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        placeholder={t('form.placeholder.amount')}
+                                                        {...field}
+                                                    />
+                                                </FormControl>
+                                                <FormMessage/>
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name="date"
+                                        render={({field}) => (
+                                            <FormItem>
+                                                <FormLabel>{t('form.label.date')}</FormLabel>
+                                                <FormControl>
+                                                    <DatePicker
+                                                        value={new Date(field.value)}
+                                                        onChange={(value) => form.setValue('date', value.toISOString())}
+                                                    />
+                                                </FormControl>
+                                                <FormMessage/>
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name="account_id"
+                                        render={({field}) => (
+                                            <FormItem>
+                                                <FormLabel>{t('form.label.account')}</FormLabel>
+                                                <FormControl>
+                                                    <AccountSelect
+                                                        defaultValue={field.value}
+                                                        onChange={(value) => {
+                                                            form.setValue('account_id', value)
+                                                        }}
+                                                    />
+                                                </FormControl>
+                                                <FormMessage/>
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name="categories_ids"
+                                        render={({field}) => (
+                                            <FormItem>
+                                                <FormLabel>{t('form.label.categories')}</FormLabel>
+                                                <FormControl>
+                                                    <Suspense fallback={<Spinner/>}>
+                                                        <CategorySelect
+                                                            type={form.getValues('type')}
+                                                            values={field.value}
+                                                            id="categories_ids"
                                                             onChange={(value) => {
-                                                                form.setValue('account_id', value)
+                                                                form.setValue('categories_ids', value)
                                                             }}
                                                         />
-                                                    </FormControl>
-                                                    <FormMessage/>
-                                                </FormItem>
-                                            )}
-                                        />
-                                        <FormField
-                                            control={form.control}
-                                            name="categories_ids"
-                                            render={({field}) => (
-                                                <FormItem>
-                                                    <FormLabel>{t('form.label.categories')}</FormLabel>
-                                                    <FormControl>
-                                                        <Suspense fallback={<Spinner/>}>
-                                                            <CategorySelect
-                                                                type={form.getValues('type')}
-                                                                values={field.value}
-                                                                id="categories_ids"
-                                                                onChange={(value) => {
-                                                                    form.setValue('categories_ids', value)
-                                                                }}
-                                                            />
-                                                        </Suspense>
-                                                    </FormControl>
-                                                    <FormMessage/>
-                                                </FormItem>
-                                            )}
-                                        />
-                                        <FormField
-                                            control={form.control}
-                                            name="type"
-                                            render={({field}) => (
-                                                <FormItem>
-                                                    <FormLabel>{t('form.label.type')}</FormLabel>
-                                                    <FormControl>
-                                                        <CategoryTransactionTypeRadio
-                                                            value={field.value}
-                                                            onChange={handleChangeType}
-                                                            defaultValue={CategoryTransactionType.EXPENSE}
-                                                        />
-                                                    </FormControl>
-                                                    <FormMessage/>
-                                                </FormItem>
-                                            )}
-                                        />
-                                    </div>
-                                </form>
-                            </Form>
-                            <DrawerFooter>
-                                <Button
-                                    isLoading={isPending}
-                                    type="submit"
-                                    form="createTransactionForm"
-                                >
-                                    Save
-                                </Button>
-                                <DrawerClose asChild>
-                                    <Button>Cancel</Button>
-                                </DrawerClose>
-                            </DrawerFooter>
-                        </div>
-                    </ScrollArea>
-                </DrawerContent>
-            </Drawer>
+                                                    </Suspense>
+                                                </FormControl>
+                                                <FormMessage/>
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name="type"
+                                        render={({field}) => (
+                                            <FormItem>
+                                                <FormLabel>{t('form.label.type')}</FormLabel>
+                                                <FormControl>
+                                                    <CategoryTransactionTypeRadio
+                                                        onChange={handleChangeType}
+                                                        defaultValue={field.value}
+                                                    />
+                                                </FormControl>
+                                                <FormMessage/>
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+                            </form>
+                        </Form>
+                        <SheetFooter>
+                            <Button
+                                isLoading={isPending}
+                                type="submit"
+                                form="createTransactionForm"
+                            >
+                                Save
+                            </Button>
+                            <SheetClose asChild>
+                                <Button>Cancel</Button>
+                            </SheetClose>
+                        </SheetFooter>
+                    </div>
+                </SheetContent>
+            </Sheet>
         </>
     )
 }
