@@ -77,9 +77,9 @@ const CreateTransactionGroup = () => {
                 open={isOpen}
                 onOpenChange={setIsOpen}
             >
-                
-                <SheetContent side="right" className="">
-                    <div className='mx-auto p-10'>
+
+                <SheetContent side="right" className="md:min-w-[600px] max-md:w-full">
+                    <div className='mx-auto md:p-10'>
                         <SheetHeader>
                             <SheetTitle>Create Transaction</SheetTitle>
                         </SheetHeader>

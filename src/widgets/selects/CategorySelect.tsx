@@ -38,13 +38,17 @@ const CategorySelect = ({onChange, values, type}: Props) => {
             />
         ));
 
-    // Create rows with a maximum of 6 circles each
+    let rowsCount = 6;
+
+    if (window.innerWidth < 800) {
+        rowsCount = 4;
+    }
     const rows = [];
-    for (let i = 0; i < options.length; i += 6) {
-        rows.push(options.slice(i, i + 6));
+    for (let i = 0; i < options.length; i += rowsCount) {
+        rows.push(options.slice(i, i + rowsCount));
     }
 
-    const visibleOptions = rows[0]; // First row is visible by default
+    const visibleOptions = rows[0];
     const hiddenOptions = rows.slice(1);
 
     return (
