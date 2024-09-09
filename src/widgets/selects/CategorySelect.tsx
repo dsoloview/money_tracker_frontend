@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {CategoryTransactionType} from "@/models/category.model.ts";
 import CategoryButton from "@/widgets/category/CategoryButton.tsx";
 import useUserState from "@/hooks/useUserState.ts";
@@ -10,14 +10,40 @@ import {ChevronDownIcon, ChevronUpIcon} from "lucide-react";
 type Props = {
     id: string;
     onChange: (option: number[]) => void;
-    values: number[]; // Formik values object
+    values: number[];
     type: CategoryTransactionType;
 };
-``
+
 const CategorySelect = ({onChange, values, type}: Props) => {
     const user = useUserState();
     const {data} = useGetUserCategories(user.id);
     const [showAll, setShowAll] = useState(false);
+    const [perRow, setPerRow] = useState(0);
+
+    useEffect(() => {
+        const itemMinWidth = 92;
+        const container = document.getElementById("categorySelectContainer");
+
+        if (!container) {
+            return;
+        }
+        const calculatePerRow = () => {
+            const computedStyle = window.getComputedStyle(container);
+            const paddings = parseInt(computedStyle.paddingLeft) + parseInt(computedStyle.paddingRight);
+            const width = container.clientWidth - paddings
+            const newPerRow = Math.floor(width / itemMinWidth);
+            if (newPerRow !== perRow) {
+                setPerRow(newPerRow);
+            }
+        }
+
+        window.addEventListener('resize', calculatePerRow, false);
+
+        calculatePerRow();
+        return () => window.removeEventListener('resize', () => {
+        });
+    }, []);
+
 
     const handleCategoryClick = (categoryId: number) => {
         if (values.includes(categoryId)) {
@@ -37,29 +63,22 @@ const CategorySelect = ({onChange, values, type}: Props) => {
                 values={values}
             />
         ));
-
-    let rowsCount = 6;
-
-    if (window.innerWidth < 800) {
-        rowsCount = 4;
-    }
-    const rows = [];
-    for (let i = 0; i < options.length; i += rowsCount) {
-        rows.push(options.slice(i, i + rowsCount));
-    }
-
-    const visibleOptions = rows[0];
-    const hiddenOptions = rows.slice(1);
-
+    
+    const firstRow = options.slice(0, perRow);
+    const collapsedRows = options.slice(perRow);
     return (
-        <div className="text-center shadow-md p-4 rounded-md">
-            <div className="flex justify-center mt-0">
-                {visibleOptions}
+        <div id="categorySelectContainer" className="text-center shadow-md p-4 rounded-md">
+            <div className="flex flex-wrap justify-center mt-0 gap-y-3">
+                {firstRow.map((row, index) => (
+                    <div className="flex flex-1 flex-shrink min-w-[92px] justify-center" key={index}>
+                        {row}
+                    </div>
+                ))}
             </div>
             <Collapsible>
-                <CollapsibleContent>
-                    {hiddenOptions.map((row, index) => (
-                        <div className="flex justify-center mt-4" key={index}>
+                <CollapsibleContent className="flex flex-wrap justify-center mt-0 gap-y-3">
+                    {collapsedRows.map((row, index) => (
+                        <div className="flex flex-1 flex-shrink min-w-[92px] justify-center" key={index}>
                             {row}
                         </div>
                     ))}

@@ -177,7 +177,7 @@ const CreateTransactionGroup = () => {
                                                 <FormMessage/>
                                             </FormItem>
                                         )}
-                                    />E
+                                    />
                                     <FormField
                                         control={form.control}
                                         name="type"

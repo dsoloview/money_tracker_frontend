@@ -16,7 +16,7 @@ const CategoryButton = (
 ) => {
     const buttonBackground = values.includes(category.id) ? "bg-blue-100" : "transparent";
     return (
-        <div key={category.id} className="text-center mx-2">
+        <div key={category.id} className="text-center mx-2 flex flex-col justify-start items-center">
             <Button
                 className={"rounded-full p-1 mb-1 border-2 border-gray-300 hover:bg-blue-100 w-15 h-15 flex items-center justify-center " + buttonBackground}
                 onClick={() => handleCategoryClick(category.id)}
@@ -27,7 +27,7 @@ const CategoryButton = (
                     <CategoryAvatar name={category.name} icon={category.icon?.path}/>
                 </div>
             </Button>
-            <div className="text-sm mt-1 max-w-16 mx-auto text-center">
+            <div className="text-sm mt-1 max-w-[92px] text-wrap mx-auto text-center">
                 {category.name}
             </div>
         </div>
