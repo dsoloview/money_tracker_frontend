@@ -96,10 +96,9 @@ const CreateTransactionGroup = () => {
                                                 <FormLabel>{t('form.label.comment')}</FormLabel>
                                                 <FormControl>
                                                     <Input
-                                                        autoFocus
                                                         placeholder={t('form.placeholder.comment')}
                                                         {...field}
-                                                        className="lg:text-md"
+                                                        className="text-md"
                                                     />
                                                 </FormControl>
                                                 <FormMessage/>
@@ -116,7 +115,7 @@ const CreateTransactionGroup = () => {
                                                     <Input
                                                         placeholder={t('form.placeholder.amount')}
                                                         {...field}
-                                                        className="lg:text-md"
+                                                        className="text-md"
                                                     />
                                                 </FormControl>
                                                 <FormMessage/>
