@@ -80,7 +80,7 @@ const CreateTransactionGroup = () => {
                 onOpenChange={setIsOpen}
             >
                 <DrawerContent
-                    className='h-screen lg:top-0 lg:right-0 lg:left-auto lg:mt-0 lg:w-[600px] lg:rounded-none'>
+                    className='h-full lg:top-0 lg:right-0 lg:left-auto lg:mt-0 lg:w-[600px] lg:rounded-none'>
                     <DrawerHeader>
                         <DrawerTitle className="text-center">Create Transaction</DrawerTitle>
                     </DrawerHeader>
