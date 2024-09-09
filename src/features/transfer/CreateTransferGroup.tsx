@@ -69,7 +69,7 @@ const CreateTransferGroup = () => {
                 open={isOpen}
                 onOpenChange={setIsOpen}
             >
-                <DrawerContent className='h-screen top-0 right-0 left-auto mt-0 w-[600px] rounded-none'>
+                <DrawerContent className='top-0 right-0 left-auto mt-0 w-[600px] rounded-none'>
                     <ScrollArea>
                         <div className='mx-auto w-full p-10'>
                             <DrawerHeader>
