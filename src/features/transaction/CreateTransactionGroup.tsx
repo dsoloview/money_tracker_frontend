@@ -16,7 +16,8 @@ import AccountSelect from "@/widgets/selects/AccountSelect.tsx";
 import CategorySelect from "@/widgets/selects/CategorySelect.tsx";
 import CategoryTransactionTypeRadio from "@/widgets/radio/CategoryTransactionTypeRadio.tsx";
 import {Spinner} from "@/ui/spinner.tsx";
-import {Sheet, SheetClose, SheetContent, SheetFooter, SheetHeader, SheetTitle} from "@/ui/sheet.tsx";
+import {Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle} from "@/ui/drawer.tsx";
+import {isMobile} from "@/tools/resolution/resolution.tools.ts";
 
 const validationSchema = yup.object({
     comment: yup.string()
@@ -73,16 +74,17 @@ const CreateTransactionGroup = () => {
             >
                 <Plus/>
             </Button>
-            <Sheet
+            <Drawer
+                direction={isMobile() ? 'bottom' : 'right'}
                 open={isOpen}
                 onOpenChange={setIsOpen}
             >
-                <SheetContent side="right"
-                              className="sm:max-w-full lg:max-w-[600px] max-lg:w-full overflow-y-auto">
-                    <div className='mx-auto lg:p-10'>
-                        <SheetHeader>
-                            <SheetTitle>Create Transaction</SheetTitle>
-                        </SheetHeader>
+                <DrawerContent
+                    className='h-screen lg:top-0 lg:right-0 lg:left-auto lg:mt-0 lg:w-[600px] lg:rounded-none'>
+                    <DrawerHeader>
+                        <DrawerTitle className="text-center">Create Transaction</DrawerTitle>
+                    </DrawerHeader>
+                    <div className='px-10 lg:p-10 overflow-y-auto'>
                         <Form {...form}>
                             <form id="createTransactionForm" onSubmit={form.handleSubmit(onSubmit)}>
                                 <div className="flex flex-col space-y-3">
@@ -97,6 +99,7 @@ const CreateTransactionGroup = () => {
                                                         autoFocus
                                                         placeholder={t('form.placeholder.comment')}
                                                         {...field}
+                                                        className="lg:text-md"
                                                     />
                                                 </FormControl>
                                                 <FormMessage/>
@@ -113,6 +116,7 @@ const CreateTransactionGroup = () => {
                                                     <Input
                                                         placeholder={t('form.placeholder.amount')}
                                                         {...field}
+                                                        className="lg:text-md"
                                                     />
                                                 </FormControl>
                                                 <FormMessage/>
@@ -238,10 +242,10 @@ const CreateTransactionGroup = () => {
                                 </div>
                             </form>
                         </Form>
-                        <SheetFooter className="mt-5 flex gap-3">
-                            <SheetClose asChild>
+                        <DrawerFooter className="mt-5 flex gap-3">
+                            <DrawerClose asChild>
                                 <Button variant="red">Cancel</Button>
-                            </SheetClose>
+                            </DrawerClose>
                             <Button
                                 isLoading={isPending}
                                 type="submit"
@@ -250,10 +254,10 @@ const CreateTransactionGroup = () => {
                             >
                                 Save
                             </Button>
-                        </SheetFooter>
+                        </DrawerFooter>
                     </div>
-                </SheetContent>
-            </Sheet>
+                </DrawerContent>
+            </Drawer>
         </>
     )
 }
