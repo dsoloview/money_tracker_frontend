@@ -4,6 +4,7 @@ import CreateTransactionGroup from "../features/transaction/CreateTransactionGro
 import Container from "@/layouts/Container.tsx";
 import BottomBar from "@/features/bottomBar/BottomBar.tsx";
 import AreYouSure from "@/widgets/alert/AreYouSure.tsx";
+import CreateTransferGroup from "@/features/transfer/CreateTransferGroup.tsx";
 
 type Props = {
     children: ReactNode
@@ -18,7 +19,7 @@ const AccountLayout = ({children}: Props) => {
                 </Container>
                 <div className="fixed bottom-20 right-8 flex flex-col gap-3">
                     <CreateTransactionGroup/>
-                    {/*<CreateTransferGroup/>*/}
+                    <CreateTransferGroup/>
                 </div>
             </main>
             <BottomBar/>

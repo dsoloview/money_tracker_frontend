@@ -177,51 +177,7 @@ const CreateTransactionGroup = () => {
                                                 <FormMessage/>
                                             </FormItem>
                                         )}
-                                    />
-                                    <FormField
-                                        control={form.control}
-                                        name="categories_ids"
-                                        render={({field}) => (
-                                            <FormItem>
-                                                <FormLabel>{t('form.label.categories')}</FormLabel>
-                                                <FormControl>
-                                                    <Suspense fallback={<Spinner/>}>
-                                                        <CategorySelect
-                                                            type={form.getValues('type')}
-                                                            values={field.value}
-                                                            id="categories_ids"
-                                                            onChange={(value) => {
-                                                                form.setValue('categories_ids', value)
-                                                            }}
-                                                        />
-                                                    </Suspense>
-                                                </FormControl>
-                                                <FormMessage/>
-                                            </FormItem>
-                                        )}
-                                    />
-                                    <FormField
-                                        control={form.control}
-                                        name="categories_ids"
-                                        render={({field}) => (
-                                            <FormItem>
-                                                <FormLabel>{t('form.label.categories')}</FormLabel>
-                                                <FormControl>
-                                                    <Suspense fallback={<Spinner/>}>
-                                                        <CategorySelect
-                                                            type={form.getValues('type')}
-                                                            values={field.value}
-                                                            id="categories_ids"
-                                                            onChange={(value) => {
-                                                                form.setValue('categories_ids', value)
-                                                            }}
-                                                        />
-                                                    </Suspense>
-                                                </FormControl>
-                                                <FormMessage/>
-                                            </FormItem>
-                                        )}
-                                    />
+                                    />E
                                     <FormField
                                         control={form.control}
                                         name="type"
