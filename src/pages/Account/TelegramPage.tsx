@@ -35,7 +35,7 @@ function TelegramPage() {
         <AccountLayout>
             <h1 className="text-2xl font-bold">{t('telegram.title')}</h1>
             <div className="flex flex-col items-center justify-center gap-6">
-                <div className="grid grid-cols-2 gap-8 w-full max-w-4xl min-h-40 max-md:grid-cols-1 max-md:grid-rows-2">
+                <div className="grid grid-cols-2 gap-8 w-full max-w-4xl min-h-40 max-lg:grid-cols-1 max-lg:grid-rows-2">
                     <Card>
                         <CardHeader>
                             <CardTitle>{t('telegram.telegramUser.title')}</CardTitle>

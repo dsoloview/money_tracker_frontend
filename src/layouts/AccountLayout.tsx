@@ -11,7 +11,7 @@ type Props = {
 }
 const AccountLayout = ({children}: Props) => {
     return (
-        <div className="grid grid-rows-[96px,auto] max-md:mb-[60px]">
+        <div className="grid grid-rows-[96px,auto] max-lg:mb-[60px]">
             <AccountTopBar/>
             <main className="min-h-[calc(100vh-96px)]">
                 <Container>

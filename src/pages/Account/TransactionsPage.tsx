@@ -5,10 +5,10 @@ import MobileTransactionsList from "@/features/transaction/mobile/MobileTransact
 export function TransactionsPage() {
     return (
         <AccountLayout>
-            <div className="max-md:hidden">
+            <div className="max-lg:hidden">
                 <TransactionsTable/>
             </div>
-            <div className="md:hidden">
+            <div className="lg:hidden">
                 <MobileTransactionsList/>
             </div>
         </AccountLayout>

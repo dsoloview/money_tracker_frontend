@@ -20,7 +20,7 @@ const HeaderNavigation = () => {
     const {pathname} = useLocation();
 
     return (
-        <NavigationMenu className="max-md:hidden">
+        <NavigationMenu className="max-lg:hidden">
             <NavigationMenuList>
                 {menuItems.map((link) => (
                     <NavigationMenuItem key={link.href}>

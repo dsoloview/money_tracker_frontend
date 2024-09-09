@@ -5,10 +5,10 @@ import MobileTransfersList from "@/features/transfer/mobile/MobileTransfersList.
 export default function TransfersPage() {
     return (
         <AccountLayout>
-            <div className="max-md:hidden">
+            <div className="max-lg:hidden">
                 <TransfersTable/>
             </div>
-            <div className="md:hidden">
+            <div className="lg:hidden">
                 <MobileTransfersList/>
             </div>
         </AccountLayout>

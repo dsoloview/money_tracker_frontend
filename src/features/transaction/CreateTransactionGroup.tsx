@@ -77,9 +77,9 @@ const CreateTransactionGroup = () => {
                 open={isOpen}
                 onOpenChange={setIsOpen}
             >
-
-                <SheetContent side="right" className="md:min-w-[600px] max-md:w-full">
-                    <div className='mx-auto md:p-10'>
+                <SheetContent side="right"
+                              className="sm:max-w-full lg:max-w-[600px] max-lg:w-full overflow-y-auto">
+                    <div className='mx-auto lg:p-10'>
                         <SheetHeader>
                             <SheetTitle>Create Transaction</SheetTitle>
                         </SheetHeader>
@@ -148,6 +148,50 @@ const CreateTransactionGroup = () => {
                                                             form.setValue('account_id', value)
                                                         }}
                                                     />
+                                                </FormControl>
+                                                <FormMessage/>
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name="categories_ids"
+                                        render={({field}) => (
+                                            <FormItem>
+                                                <FormLabel>{t('form.label.categories')}</FormLabel>
+                                                <FormControl>
+                                                    <Suspense fallback={<Spinner/>}>
+                                                        <CategorySelect
+                                                            type={form.getValues('type')}
+                                                            values={field.value}
+                                                            id="categories_ids"
+                                                            onChange={(value) => {
+                                                                form.setValue('categories_ids', value)
+                                                            }}
+                                                        />
+                                                    </Suspense>
+                                                </FormControl>
+                                                <FormMessage/>
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name="categories_ids"
+                                        render={({field}) => (
+                                            <FormItem>
+                                                <FormLabel>{t('form.label.categories')}</FormLabel>
+                                                <FormControl>
+                                                    <Suspense fallback={<Spinner/>}>
+                                                        <CategorySelect
+                                                            type={form.getValues('type')}
+                                                            values={field.value}
+                                                            id="categories_ids"
+                                                            onChange={(value) => {
+                                                                form.setValue('categories_ids', value)
+                                                            }}
+                                                        />
+                                                    </Suspense>
                                                 </FormControl>
                                                 <FormMessage/>
                                             </FormItem>
