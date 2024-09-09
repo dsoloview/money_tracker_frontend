@@ -18,7 +18,7 @@ const CategoryButton = (
     return (
         <div key={category.id} className="text-center mx-2 flex flex-col justify-start items-center">
             <Button
-                className={"rounded-full p-1 mb-1 border-2 border-gray-300 hover:bg-blue-100 w-15 h-15 flex items-center justify-center " + buttonBackground}
+                className={"rounded-full p-1 mb-1 border-2 border-gray-300 max-lg:hover:bg-transparent hover:bg-blue-100 w-15 h-15 flex items-center justify-center " + buttonBackground}
                 onClick={() => handleCategoryClick(category.id)}
                 variant={"outline"}
                 type="button"
