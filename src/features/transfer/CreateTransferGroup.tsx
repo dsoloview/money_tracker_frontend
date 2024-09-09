@@ -88,6 +88,7 @@ const CreateTransferGroup = () => {
                                                         autoFocus
                                                         placeholder={t('form.placeholder.comment')}
                                                         {...field}
+                                                        className="text-md"
                                                     />
                                                 </FormControl>
                                                 <FormMessage/>
@@ -122,6 +123,7 @@ const CreateTransferGroup = () => {
                                                     <Input
                                                         placeholder={t('form.placeholder.amountFrom')}
                                                         {...field}
+                                                        className="text-md"
                                                     />
                                                 </FormControl>
                                                 <FormMessage/>
@@ -156,6 +158,7 @@ const CreateTransferGroup = () => {
                                                     <Input
                                                         placeholder={t('form.placeholder.amountTo')}
                                                         {...field}
+                                                        className="text-md"
                                                     />
                                                 </FormControl>
                                                 <FormMessage/>
