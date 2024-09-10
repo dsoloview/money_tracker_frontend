@@ -26,7 +26,7 @@ const TransactionListItem = ({transaction}: { transaction: ITransaction }) => {
                     >
                         {transaction.amount} {transaction.account.currency.symbol}
                     </Badge>
-                    <TransactionActions transactionId={transaction.id}/>
+                    <TransactionActions transaction={transaction}/>
                 </div>
             </div>
         </Card>

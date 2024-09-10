@@ -75,7 +75,7 @@ const columns = [
         accessor: 'column',
         cell: (row: ITransaction) => {
             return <TransactionActions
-                transactionId={row.id}
+                transaction={row}
             />
         },
         enableSorting: false,

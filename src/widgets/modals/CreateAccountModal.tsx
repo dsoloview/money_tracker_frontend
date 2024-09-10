@@ -10,6 +10,7 @@ import {Button} from "@/ui/button.tsx";
 import {useMutateWithForm} from "@/hooks/useMutateWithForm.ts";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/ui/form.tsx";
 import {Input} from "@/ui/input.tsx";
+import MoneyInput from "@/widgets/inputs/MoneyInput.tsx";
 
 const validationSchema = yup.object({
     name: yup.string()
@@ -116,7 +117,7 @@ const CreateAccountModal = ({isOpen, setIsOpen}: Props) => {
                                         <FormItem>
                                             <FormLabel>{t('form.placeholder.balance')}</FormLabel>
                                             <FormControl>
-                                                <Input
+                                                <MoneyInput
                                                     placeholder={t('form.placeholder.balance')}
                                                     {...field}
                                                 />

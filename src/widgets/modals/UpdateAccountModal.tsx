@@ -9,7 +9,7 @@ import {Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTi
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/ui/form.tsx";
 import {Button} from "@/ui/button.tsx";
 import {Input} from "@/ui/input.tsx";
-import {useUpdateAccountModal} from "@/stores/modal/modalStore.ts";
+import {useUpdateAccountModal} from "@/stores/modal/updateAccountModal.ts";
 import {useEffect} from "react";
 
 const validationSchema = yup.object({
