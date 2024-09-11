@@ -26,7 +26,6 @@ export default function TransactionActions({
     })
     const {toggle} = useUpdateTransactionDrawer();
     const handleTransactionDelete = async () => {
-        console.log(transaction)
         mutate(transaction.id);
     };
 

@@ -4,21 +4,22 @@ import {IError} from "@/models/error.model.ts";
 import {toast} from "react-toastify";
 import queryClient from "@/api/queryClient.api.ts";
 import useAuthStore from "@/stores/authStore.ts";
-import {ITransactionId, ITransactionRequest} from "@/models/transaction.model.ts";
 import {IParamRequest} from "@/models/request.model.ts";
+import {ITransfer, ITransferRequest} from "@/models/transfer.model.ts";
+import {ISuccessResponse} from "@/models/response.model.ts";
 
-const useDeleteTransaction = () => {
-    return useMutation<ITransactionId, IError<unknown>, number, unknown>({
-        mutationFn: async (transactionId) => {
-            const response = await api().delete(`transactions/${transactionId}`);
+const useDeleteTransfer = () => {
+    return useMutation<ISuccessResponse, IError<unknown>, number, unknown>({
+        mutationFn: async (transferId) => {
+            const response = await api().delete(`transfers/${transferId}`);
             return response.data.data;
         },
         onSuccess: () => {
-            toast.success("Transaction was deleted successfully");
+            toast.success("Transfer was deleted successfully");
             const user = useAuthStore.getState().authData?.user;
             if (user) {
                 queryClient.invalidateQueries({
-                    queryKey: ["userTransactions", user.id],
+                    queryKey: ["userTransfers", user.id],
                 });
                 if (user) {
                     queryClient.invalidateQueries({
@@ -34,18 +35,18 @@ const useDeleteTransaction = () => {
     });
 };
 
-const useUpdateTransaction = () => {
-    return useMutation<ITransactionId, IError<ITransactionRequest>, IParamRequest<ITransactionRequest>, unknown>({
+const useUpdateTransfer = () => {
+    return useMutation<ITransfer, IError<ITransferRequest>, IParamRequest<ITransferRequest>, unknown>({
         mutationFn: async (request) => {
-            const response = await api().put(`transactions/${request.id}`, request.data);
+            const response = await api().put(`transfers/${request.id}`, request.data);
             return response.data.data;
         },
         onSuccess: () => {
-            toast.success("Transaction was updated successfully");
+            toast.success("Transfer was updated successfully");
             const user = useAuthStore.getState().authData?.user;
             if (user) {
                 queryClient.invalidateQueries({
-                    queryKey: ["userTransactions", user.id],
+                    queryKey: ["userTransfers", user.id],
                 });
                 queryClient.invalidateQueries({
                     queryKey: ["userAccounts", user.id],
@@ -59,4 +60,4 @@ const useUpdateTransaction = () => {
     });
 }
 
-export {useDeleteTransaction, useUpdateTransaction};
+export {useDeleteTransfer, useUpdateTransfer};

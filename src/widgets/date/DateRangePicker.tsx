@@ -5,10 +5,10 @@ import {format} from "date-fns"
 import {Calendar as CalendarIcon} from "lucide-react"
 import {DateRange} from "react-day-picker"
 
-import {cn} from "@/lib/utils"
-import {Button} from "@/ui/button"
-import {Calendar} from "@/ui/calendar"
-import {Popover, PopoverContent, PopoverTrigger,} from "@/ui/popover"
+import {cn} from "@/lib/utils.ts"
+import {Button} from "@/ui/button.tsx"
+import {Calendar} from "@/ui/calendar.tsx"
+import {Popover, PopoverContent, PopoverTrigger,} from "@/ui/popover.tsx"
 import {useDebouncedCallback} from "use-debounce";
 
 type Props = {

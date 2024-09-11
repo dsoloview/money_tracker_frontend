@@ -5,7 +5,7 @@ import {useGetUserTransactions} from "@/api/endpoints/user/transaction/userTrans
 import TransactionListItem from "@/features/transaction/mobile/TransactionListItem.tsx";
 import {ITransaction} from "@/models/transaction.model.ts";
 import SkeletonList from "@/widgets/skeleton/SkeletonList.tsx";
-import MobilePagination from "@/widgets/mobile/MobilePagination.tsx";
+import MobilePagination from "@/widgets/pagination/MobilePagination.tsx";
 import MobileTransactionFilters from "@/features/transaction/mobile/MobileTransactionFilters.tsx";
 import Title from "@/widgets/texts/Title.tsx";
 import {useSorting} from "@/hooks/useSort.ts";

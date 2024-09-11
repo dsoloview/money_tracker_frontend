@@ -9,19 +9,28 @@ import {Button} from "@/ui/button.tsx";
 import {MoreHorizontal} from "lucide-react";
 import {useTranslation} from "react-i18next";
 import useAreYouSure from "@/hooks/useAreYouSure.ts";
+import {useDeleteTransfer} from "@/api/endpoints/transfer/transfers.api.ts";
+import {useUpdateTransferDrawer} from "@/stores/drawer/updateTransferDrawer.ts";
+import {ITransfer} from "@/models/transfer.model.ts";
 
 type Props = {
-    transferId: number;
+    transfer: ITransfer;
 }
-export default function TransferActions({transferId}: Props): JSX.Element {
+export default function TransferActions({transfer}: Props): JSX.Element {
+    const {mutate} = useDeleteTransfer();
     const {openAlert} = useAreYouSure({
-        description: "Are you sure you want to delete this transaction?",
-        onAccept: () => console.log("Transaction deleted")
+        description: "Are you sure you want to delete this transfer?",
+        onAccept: () => handleTransferDelete()
     });
     const {t} = useTranslation();
-    const handleTransactionDelete = async () => {
-        openAlert()
+    const {toggle} = useUpdateTransferDrawer();
+    const handleTransferDelete = async () => {
+        mutate(transfer.id);
     };
+
+    const handleTransferEdit = () => {
+        toggle(transfer);
+    }
 
     return (
         <>
@@ -37,8 +46,8 @@ export default function TransferActions({transferId}: Props): JSX.Element {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                    <DropdownMenuItem>Edit</DropdownMenuItem>
-                    <DropdownMenuItem onClick={handleTransactionDelete}>Delete</DropdownMenuItem>
+                    <DropdownMenuItem onClick={handleTransferEdit}>Edit</DropdownMenuItem>
+                    <DropdownMenuItem onClick={openAlert}>Delete</DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
         </>

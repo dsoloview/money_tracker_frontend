@@ -1,9 +1,9 @@
 import {useQuery} from "@tanstack/react-query";
-import {IPaginationResponse} from "../../../../models/response.model.ts";
-import api from "../../../api.ts";
-import {IParamTableGetRequest} from "../../../../models/request.model.ts";
+import {IPaginationResponse} from "@/models/response.model.ts";
+import api from "@/api/api.ts";
+import {IParamTableGetRequest} from "@/models/request.model.ts";
 import qs from "qs";
-import {ITransfer} from "../../../../models/transfer.model.ts";
+import {ITransfer} from "@/models/transfer.model.ts";
 
 const useGetUserTransfers = (request: IParamTableGetRequest) => {
     return useQuery<IPaginationResponse<ITransfer[]>>({

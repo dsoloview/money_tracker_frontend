@@ -1,8 +1,8 @@
 import {useQuery, useSuspenseQuery} from "@tanstack/react-query";
-import {IMinMax, IResponse} from "../../../../models/response.model.ts";
-import api from "../../../api.ts";
-import {ITransaction, ITransactionsInfo, ITransactionWithInfoResponse} from "../../../../models/transaction.model.ts";
-import {IParamTableGetRequest} from "../../../../models/request.model.ts";
+import {IMinMax, IResponse} from "@/models/response.model.ts";
+import api from "@/api/api.ts";
+import {ITransaction, ITransactionsInfo, ITransactionWithInfoResponse} from "@/models/transaction.model.ts";
+import {IParamTableGetRequest} from "@/models/request.model.ts";
 import qs from "qs";
 
 const useGetUserTransactions = (request: IParamTableGetRequest) => {

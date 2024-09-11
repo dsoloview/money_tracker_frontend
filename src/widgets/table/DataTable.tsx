@@ -7,7 +7,7 @@ import {
     useReactTable
 } from "@tanstack/react-table";
 import {Dispatch, SetStateAction} from "react";
-import CustomPagination from "./CustomPagination.tsx";
+import TablePagination from "../pagination/TablePagination.tsx";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/ui/table.tsx";
 import {ChevronDown, ChevronUp} from "lucide-react";
 import {Skeleton} from "@/ui/skeleton.tsx";
@@ -140,7 +140,7 @@ export function DataTable<Data extends object>(
             </div>
 
             <div className="mt-4">
-                <CustomPagination table={table}/>
+                <TablePagination table={table}/>
             </div>
         </div>
     );

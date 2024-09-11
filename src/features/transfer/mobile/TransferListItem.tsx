@@ -15,7 +15,7 @@ const TransactionListItem = ({transfer}: { transfer: ITransfer }) => {
                     {transfer.amount_from} {transfer.account_from.currency.symbol} - {transfer.amount_to} {transfer.account_to.currency.symbol}
                 </div>
                 <div className="flex items-center gap-3">
-                    <TransferActions transferId={transfer.id}/>
+                    <TransferActions transfer={transfer}/>
                 </div>
             </div>
         </Card>

@@ -8,27 +8,13 @@ type UpdateAccountModalState = {
     toggleModal: (account: IAccount) => void;
 }
 
-const baseAccount: IAccount = {
-    id: 0,
-    name: "",
-    bank: "",
-    balance: 0,
-    currency: {
-        id: 1,
-        name: "",
-        symbol: "",
-        code: ""
-    },
-    created_at: "",
-    updated_at: ""
-}
 const useUpdateAccountModal = create<UpdateAccountModalState>((set) => ({
     isOpen: false,
     onClose: () => {
-        set({isOpen: false, account: baseAccount})
+        set({isOpen: false, account: {} as IAccount})
     },
-    account: baseAccount,
-    toggleModal: (account?: IAccount) => set((state) => ({isOpen: !state.isOpen, account: account}))
+    account: {} as IAccount,
+    toggleModal: (account?: IAccount) => set((state) => ({isOpen: !state.isOpen, account: account as IAccount}))
 }));
 
 export {useUpdateAccountModal};

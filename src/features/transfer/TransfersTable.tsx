@@ -7,7 +7,7 @@ import useFilters from "@/hooks/useFilters.ts";
 import useUserState from "@/hooks/useUserState.ts";
 import i18next from "@/tools/language/language.ts";
 import {ITransfer} from "@/models/transfer.model.ts";
-import {useGetUserTransfers} from "@/api/endpoints/user/transfer/userTransaction.api.ts";
+import {useGetUserTransfers} from "@/api/endpoints/user/transfer/userTransfer.api.ts";
 import TransferTableFilters from "./TransferTableFilters.tsx";
 import {Badge} from "@/ui/badge.tsx";
 import {Card, CardContent, CardHeader, CardTitle} from "@/ui/card.tsx";

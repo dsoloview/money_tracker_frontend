@@ -6,7 +6,7 @@ import AmountRangeFilter from "@/widgets/filters/AmountRangeFilter.tsx";
 import {useTranslation} from "react-i18next";
 import {Spinner} from "@/ui/spinner.tsx";
 import {Label} from "@/ui/label.tsx";
-import {DatePickerWithRange} from "@/widgets/selects/DateRangePicker.tsx";
+import {DatePickerWithRange} from "@/widgets/date/DateRangePicker.tsx";
 
 type Props = {
     filters: TransactionTableFiltersType;

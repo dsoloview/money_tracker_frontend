@@ -68,19 +68,10 @@ function SettingsPage() {
     });
 
     const userInfoBlock = (
-        <div className="grid grid-cols-2 gap-4">
-            <div>
-                <p className="text-lg font-semibold">{t('title.userInformation')}</p>
-                <p className="text-gray-600 mb-2">{t('model.user.name')}: {user.name}</p>
-                <p className="text-gray-600 mb-2">{t('model.user.email')}: {user.email}</p>
-                <p className="text-gray-600 mb-2">{t('model.user.id')}: {user.id}</p>
-                <p className="text-gray-600 mb-2">{t('model.user.roles')}: {user.roles.map(role => role.name).join(', ')}</p>
-            </div>
-            <div>
-                <p className="text-lg font-semibold">{t('model.user.settings.settings')}</p>
-                <p className="text-gray-600 mb-2">{t('model.user.settings.language')}: {user.settings.language.name}</p>
-                <p className="text-gray-600 mb-2">{t('model.user.settings.mainCurrency')}: {user.settings.main_currency.name} ({user.settings.main_currency.symbol})</p>
-            </div>
+        <div>
+            <p className="text-lg font-semibold">{t('title.userInformation')}</p>
+            <p className="text-gray-600 mb-2">{t('model.user.name')}: {user.name}</p>
+            <p className="text-gray-600 mb-2">{t('model.user.email')}: {user.email}</p>
         </div>
     );
 

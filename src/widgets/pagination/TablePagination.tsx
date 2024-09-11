@@ -8,7 +8,7 @@ type Props<Data> = {
     pageSizeOptions?: number[]
 };
 
-const CustomPagination = <Data extends object>(
+const TablePagination = <Data extends object>(
     {
         table,
         pageSizeOptions = [5, 10, 20, 30, 40, 50]
@@ -92,4 +92,4 @@ const CustomPagination = <Data extends object>(
     )
 };
 
-export default CustomPagination;
+export default TablePagination;

@@ -31,10 +31,10 @@ const UpdateAccountModal = () => {
         mutation: useUpdateAccount,
         validationSchema: validationSchema,
         initialValues: {
-            name: account && account.name,
-            bank: account && account.bank,
-            currency_id: account && account.currency.id.toString(),
-            balance: account && account.balance
+            name: account?.name,
+            bank: account?.bank,
+            currency_id: account?.currency?.id.toString(),
+            balance: account?.balance
         },
         onSuccess: () => {
             onClose()
@@ -48,14 +48,12 @@ const UpdateAccountModal = () => {
     })
 
     useEffect(() => {
-        if (account !== undefined) {
-            form.reset({
-                name: account.name,
-                bank: account.bank,
-                currency_id: account.currency.id.toString(),
-                balance: account.balance
-            })
-        }
+        form.reset({
+            name: account?.name,
+            bank: account?.bank,
+            currency_id: account?.currency?.id.toString(),
+            balance: account?.balance
+        })
     }, [account])
 
     return (

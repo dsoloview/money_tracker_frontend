@@ -9,7 +9,7 @@ import AccountSelect from "@/widgets/selects/AccountSelect.tsx";
 import CategoryTransactionTypeRadio from "@/widgets/radio/CategoryTransactionTypeRadio.tsx";
 import AmountRangeFilter from "@/widgets/filters/AmountRangeFilter.tsx";
 import {Label} from "@/ui/label.tsx";
-import {DatePickerWithRange} from "@/widgets/selects/DateRangePicker.tsx";
+import {DatePickerWithRange} from "@/widgets/date/DateRangePicker.tsx";
 
 type Props = {
     filters: TransactionTableFiltersType;
