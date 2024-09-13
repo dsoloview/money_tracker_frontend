@@ -10,6 +10,7 @@ import CategoryTransactionTypeRadio from "@/widgets/radio/CategoryTransactionTyp
 import AmountRangeFilter from "@/widgets/filters/AmountRangeFilter.tsx";
 import {Label} from "@/ui/label.tsx";
 import {DatePickerWithRange} from "@/widgets/date/DateRangePicker.tsx";
+import CategoryFilterSelect from "@/widgets/selects/CategoryFilterSelect.tsx";
 
 type Props = {
     filters: TransactionTableFiltersType;
@@ -82,7 +83,13 @@ const MobileTransactionFilters = ({filters, onFiltersChange, resetFilters}: Prop
                                          })}
                     />
                 </div>
-
+                <div>
+                    <Label>{t('form.label.categories')}</Label>
+                    <CategoryFilterSelect
+                        onChange={(categoryIds) => onFiltersChange("categories", {id: {$in: categoryIds}})}
+                        values={filters.categories?.id?.$in || []}
+                    />
+                </div>
 
                 <Button variant="outline" onClick={resetFilters}
                         className="bg-blue-600 hover:bg-blue-700 text-white rounded-md w-full py-2">

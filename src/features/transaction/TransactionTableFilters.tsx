@@ -7,6 +7,7 @@ import {useTranslation} from "react-i18next";
 import {Spinner} from "@/ui/spinner.tsx";
 import {Label} from "@/ui/label.tsx";
 import {DatePickerWithRange} from "@/widgets/date/DateRangePicker.tsx";
+import CategoryFilterSelect from "@/widgets/selects/CategoryFilterSelect.tsx";
 
 type Props = {
     filters: TransactionTableFiltersType;
@@ -59,6 +60,13 @@ function TransactionTableFilters({filters, onFiltersChange}: Props) {
                                          $gte: date?.from,
                                          $lte: date?.to
                                      })}
+                />
+            </div>
+            <div>
+                <Label>{t('form.label.categories')}</Label>
+                <CategoryFilterSelect
+                    onChange={(categoryIds) => onFiltersChange("categories", {id: {$in: categoryIds}})}
+                    values={filters.categories?.id?.$in || []}
                 />
             </div>
         </div>

@@ -97,6 +97,11 @@ export type TransactionTableFiltersType = {
         '$gte'?: Date;
         '$lte'?: Date;
     };
+    categories?: {
+        id?: {
+            '$in'?: string[];
+        }
+    };
 }
 
 const TransactionsTable = () => {

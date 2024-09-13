@@ -9,7 +9,6 @@ type Props = {
     placeholder?: string
     defaultValue?: string
     className?: string
-
 }
 const AccountSelect = (
     {
