@@ -6,7 +6,7 @@ import {Suspense, useState} from "react";
 import {CategoryTransactionType} from "@/models/category.model.ts";
 import {getCurrenctDateTimeForInput} from "@/tools/date/date.helper.ts";
 import i18next from "@/tools/language/language.ts";
-import {useMutateWithForm} from "@/hooks/useMutateWithForm.ts";
+import {useMutateWithForm} from "@/hooks/form/useMutateWithForm.ts";
 import {Button} from "@/ui/button.tsx";
 import {Plus} from "lucide-react";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/ui/form.tsx";

@@ -4,7 +4,7 @@ import {IRegisterData} from "@/models/request.model.ts";
 import * as yup from "yup";
 import {ref} from "yup";
 import i18next from '@/tools/language/language.ts';
-import {useMutateWithForm} from "@/hooks/useMutateWithForm.ts";
+import {useMutateWithForm} from "@/hooks/form/useMutateWithForm.ts";
 import {
     Dialog,
     DialogClose,

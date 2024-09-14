@@ -1,5 +1,5 @@
 import {useEffect} from "react";
-import {isIValidationErrorResponse} from "../tools/errors/errors.tools.ts";
+import {isIValidationErrorResponse} from "../../tools/errors/errors.tools.ts";
 import * as yup from "yup";
 import {UseMutationResult} from "@tanstack/react-query";
 import {DefaultValues, FieldValues, Path, useForm} from "react-hook-form";

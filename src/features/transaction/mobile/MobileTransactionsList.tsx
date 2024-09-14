@@ -1,5 +1,5 @@
-import usePagination from "@/hooks/usePagination.ts";
-import useFilters from "@/hooks/useFilters.ts";
+import usePagination from "@/hooks/table/usePagination.ts";
+import useFilters from "@/hooks/table/useFilters.ts";
 import useUserState from "@/hooks/useUserState.ts";
 import {useGetUserTransactions} from "@/api/endpoints/user/transaction/userTransaction.api.ts";
 import TransactionListItem from "@/features/transaction/mobile/TransactionListItem.tsx";
@@ -8,7 +8,7 @@ import SkeletonList from "@/widgets/skeleton/SkeletonList.tsx";
 import MobilePagination from "@/widgets/pagination/MobilePagination.tsx";
 import MobileTransactionFilters from "@/features/transaction/mobile/MobileTransactionFilters.tsx";
 import Title from "@/widgets/texts/Title.tsx";
-import {useSorting} from "@/hooks/useSort.ts";
+import {useSorting} from "@/hooks/table/useSort.ts";
 
 const MobileTransactionsList = () => {
     const {pagination, onMobilePaginationChange, resetPagination} = usePagination();

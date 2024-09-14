@@ -1,5 +1,5 @@
 import {Button} from "@/ui/button.tsx";
-import {Pagination} from "@/hooks/usePagination.ts";
+import {Pagination} from "@/hooks/table/usePagination.ts";
 
 type MobilePaginationProps = {
     pagination: Pagination;

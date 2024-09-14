@@ -8,7 +8,7 @@ import {
 import {Button} from "@/ui/button.tsx";
 import {MoreHorizontal} from "lucide-react";
 import {useTranslation} from "react-i18next";
-import useAreYouSure from "@/hooks/useAreYouSure.ts";
+import useAreYouSure from "@/hooks/modal/useAreYouSure.ts";
 import {useDeleteTransfer} from "@/api/endpoints/transfer/transfers.api.ts";
 import {useUpdateTransferDrawer} from "@/stores/drawer/updateTransferDrawer.ts";
 import {ITransfer} from "@/models/transfer.model.ts";

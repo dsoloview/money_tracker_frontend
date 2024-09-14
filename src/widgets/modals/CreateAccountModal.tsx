@@ -7,7 +7,7 @@ import CurrencySelect from "@/widgets/selects/CurrencySelect.tsx";
 import i18next from '@/tools/language/language.ts';
 import {Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle} from "@/ui/dialog.tsx";
 import {Button} from "@/ui/button.tsx";
-import {useMutateWithForm} from "@/hooks/useMutateWithForm.ts";
+import {useMutateWithForm} from "@/hooks/form/useMutateWithForm.ts";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/ui/form.tsx";
 import {Input} from "@/ui/input.tsx";
 import MoneyInput from "@/widgets/inputs/MoneyInput.tsx";

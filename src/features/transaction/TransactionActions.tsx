@@ -8,7 +8,7 @@ import {
 } from "@/ui/dropdown-menu.tsx";
 import {Button} from "@/ui/button.tsx";
 import {MoreHorizontal} from "lucide-react";
-import useAreYouSure from "@/hooks/useAreYouSure.ts";
+import useAreYouSure from "@/hooks/modal/useAreYouSure.ts";
 import {useUpdateTransactionDrawer} from "@/stores/drawer/updateTransactionDrawer.ts";
 import {ITransaction} from "@/models/transaction.model.ts";
 

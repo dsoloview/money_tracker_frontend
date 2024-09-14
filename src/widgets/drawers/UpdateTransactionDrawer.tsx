@@ -1,5 +1,5 @@
 import {useTranslation} from "react-i18next";
-import {useMutateWithForm} from "@/hooks/useMutateWithForm.ts";
+import {useMutateWithForm} from "@/hooks/form/useMutateWithForm.ts";
 import {ITransactionRequest} from "@/models/transaction.model.ts";
 import {CategoryTransactionType} from "@/models/category.model.ts";
 import {Button} from "@/ui/button.tsx";

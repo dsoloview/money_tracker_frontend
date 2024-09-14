@@ -5,7 +5,7 @@ import {CategoryTransactionType, ICategory, ICategoryRequest} from "@/models/cat
 import CategoryTransactionTypeRadio from "@/widgets/radio/CategoryTransactionTypeRadio.tsx";
 import IconSelect from "@/widgets/selects/IconSelect.tsx";
 import {useUpdateCategory} from "@/api/endpoints/category/category.api.ts";
-import {useMutateWithForm} from "@/hooks/useMutateWithForm.ts";
+import {useMutateWithForm} from "@/hooks/form/useMutateWithForm.ts";
 import {Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle} from "@/ui/dialog.tsx";
 import {Button} from "@/ui/button.tsx";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/ui/form.tsx";

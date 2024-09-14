@@ -4,7 +4,7 @@ import {useLogin} from "@/api/endpoints/auth/auth.api.ts";
 import {ILoginData} from "@/models/request.model.ts";
 import i18next from '@/tools/language/language.ts';
 import {Button} from '@/ui/button.tsx';
-import {useMutateWithForm} from "@/hooks/useMutateWithForm.ts";
+import {useMutateWithForm} from "@/hooks/form/useMutateWithForm.ts";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/ui/form.tsx";
 import {Input} from "@/ui/input.tsx";
 import {

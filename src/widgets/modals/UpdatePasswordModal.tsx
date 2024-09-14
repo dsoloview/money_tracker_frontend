@@ -4,7 +4,7 @@ import {IUpdatePasswordRequest} from "@/models/request.model.ts";
 import useAuthStore from "@/stores/authStore.ts";
 import {useUpdatePassword} from "@/api/endpoints/user/user.api.ts";
 import i18next from '@/tools/language/language.ts';
-import {useMutateWithForm} from "@/hooks/useMutateWithForm.ts";
+import {useMutateWithForm} from "@/hooks/form/useMutateWithForm.ts";
 import {Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle} from "@/ui/dialog.tsx";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/ui/form.tsx";
 import {Input} from "@/ui/input.tsx";

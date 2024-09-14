@@ -9,7 +9,7 @@ import {
 import {Button} from "@/ui/button.tsx";
 import {MoreHorizontal} from "lucide-react";
 import {useDeleteAccount} from "@/api/endpoints/account/account.api.ts";
-import useAreYouSure from "@/hooks/useAreYouSure.ts";
+import useAreYouSure from "@/hooks/modal/useAreYouSure.ts";
 import {useUpdateAccountModal} from "@/stores/modal/updateAccountModal.ts";
 
 type Props = {

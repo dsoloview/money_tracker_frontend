@@ -8,7 +8,7 @@ import useUserState from "@/hooks/useUserState.ts";
 import IconSelect from "@/widgets/selects/IconSelect.tsx";
 import {Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle} from "@/ui/dialog.tsx";
 import {Button} from "@/ui/button.tsx";
-import {useMutateWithForm} from "@/hooks/useMutateWithForm.ts";
+import {useMutateWithForm} from "@/hooks/form/useMutateWithForm.ts";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/ui/form.tsx";
 import {Input} from "@/ui/input.tsx";
 

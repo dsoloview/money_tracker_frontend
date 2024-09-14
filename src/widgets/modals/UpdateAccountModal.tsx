@@ -4,7 +4,7 @@ import {IAccountCreateUpdateRequest} from "@/models/account.model.ts";
 import CurrencySelect from "@/widgets/selects/CurrencySelect.tsx";
 import {useUpdateAccount} from "@/api/endpoints/account/account.api.ts";
 import i18next from '@/tools/language/language.ts';
-import {useMutateWithForm} from "@/hooks/useMutateWithForm.ts";
+import {useMutateWithForm} from "@/hooks/form/useMutateWithForm.ts";
 import {Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle} from "@/ui/dialog.tsx";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/ui/form.tsx";
 import {Button} from "@/ui/button.tsx";
